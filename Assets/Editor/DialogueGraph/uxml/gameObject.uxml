@@ -1,0 +1,6 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement style="flex-grow: 1; margin-top: 8px; margin-right: 8px; margin-bottom: 8px; margin-left: 8px;">
+        <engine:DropdownField choices="Destroy,Enable,Disable" index="0" name="Type" />
+        <engine:TextField placeholder-text="Game object name..." name="Target" />
+    </engine:VisualElement>
+</engine:UXML>

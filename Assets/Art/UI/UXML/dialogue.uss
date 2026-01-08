@@ -1,0 +1,47 @@
+.frame
+{
+	scale: 1.0;
+
+	transition-property: scale;
+	transition-duration: 0.25s;
+	transition-timing-function: ease-out;
+}
+
+.frame > #Author
+{
+	margin: 16px 128px 0px 128px;
+}
+
+.frame > #Text
+{
+	unity-text-align: top-left;
+}
+
+.frame-hidden
+{
+	scale: 0;
+}
+
+.frame-center > #Author
+{
+	margin: -40px 128px 0px 128px;
+}
+
+.frame-center > #Text
+{
+	-unity-text-align: middle-center;
+}
+
+.answers
+{
+	scale: 1.0;
+
+	transition-property: scale;
+	transition-duration: 0.25s;
+	transition-timing-function: ease-out;
+}
+
+.answers-hidden
+{
+	scale: 0;
+}

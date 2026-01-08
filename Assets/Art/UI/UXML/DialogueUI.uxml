@@ -1,0 +1,15 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Art/UI/UXML/dialogue.uss?fileID=7433441132597879392&amp;guid=09c837e7c146eeb49850cf963a6bd33f&amp;type=3#dialogue" />
+    <Style src="project://database/Assets/Art/UI/UXML/menu.uss?fileID=7433441132597879392&amp;guid=d5e82b3d0a5c59a4ba9c64d0943c8cba&amp;type=3#menu" />
+    <engine:VisualElement name="Content" picking-mode="Ignore" style="flex-grow: 1; flex-direction: column-reverse;">
+        <engine:VisualElement name="Frame" class="frame frame-hidden" style="flex-grow: initial; height: 256px; margin-left: 128px; margin-right: 128px; margin-bottom: 64px; background-color: rgba(0, 0, 0, 0.5); border-top-left-radius: 128px; border-top-right-radius: 128px; border-bottom-right-radius: 128px; border-bottom-left-radius: 128px;">
+            <engine:Label text="DIalogue author..." name="Author" style="font-size: 48px; -unity-font-style: bold; color: rgb(255, 255, 255); padding-bottom: 0;" />
+            <engine:Label text="Dialogue text..." name="Text" style="margin-left: 128px; margin-right: 128px; flex-grow: 1; margin-bottom: 32px; font-size: 48px; color: rgb(255, 255, 255); white-space: pre-wrap;" />
+            <engine:VisualElement name="ProgressIcon" style="flex-grow: 0; position: absolute; align-self: flex-end; background-image: url(&quot;project://database/Assets/Art/UI/Dialogue%20System/DialogueContinueButton.psd?fileID=21300000&amp;guid=8ee52bb7074afba4985bddcc536a888c&amp;type=3#DialogueContinueButton&quot;); width: 64px; height: 64px; align-content: auto; bottom: 32px; right: 64px; visibility: hidden;" />
+        </engine:VisualElement>
+        <engine:VisualElement name="Answers" class="answers answers-hidden" style="flex-grow: 1; align-items: center; justify-content: center;">
+            <engine:Button text="Option A" name="ButtonA" focusable="false" class="button" style="width: 512px; height: 96px; align-items: auto; font-size: 32px; -unity-font-style: bold; border-top-left-radius: 48px; border-top-right-radius: 48px; border-bottom-right-radius: 48px; border-bottom-left-radius: 48px; margin-bottom: 32px;" />
+            <engine:Button text="Option B" name="ButtonB" focusable="false" class="button" style="width: 512px; height: 96px; align-items: auto; font-size: 32px; -unity-font-style: bold; border-top-left-radius: 48px; border-top-right-radius: 48px; border-bottom-right-radius: 48px; border-bottom-left-radius: 48px;" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

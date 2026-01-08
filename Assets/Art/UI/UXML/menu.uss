@@ -1,0 +1,105 @@
+.menu
+{
+	background-color: rgba(0, 0, 0, 0);
+
+	transition-property: background-color;
+	transition-duration: 0.25s;
+	transition-timing-function: ease-in-out;
+}
+
+.menu-darker
+{
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.menu_panel
+{
+	padding: 16px;
+	border-radius: 32px;
+
+	scale: 1;
+
+	transition-property: scale;
+	transition-duration: 0.25s;
+	transition-timing-function: ease-out;
+}
+
+.menu_panel_hidden
+{
+	scale: 0;
+}
+
+.quest-card
+{
+	translate: 0px 0px;
+
+	transition-property: translate;
+	transition-duration: 0.25s;
+	transition-timing-function: ease-out;
+}
+
+.quest-card-hidden
+{
+	translate: 490px 0px;
+}
+
+.button
+{
+	width: 448px;
+	margin: 8px;
+	border-radius: 32px;
+	background-color: #dddddd;
+
+	transition-property: scale, width;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-out;
+
+	scale: 1;
+}
+
+.button:hover
+{
+	width: 480px;
+	scale: 1;
+}
+
+.button:active
+{
+	scale: 0.9;
+}
+
+.quest-tracker
+{
+	translate: 0px 0px;
+
+	transition: translate 0.25s ease-out;
+}
+
+.quest-tracker-hidden
+{
+	translate: 490px 0px;
+}
+
+.unity-toggle.unity-disabled
+{
+	opacity: 1.0;
+}
+
+.tracker-toggle:disabled
+{
+	opacity: 1;
+	font-size: 24px;
+	color: #d2d2d2;
+}
+
+.tracker-toggle:checked .unity-toggle__checkmark
+{
+	-unity-background-image-tint-color: #d2d2d2;
+}
+
+.tracker-toggle .unity-toggle__checkmark
+{
+	margin-right: 8px;
+	background-color: rgba(16, 16, 16, 0.25);
+	border-color: rgba(14, 14, 14, 0.5);
+}

@@ -1,0 +1,9 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement style="flex-grow: 1;">
+        <engine:TextField placeholder-text="Author..." name="Text_Author" />
+        <engine:TextField placeholder-text="Question..." name="Text_Question" />
+        <engine:Label text="Answers:" style="margin-top: 8px; margin-left: 8px;" />
+        <engine:TextField placeholder-text="Option A..." name="Text_A" />
+        <engine:TextField placeholder-text="Option B..." name="Text_B" />
+    </engine:VisualElement>
+</engine:UXML>

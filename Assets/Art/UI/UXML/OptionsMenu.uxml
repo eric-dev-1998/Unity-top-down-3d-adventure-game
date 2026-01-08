@@ -1,0 +1,15 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Art/UI/UXML/inventory.uss?fileID=7433441132597879392&amp;guid=fa9f42b7ac7bea24a92b4822182b005b&amp;type=3#inventory" />
+    <Style src="project://database/Assets/Art/UI/UXML/menu.uss?fileID=7433441132597879392&amp;guid=d5e82b3d0a5c59a4ba9c64d0943c8cba&amp;type=3#menu" />
+    <engine:VisualElement name="Root" class="panel_full panel_full_hidden" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/ui_panel_game_submenu.psd?fileID=1362340803736242716&amp;guid=8020a43bb08a994439835b9bcd644199&amp;type=3#ui_panel_game_submenu_0&quot;); padding-top: 32px; padding-right: 32px; padding-bottom: 32px; padding-left: 32px;">
+        <engine:VisualElement style="flex-grow: initial; flex-direction: row;">
+            <engine:VisualElement style="flex-grow: 1; width: 75%;">
+                <engine:Label text="Game options:" name="Title" style="font-size: 80px;" />
+            </engine:VisualElement>
+            <engine:VisualElement style="flex-grow: 1; width: 25%; align-items: center; align-self: center;">
+                <engine:Button text="Go back" name="ButtonClose" class="button" style="font-size: 32px; -unity-font-style: bold;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="Content" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/ui_panel_game_submenu.psd?fileID=1362340803736242716&amp;guid=8020a43bb08a994439835b9bcd644199&amp;type=3#ui_panel_game_submenu_0&quot;); padding-top: 32px; padding-right: 32px; padding-bottom: 32px; padding-left: 32px;" />
+    </engine:VisualElement>
+</engine:UXML>

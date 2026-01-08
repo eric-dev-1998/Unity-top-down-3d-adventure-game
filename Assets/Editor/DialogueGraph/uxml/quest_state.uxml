@@ -1,0 +1,6 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement style="flex-grow: 1;">
+        <engine:DropdownField label="Quest:" name="QuestName" style="flex-direction: column;" />
+        <engine:DropdownField label="Check if quest is:" name="QuestState" choices="Active,Completed" index="0" style="flex-direction: column;" />
+    </engine:VisualElement>
+</engine:UXML>

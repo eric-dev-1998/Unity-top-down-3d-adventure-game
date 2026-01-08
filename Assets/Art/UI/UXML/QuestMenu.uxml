@@ -1,0 +1,41 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Art/UI/UXML/menu.uss?fileID=7433441132597879392&amp;guid=d5e82b3d0a5c59a4ba9c64d0943c8cba&amp;type=3#menu" />
+    <Style src="project://database/Assets/Art/UI/UXML/inventory.uss?fileID=7433441132597879392&amp;guid=fa9f42b7ac7bea24a92b4822182b005b&amp;type=3#inventory" />
+    <engine:VisualElement name="Root" class="panel_full_hidden panel_full" style="flex-grow: 1; flex-direction: column; background-image: url(&quot;project://database/Assets/Art/UI/ui_panel_game_submenu.psd?fileID=1362340803736242716&amp;guid=8020a43bb08a994439835b9bcd644199&amp;type=3#ui_panel_game_submenu_0&quot;); padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
+        <engine:VisualElement style="flex-grow: initial; flex-direction: row;">
+            <engine:VisualElement style="flex-grow: 1; width: 75%;">
+                <engine:Label text="Quests" name="Title" style="font-size: 80px; -unity-font-style: bold;" />
+            </engine:VisualElement>
+            <engine:VisualElement style="flex-grow: 1; width: 25%; justify-content: center; align-self: auto; align-content: center; align-items: center;">
+                <engine:Button text="Go back" name="ButtonClose" class="button" style="font-size: 32px; -unity-font-style: bold; justify-content: flex-start;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement style="flex-grow: 1; flex-direction: row;">
+            <engine:ScrollView style="width: 50%; background-image: url(&quot;project://database/Assets/Art/UI/ui_panel_game_submenu.psd?fileID=1362340803736242716&amp;guid=8020a43bb08a994439835b9bcd644199&amp;type=3#ui_panel_game_submenu_0&quot;); padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
+                <engine:Foldout text="Active" name="ActiveFoldout" value="false" style="font-size: 48px; -unity-font-style: bold;">
+                    <engine:ListView name="ActiveList" />
+                </engine:Foldout>
+                <engine:Foldout text="Completed" name="CompletedFoldout" value="false" style="font-size: 48px; -unity-font-style: bold;">
+                    <engine:ListView name="CompletedList" />
+                </engine:Foldout>
+            </engine:ScrollView>
+            <engine:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/ui_panel_game_submenu.psd?fileID=1362340803736242716&amp;guid=8020a43bb08a994439835b9bcd644199&amp;type=3#ui_panel_game_submenu_0&quot;); padding-top: 16px; padding-right: 32px; padding-bottom: 16px; padding-left: 32px; width: 50%;">
+                <engine:Label text="Quest title" name="QuestTitle" style="font-size: 48px;" />
+                <engine:ScrollView name="ScrollView" style="flex-grow: 1;">
+                    <engine:Label text="Quest description..." name="QuestDescription" style="font-size: 32px; margin-left: 8px; white-space: pre-wrap;" />
+                </engine:ScrollView>
+                <engine:Label text="Objective(s):" style="font-size: 48px;" />
+                <engine:ScrollView style="flex-grow: 1;">
+                    <engine:Label text="Quest objectives..." name="QuestObjectives" style="font-size: 32px; margin-left: 8px;" />
+                </engine:ScrollView>
+                <engine:VisualElement style="flex-grow: initial; flex-direction: row-reverse;">
+                    <engine:Button text="Track quest" name="ButtonTrack" class="button" style="font-size: 32px; -unity-font-style: bold; justify-content: flex-start; width: 320px;" />
+                    <engine:Button text="Stop tracking" name="ButtonStopTrack" class="button" style="font-size: 32px; -unity-font-style: bold; justify-content: flex-start; width: 320px;" />
+                </engine:VisualElement>
+                <engine:VisualElement name="NoSelectedQuestLabel" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; left: 0; right: 0; top: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Art/UI/ui_panel_game_submenu.psd?fileID=1362340803736242716&amp;guid=8020a43bb08a994439835b9bcd644199&amp;type=3#ui_panel_game_submenu_0&quot;);">
+                    <engine:Label text="Select a quest to view its content." name="NoSelected" style="flex-grow: 1; font-size: 32px; -unity-text-align: middle-center;" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

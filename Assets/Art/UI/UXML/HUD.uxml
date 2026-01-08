@@ -1,0 +1,18 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Art/UI/UXML/menu.uss?fileID=7433441132597879392&amp;guid=d5e82b3d0a5c59a4ba9c64d0943c8cba&amp;type=3#menu" />
+    <Style src="project://database/Assets/Art/UI/UXML/inventory.uss?fileID=7433441132597879392&amp;guid=fa9f42b7ac7bea24a92b4822182b005b&amp;type=3#inventory" />
+    <engine:VisualElement name="Top" style="flex-grow: 1; height: 25%;" />
+    <engine:VisualElement name="Center" style="flex-grow: 1; height: 50%;">
+        <engine:VisualElement name="QuestCard" class="quest-card quest-card-hidden" style="flex-grow: initial; background-image: url(&quot;project://database/Assets/Art/UI/ui_quest_notification.psd?fileID=-111501885233480336&amp;guid=eccc71ac2ad56e747b9640babdc472e2&amp;type=3#ui_quest_notification_0&quot;); background-color: rgba(255, 255, 255, 0); align-items: stretch; align-self: flex-end; background-size: 100% 100%; width: 480px; height: 149px;">
+            <engine:Label text="Notification title..." name="CardTitle" style="align-items: auto; margin-left: 64px; margin-right: 16px; font-size: 32px; -unity-font-style: bold; margin-bottom: 0; margin-top: 16px;" />
+            <engine:Label text="Quest name..." name="CardName" style="align-items: auto; margin-left: 64px; margin-right: 16px; font-size: 32px; -unity-font-style: normal; margin-top: 0;" />
+        </engine:VisualElement>
+        <engine:VisualElement name="QuestTracker" class="quest-tracker quest-tracker-hidden" style="flex-grow: 0; align-items: flex-start; width: 480px; align-self: flex-end; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; background-color: rgba(0, 0, 0, 0.25); border-top-left-radius: 16px; border-bottom-left-radius: 16px;">
+            <engine:Button text="X" emoji-fallback-support="false" name="ButtonCloseTracker" focusable="false" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 8px; padding-bottom: 4px; padding-left: 8px; -unity-font-style: bold; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;" />
+            <engine:Label text="Tracking quest: Quest name..." name="TrackerTitle" style="-unity-font-style: bold; font-size: 24px; color: rgb(210, 210, 210); white-space: pre-wrap;" />
+            <engine:Label text="Objectives:" style="font-size: 24px; color: rgb(210, 210, 210);" />
+            <engine:ScrollView name="TrackObjectives" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+    <engine:VisualElement name="Bottom" style="flex-grow: 1; height: 25%;" />
+</engine:UXML>

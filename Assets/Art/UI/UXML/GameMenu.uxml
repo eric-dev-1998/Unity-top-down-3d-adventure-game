@@ -1,0 +1,16 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Art/UI/UXML/menu.uss?fileID=7433441132597879392&amp;guid=d5e82b3d0a5c59a4ba9c64d0943c8cba&amp;type=3#menu" />
+    <engine:VisualElement name="Content" picking-mode="Ignore" class="menu" style="flex-grow: 1; width: auto; height: auto; align-content: center; align-items: center; justify-content: center; -unity-background-image-tint-color: rgb(244, 244, 244);">
+        <engine:VisualElement name="Panel" class="menu_panel menu_panel_hidden" style="flex-grow: 1; width: 640px; height: 768px; min-width: 640px; min-height: 768px; background-color: rgb(225, 225, 225); max-width: 640px; max-height: 768px;">
+            <engine:Label text="Game menu" name="Title" style="-unity-text-align: upper-center; font-size: 80px; -unity-font-style: bold; margin-top: 2px; height: auto; margin-right: 2px; color: rgb(88, 88, 88);" />
+            <engine:VisualElement style="flex-grow: 1; align-content: center; justify-content: center; align-items: center;">
+                <engine:Button text="Resume" name="buttonResume" class="button" style="font-size: 32px; -unity-font-style: bold; height: 80px; margin-left: 64px; margin-right: 64px;" />
+                <engine:Button text="Inventory" name="buttonInventory" class="button" style="font-size: 32px; -unity-font-style: bold; height: 80px; margin-right: 64px; margin-left: 64px;" />
+                <engine:Button text="Quests" name="buttonQuests" class="button" style="font-size: 32px; -unity-font-style: bold; height: 80px; margin-right: 64px; margin-left: 64px;" />
+                <engine:Button text="Options" name="buttonOptions" class="button" style="font-size: 32px; -unity-font-style: bold; height: 80px; margin-right: 64px; margin-left: 64px;" />
+                <engine:Button text="Save" name="buttonSave" class="button" style="font-size: 32px; -unity-font-style: bold; height: 80px; margin-right: 64px; margin-left: 64px;" />
+                <engine:Button text="Exit" name="buttonExit" class="button" style="font-size: 32px; -unity-font-style: bold; height: 80px; margin-right: 64px; margin-left: 64px;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
