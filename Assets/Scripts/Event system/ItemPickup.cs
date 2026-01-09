@@ -64,7 +64,7 @@ namespace Assets.Scripts.Event_system
                     if (playerOnTrigger && sequence != null)
                     {
                         triggered = true;
-                        Event_System.Manager eManager = FindAnyObjectByType<Event_System.Manager>();
+                        Event_System.EventManager eManager = FindAnyObjectByType<Event_System.EventManager>();
                         eManager.StartSequence(sequence);
                     }
                 }

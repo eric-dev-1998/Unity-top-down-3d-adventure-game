@@ -1,8 +1,9 @@
+using Assets.Scripts.World.Npc;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
-namespace Main
+namespace Assets.Scripts.World
 {
     public class Door : MonoBehaviour
     {

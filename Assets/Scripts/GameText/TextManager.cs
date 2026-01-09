@@ -9,16 +9,20 @@ namespace Assets.Scripts.GameText
     {
         private TextLibrary currentLibrary;
 
-        private void Start()
+        private void Awake()
         {
             LoadLibrary();
         }
 
         public void LoadLibrary()
         {
+            Debug.Log("Loading text library.");
             currentLibrary = Resources.Load<TextLibrary>("GameText/English");
             if (currentLibrary == null)
                 Debug.LogError("[Text manager]: Text library asset could not be loaded.");
+
+            if (currentLibrary != null)
+                Debug.Log("Loaded text library.");
         }
 
         public string GetUIText(string id)

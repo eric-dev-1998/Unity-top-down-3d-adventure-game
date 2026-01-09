@@ -10,6 +10,14 @@ namespace Assets.Scripts.Quest_System
 
         public bool Matched(Quest quest)
         {
+            // Validate that 'quest' state matches this requirement state.
+
+            // Just return true if this requirement is set to none:
+            if (state == QuestSet.QuestState.None)
+                return true;
+
+            // Validate:
+
             if (quest.Completed() && state == QuestSet.QuestState.Completed)
                 return true;
 

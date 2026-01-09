@@ -1,6 +1,5 @@
-using Main;
+using Assets.Scripts.World.Npc;
 using UnityEditor;
-using UnityEditor.TerrainTools;
 using UnityEngine;
 
 [CustomEditor(typeof(NpcPathSystem))]

@@ -16,7 +16,7 @@ namespace Assets.Scripts.Event_system
 
         private void TriggerEvent()
         { 
-            Manager manager = FindAnyObjectByType<Manager>();
+            EventManager manager = FindAnyObjectByType<EventManager>();
             if (manager != null && !manager.busy)
             {
                 manager.questManager.ReachedArea(name);

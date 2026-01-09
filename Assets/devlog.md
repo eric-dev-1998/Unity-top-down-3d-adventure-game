@@ -301,3 +301,14 @@ Test the npc interaction system.
 The first dialogue graph node has been updated to the new text library system.
 
 Next: Update event functionality and apply to the rest of nodes.
+
+### 01/09/2026 14:31pm:
+The new Npc interaction systems works on a basic level. This means, a npc can check its own quests for availability and trigger if conditions match, and give a follow up dialogue while this quests are active.
+
+Next:
+1. Seems like its always  the same standard dialogue beign selected instead of beign random picked when calling for a standard dialogue.
+2. Try more tests with main story quests instead of npc owned quests.
+
+Pending:
+1. Make the inventory system display a preview and item information when selected and clear item data from screen every time the inventory menu is opened.
+2. Apply text library compatibility to pending nodes and events.

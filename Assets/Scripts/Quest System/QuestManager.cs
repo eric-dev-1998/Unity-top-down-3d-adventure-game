@@ -8,13 +8,13 @@ using UnityEngine.UIElements;
 
 namespace Assets.Scripts.Quest_System
 {
-    public class Manager : MonoBehaviour
+    public class QuestManager : MonoBehaviour
     {
         public Quest test;
 
         private Uxml_QuestMenu menu;
-        private List<Quest> questDatabase;
-        private List<Quest> currentGameQuests;
+        private List<Quest> questDatabase;      // All quest data.
+        private List<Quest> currentGameQuests;  // Only active or completed quests.
 
         private Inventory_System.Manager inventoryManager;
 
@@ -57,6 +57,16 @@ namespace Assets.Scripts.Quest_System
             }
         }
 
+        public Quest FindQuest(string id)
+        {
+            return currentGameQuests.Find(q => q.id == id);
+        }
+
+        public Quest FindQuestData(string id)
+        {
+            return questDatabase.Find(q => q.id == id);
+        }
+
         public List<Quest> GetCompletedQuests()
         {
             List<Quest> completed = new List<Quest>();
@@ -92,6 +102,8 @@ namespace Assets.Scripts.Quest_System
 
         public List<Quest> GetNpcQuests(string id)
         {
+            Debug.Log($"[Quest manager]: Searching quests for npc: '{id}'...");
+
             List<Quest> result = new List<Quest>();
             foreach (Quest q in currentGameQuests)
             { 
@@ -100,8 +112,12 @@ namespace Assets.Scripts.Quest_System
             }
 
             if (result.Count == 0)
+            {
+                Debug.LogError($"[Quest manager]: No quests were found for npc: '{id}'.");
                 return null;
+            }
 
+            Debug.Log($"[Quest manager]: Found {result.Count} quests for npc: '{id}'.");
             return result;
         }
 
@@ -115,23 +131,49 @@ namespace Assets.Scripts.Quest_System
             }
 
             if (result.Count == 0)
+            {
+                Debug.LogError($"[Quest manager]: No quests were found in quest database for npc with id: '{id}'. Returned null.");
                 return null;
+            }
 
             return result;
         }
 
         public Quest GetAvailableNpcQuest(string id)
         {
+            Debug.Log($"[Quest manager]: Searching for available quests for npc: '{id}'");
+            
             List<Quest> npcQuests = GetNpcQuests(id);
-            if (npcQuests == null)
-                return null;
 
             foreach (Quest q in questDatabase)
             {
-                if (!npcQuests.Contains(q))
+                if (npcQuests != null)
                 {
-                    if (q.requirement.Matched(q))
-                        return q;
+                    if (!npcQuests.Contains(q))
+                    {
+                        if (q.from == id)
+                        {
+                            if (q.requirement.Matched(q))
+                            {
+                                Debug.Log($"[Quest manager]: Found quest: '{q.name}'.");
+                                return q;
+                            }
+                            else
+                                Debug.LogError($"[Quest manager]: Found quest: '{q.name}' for npc with id '{id}', but its requirements are not matched.");
+                        }
+                    }
+                }
+                else
+                {
+                    if (q.from == id)
+                    {   if (q.requirement.Matched(q))
+                        {
+                            Debug.Log($"[Quest manager]: Found quest: '{q.name}'.");
+                            return q;
+                        }
+                        else
+                            Debug.LogError($"[Quest manager]: Found quest: '{q.name}' for npc with id '{id}', but its requirements are not matched.");
+                    }
                 }
             }
 
@@ -255,19 +297,22 @@ namespace Assets.Scripts.Quest_System
                 {
                     if (o.type == Objective.ObjectiveType.TalkToNPC && o.targetId == id)
                     {
-                        o.completed = true;
-                        if (menu.trackerOpen)
+                        if (!o.completed)
                         {
-                            Toggle tObjective = menu.GetTrackerObjectives().Find(t => t.text == o.description);
-                            tObjective.value = true;
+                            o.completed = true;
+                            if (menu.trackerOpen)
+                            {
+                                Toggle tObjective = menu.GetTrackerObjectives().Find(t => t.text == o.description);
+                                tObjective.value = true;
+
+                                if (q.Completed())
+                                    menu.DisplayNotification(QuestNotification.NotificationType.Complete, q.name);
+                                else
+                                    menu.DisplayNotification(QuestNotification.NotificationType.Update, q.name);
+                            }
                         }
                     }
                 }
-
-                if (q.Completed())
-                    menu.DisplayNotification(QuestNotification.NotificationType.Complete, q.name);
-                else
-                    menu.DisplayNotification(QuestNotification.NotificationType.Update, q.name);
             }
 
             menu.UpdateLists(currentGameQuests);

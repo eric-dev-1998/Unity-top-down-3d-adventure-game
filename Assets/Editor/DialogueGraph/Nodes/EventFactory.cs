@@ -26,7 +26,7 @@ namespace EventSystem
                         throw new System.Exception("Dialogue line properties is missing.");
 
                     var evt = ScriptableObject.CreateInstance<SingleLine>();
-                    evt.text = p.lineId;
+                    evt.lineId = p.lineId;
 
                     return evt;
 

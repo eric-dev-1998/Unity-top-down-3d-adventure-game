@@ -19,7 +19,7 @@ namespace Assets.Scripts.Event_System
             
         }
 
-        public virtual IEnumerator Process(Manager eManager, Dialogue_System.Manager dManager)
+        public virtual IEnumerator Process(EventManager eManager, Dialogue_System.Manager dManager)
         {
             if (next != null && next.Count != 0)
             {

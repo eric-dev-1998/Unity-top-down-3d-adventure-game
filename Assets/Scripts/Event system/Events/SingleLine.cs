@@ -8,23 +8,24 @@ namespace Assets.Scripts.Event_System.Events
     [Serializable]
     public class SingleLine : Event
     {
-        public string author;
-        public string text;
+        public string lineId;
 
-        public SingleLine(string author, string text) 
+        public SingleLine(string text) 
         {
-            this.author = author;
-            this.text = text;
+            this.lineId = text;
         }
 
-        public override IEnumerator Process(Manager eManager, Dialogue_System.Manager dManager)
+        public override IEnumerator Process(EventManager eManager, Dialogue_System.Manager dManager)
         {
             // Show dialogue box if is not enabled yet.
             if (!dManager.OnDialogue())
                 yield return dManager.StartCoroutine(dManager.ShowDialogueBox());
 
+            GameText.DialogueLine line = dManager.textManager.GetDialogueLine(lineId);
+            string author = line.id.Split('_')[0];
+
             // Start writing dialogue text.
-            dManager.StartCoroutine(dManager.WriteText(author, text, false, null, null));
+            dManager.StartCoroutine(dManager.WriteText(author, line.content, false, null, null));
             yield return new WaitUntil(() => dManager.advance == true);
 
             if (next != null && next.Count != 0)

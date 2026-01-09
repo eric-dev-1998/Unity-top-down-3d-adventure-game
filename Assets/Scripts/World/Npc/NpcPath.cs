@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Main
+namespace Assets.Scripts.World.Npc
 {
     [System.Serializable]
     public class  PathPoint

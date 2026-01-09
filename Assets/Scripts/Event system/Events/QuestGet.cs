@@ -16,7 +16,7 @@ namespace Assets.Scripts.Event_system.Events
 
         public QuestGet() { }
 
-        public override IEnumerator Process(Event_System.Manager eManager, Dialogue_System.Manager dManager)
+        public override IEnumerator Process(Event_System.EventManager eManager, Dialogue_System.Manager dManager)
         {
             /*
                 1. Check if target quest does exsist in current player's quest list.

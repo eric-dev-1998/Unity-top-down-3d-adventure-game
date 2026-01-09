@@ -6,14 +6,14 @@ namespace Assets.Scripts.Event_System
     {
         public EventSequence sequence;
 
-        private Manager manager;
+        private EventManager manager;
 
         private bool isPlayerOnTrigger = false;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            manager = FindAnyObjectByType<Manager>();
+            manager = FindAnyObjectByType<EventManager>();
         }
 
         // Update is called once per frame

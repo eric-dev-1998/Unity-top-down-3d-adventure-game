@@ -9,7 +9,7 @@ namespace Assets.Scripts.Inventory_System
 {
     public class Manager : MonoBehaviour
     {
-        private Quest_System.Manager questManager;
+        private Quest_System.QuestManager questManager;
 
         // Logic properties:
         public bool open = false;
@@ -25,7 +25,7 @@ namespace Assets.Scripts.Inventory_System
 
         private void Start()
         {
-            questManager = FindAnyObjectByType<Quest_System.Manager>();
+            questManager = FindAnyObjectByType<Quest_System.QuestManager>();
 
             itemDatabase = new ItemDatabase();
             animator = GetComponent<Animator>();

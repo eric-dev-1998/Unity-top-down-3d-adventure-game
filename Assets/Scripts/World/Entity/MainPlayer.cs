@@ -56,7 +56,7 @@ public class MainPlayer : MonoBehaviour
     private void Update()
     {
         // SIMPLE WALK LOGIC.
-        if (!FindAnyObjectByType<Assets.Scripts.Event_System.Manager>().busy)
+        if (!FindAnyObjectByType<Assets.Scripts.Event_System.EventManager>().busy)
         {
             if (canMove && !playerInput.isGameMenuOpen())
             {

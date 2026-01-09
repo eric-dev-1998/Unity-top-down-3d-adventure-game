@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace Main
+namespace Assets.Scripts.World.Npc
 {
     public class NpcPathSystem : MonoBehaviour
     {

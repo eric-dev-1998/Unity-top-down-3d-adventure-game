@@ -5,26 +5,29 @@ using System;
 
 namespace Assets.Scripts.Event_System
 {
-    public class Manager : MonoBehaviour
+    public class EventManager : MonoBehaviour
     {
         public event Action OnEventFinished;
 
         public EventSequence currentEventSequence;
         public bool busy = false;
 
-        public Quest_System.Manager questManager;
+        public Quest_System.QuestManager questManager;
         public Inventory_System.Manager inventoryManager;
 
         private void Start()
         {
-            questManager = FindAnyObjectByType<Quest_System.Manager>();
+            questManager = FindAnyObjectByType<Quest_System.QuestManager>();
             inventoryManager = FindAnyObjectByType<Inventory_System.Manager>();
         }
 
         public void StartSequence(EventSequence eventSequence)
         {
             if (busy)
+            {
+                Debug.LogWarning("[Event manager]: Event manager is currently bussy.");
                 return;
+            }
 
             if (eventSequence == null)
             {

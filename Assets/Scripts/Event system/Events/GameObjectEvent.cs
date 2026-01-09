@@ -17,7 +17,7 @@ namespace Assets.Scripts.Event_system.Events
             target = GameObject.Find(name);
         }
 
-        public override IEnumerator Process(Event_System.Manager eManager, Dialogue_System.Manager dManager)
+        public override IEnumerator Process(Event_System.EventManager eManager, Dialogue_System.Manager dManager)
         {
             if (string.IsNullOrEmpty(name))
             {

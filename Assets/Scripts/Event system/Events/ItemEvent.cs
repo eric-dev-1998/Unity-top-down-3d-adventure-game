@@ -14,7 +14,7 @@ namespace Assets.Scripts.Event_system.Events
         public string id;
         public int count;
 
-        public override IEnumerator Process(Event_System.Manager eManager, Dialogue_System.Manager dManager)
+        public override IEnumerator Process(Event_System.EventManager eManager, Dialogue_System.Manager dManager)
         {
             if (!dManager.OnDialogue())
                 yield return dManager.StartCoroutine(dManager.ShowDialogueBox());

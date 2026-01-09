@@ -10,7 +10,7 @@ namespace Assets.Scripts.Dialogue_System
 {
     public class Manager : MonoBehaviour
     {
-        TextManager textManager;
+        public TextManager textManager;
 
         private UIDocument document;
         private VisualElement dialogueFrame;

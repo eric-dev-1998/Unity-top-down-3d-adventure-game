@@ -46,20 +46,11 @@ namespace Assets.Editor.DialogueGraph.Nodes
 
             // Get loaded node fields:
             questId = node_data.extensionContainer.Q<DropdownField>("SelectQuest");
-            var assetsInPath = AssetDatabase.FindAssets("t:Assets.Scripts.Quest_System.Quest", new[] { "Assets/Scriptable Objects/Quests" });
-
-
+            
+            var assetsInPath = Resources.LoadAll<Quest>("Quests");
             Debug.Log($"[Loaded assets]: {assetsInPath.Length}");
 
-            List<Quest> quests = new();
-            foreach (var asset in assetsInPath)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(asset);
-                var quest = AssetDatabase.LoadAssetAtPath<Quest>(path);
-                if (quest != null)
-                    quests.Add(quest);
-            }
-            List<string>names = quests.Select(q => q.name).ToList();
+            List<string>names = assetsInPath.Select(q => q.name).ToList();
             questId.choices.Add("Select a quest...");
             foreach (string n in names)
                 questId.choices.Add(n);

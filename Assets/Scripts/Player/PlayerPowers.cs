@@ -8,12 +8,12 @@ namespace Assets.Scripts.Player
     {
         Power_Wind wind;
         Inventory_System.Manager inventory;
-        Manager eventManager;
+        EventManager eventManager;
 
         private void Start()
         {
             inventory = FindAnyObjectByType<Inventory_System.Manager>();
-            eventManager = FindAnyObjectByType<Manager>();
+            eventManager = FindAnyObjectByType<EventManager>();
         }
 
         private void Update()

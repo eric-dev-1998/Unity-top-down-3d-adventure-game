@@ -16,7 +16,7 @@ namespace Assets.Scripts.Event_system.Events
             this.questState = questState;
         }
 
-        public override IEnumerator Process(Event_System.Manager eManager, Dialogue_System.Manager dManager)
+        public override IEnumerator Process(Event_System.EventManager eManager, Dialogue_System.Manager dManager)
         {
             Quest_System.Quest quest = Resources.Load<Quest_System.Quest>($"Quests/{questName}");
 
