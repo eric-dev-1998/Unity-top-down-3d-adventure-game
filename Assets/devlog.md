@@ -312,3 +312,12 @@ Next:
 Pending:
 1. Make the inventory system display a preview and item information when selected and clear item data from screen every time the inventory menu is opened.
 2. Apply text library compatibility to pending nodes and events.
+
+### 01/09/2026 9:56am:
+TO-DO Summary:
+1. [Quest system]: Add a 'from' field to preview menu.
+2. [Quest system]: Update objectives display to toggles in the preview menu.
+3. [Animation]: Create a task for human character action and emotion animations.
+4. [Dialogue graph]: Design a string format that the graph view editor can understand it to properly place the resulting event on the precise folder.
+5. [Dialogue graph]: Update question and multiline nodes to be comptible with the new text library system.
+6. [Assets]: Stop using a "Scriptable objects" folder and migrate to Resources folder only.

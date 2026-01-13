@@ -1,8 +1,6 @@
-
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Assets.Scripts.Event_System;
 using Assets.Scripts.Runtime.Editor.Node_properties;
 using Assets.Scripts.GameText;
 

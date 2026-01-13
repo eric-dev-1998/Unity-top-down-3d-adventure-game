@@ -63,9 +63,20 @@
 	background-color: #CD5E45;
 }
 
+.text-not-valid > TextInput
+{
+	border-color: #E73636;
+	border-width: 2px;
+}
+
+.text-valid > TextInput
+{
+	border-color: #2DC755;
+	border-width: 2px;
+}
+
 TextInput
 {
 	padding: 8px;
 	min-width: 256px;
-	max-width: 256px;
 }
