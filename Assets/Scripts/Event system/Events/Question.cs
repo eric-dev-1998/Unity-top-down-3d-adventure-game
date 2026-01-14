@@ -12,17 +12,11 @@ namespace Assets.Scripts.Event_system.Events
 {
     public class Question : Event_System.Event
     {
-        public string author = "";
         public string question = "";
-        public string optionA = "";
-        public string optionB = "";
 
-        public Question(string author, string question, string optionA, string optionB)
+        public Question(string question)
         { 
-            this.author = author;
             this.question = question;
-            this.optionA = optionA;
-            this.optionB = optionB;
         }
 
         public override IEnumerator Process(Event_System.EventManager eManager, Dialogue_System.Manager dManager)
@@ -30,7 +24,9 @@ namespace Assets.Scripts.Event_system.Events
             if (!dManager.OnDialogue())
                 yield return dManager.StartCoroutine(dManager.ShowDialogueBox());
 
-            yield return dManager.StartCoroutine(dManager.WriteText(author, question, true, optionA, optionB));
+            GameText.DialogueLine line = dManager.textManager.GetDialogueLine(question);
+
+            yield return dManager.StartCoroutine(dManager.WriteText(line.id.Split('_')[0], line.content, true, line.optionA, line.optionB));
             yield return new WaitUntil(() => dManager.chooseA == true || dManager.chooseB == true);
 
             yield return new WaitForSeconds(0.26f);

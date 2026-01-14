@@ -236,6 +236,8 @@ namespace Editor.DialogueGraph
             EventSequence outputSequence = ScriptableObject.CreateInstance<EventSequence>();
 
             string path = "";
+            string primaryDir = "";
+            string secondaryDir = "";
 
             // Read save command:
             string saveCommand = textSaveCommand.text;
@@ -258,37 +260,66 @@ namespace Editor.DialogueGraph
                 switch (header)
                 {
                     case "npc":
+
                         // It's a npc standard dialogue.
+
+                        primaryDir = $"Assets/Resources/GameText/Dialogues/{command[1]}";
+                        secondaryDir = $"Assets/Resources/GameText/Dialogues/{command[1]}/Standard";
+
+                        if (!AssetDatabase.IsValidFolder(primaryDir))
+                            AssetDatabase.CreateFolder("Assets/Resources/GameText/Dialogues", command[1]);
+
+                        if (!AssetDatabase.IsValidFolder(secondaryDir))
+                            AssetDatabase.CreateFolder($"Assets/Resources/GameText/Dialogues/{command[1]}", "Standard");
+
                         if (command.Count() == 3)
-                            path = "Resources/GameText/Dialogues/" + command[1] + "/Standard/" + command[2];
+                            path = $"Assets/Resources/GameText/Dialogues/{command[1]}/Standard/{command[2]}.asset";
                         else
                         {
-                            ce = Resources.LoadAll("GameText/Dialogues/" + command[1]).Count();
-                            path = "Resources/GameText/Dialogues" + command[1] + "/Standard/standard_" + ce;
+                            ce = Resources.LoadAll<EventSequence>($"GameText/Dialogues/{command[1]}").Count();
+                            path = $"Assets/Resources/GameText/Dialogues/{command[1]}/Standard/standard_{ce}.asset";
                         }
                         break;
 
                     case "npcq":
+
                         // It's a npc quest dialogue.
-                        path = "Resources/GameText/Dialogues/" + command[1] + "/" + command[2] + "/" + command[3];
+
+                        primaryDir = $"Assets/Resources/GameText/Dialogues/{command[1]}";
+                        secondaryDir = $"Assets/Resources/GameText/Dialogues/{command[1]}/{command[2]}";
+
+                        if (!AssetDatabase.IsValidFolder(primaryDir))
+                            AssetDatabase.CreateFolder("Assets/Resources/GameText/Dialogues", command[1]);
+
+                        if (!AssetDatabase.IsValidFolder(secondaryDir))
+                            AssetDatabase.CreateFolder($"Assets/Resources/GameText/Dialogues/{command[1]}", command[2]);
+
+                        path = $"Assets/Resources/GameText/Dialogues/{command[1]}/{command[2]}/{command[3]}.asset";
                         break;
 
                     case "cs":
+
                         // It's a cutscene event.
+
+                        primaryDir = $"Assets/Resources/GameText/Cutscenes/{command[1]}";
+
+                        if (!AssetDatabase.IsValidFolder(primaryDir))
+                            AssetDatabase.CreateFolder("Assets/Resources/GameText/Cutscenes", command[1]);
+
                         if (command.Count() == 3)
-                            path = "Resources/GameText/Cutscenes/" + command[1] + "/" + command[2];
+                            path = $"Assets/Resources/GameText/Cutscenes/{command[1]}/{command[2]}.asset";
                         else 
                         {
-                            ce = Resources.LoadAll("GameText/Cutscenes/" + command[1]).Count();
-                            path = "Resources/GameText/Curscenes/" + command[1] + "/Standard/standard_" + ce;
+                            ce = Resources.LoadAll<EventSequence>("GameText/Cutscenes/{command[1]}").Count();
+                            path = $"Assets/Resources/GameText/Cutscenes/{command[1]}/cutscene_{ce}.asset";
                         }
                         break;
                 }
             }
 
             // Save resulting sequence to assets:
-            path = Application.dataPath + path;
-            AssetDatabase.CreateAsset(outputSequence, FileUtil.GetProjectRelativePath(path));
+            //path = Application.dataPath + path;
+            AssetDatabase.CreateAsset(outputSequence, path);
             AssetDatabase.Refresh();
 
             // Convert nodes to events:
@@ -368,7 +399,10 @@ namespace Editor.DialogueGraph
             Node input = runtime_nodes.Find(n => n.saveData.id == connection.inputNodeId);
             Node output = runtime_nodes.Find(n => n.saveData.id == connection.outputNodeId);
 
-            Edge newConnection = output.GetOutputPort().ConnectTo(input.GetInputPort());
+            Port inputPort = input.GetInputPortByName(connection.inputPortName);
+            Port outputPort = output.GetOutputPortByName(connection.outputPortName);
+
+            Edge newConnection = outputPort.ConnectTo(inputPort);
 
             AddElement(newConnection);
         }
@@ -481,10 +515,11 @@ namespace Editor.DialogueGraph
                     if (outputNode != null && inputNode != null)
                     {
                         // Add a new connection data to local list:
-
                         ConnectionSaveData connection = ScriptableObject.CreateInstance<ConnectionSaveData>();
                         connection.outputNodeId = outputNode.saveData.id;
                         connection.inputNodeId = inputNode.saveData.id;
+                        connection.outputPortName = edge.output.portName;
+                        connection.inputPortName = edge.input.portName;
 
                         AssetDatabase.AddObjectToAsset(connection, currentGraphData);
                         currentGraphData.connections.Add(connection);

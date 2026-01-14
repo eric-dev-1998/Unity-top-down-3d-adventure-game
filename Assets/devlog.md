@@ -321,3 +321,31 @@ TO-DO Summary:
 4. [Dialogue graph]: Design a string format that the graph view editor can understand it to properly place the resulting event on the precise folder.
 5. [Dialogue graph]: Update question and multiline nodes to be comptible with the new text library system.
 6. [Assets]: Stop using a "Scriptable objects" folder and migrate to Resources folder only.
+
+### 01/13/2026 9:33am:
+Dialogue graph event outputs are saved on separate folders using a save command.
+
+Next: Update question and multiline nodes and their events.
+
+### 01/13/2026 10:59am:
+Question and multiline nodes have been updated to be compatible with the new text library system.
+
+Next:
+1. [Quest system]: Add a 'from' field to preview menu.
+2. [Quest system]: Update objectives display to toggles in the preview menu.
+
+### 01/13/2026 14:49pm:
+Added a 'from' field to the quest preview menu.
+Updated objectives display to styled toggles.
+
+Next:
+1. Do more test for the npc interaction system.
+2. Test main quest validation on the npc interaction system.
+
+### 01/14/2026 16:50pm:
+A bug in the node graph editor that prevented nodes with multiple ports to connect properly has been fixed.
+
+Npc dialogue is improving, and events are responding very well.
+
+Next:
+1. Somehow, 'lastMainQuestID' is beign set before event validating it in the code when checking for available main quests.

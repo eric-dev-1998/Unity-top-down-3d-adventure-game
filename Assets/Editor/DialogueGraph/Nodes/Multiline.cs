@@ -14,7 +14,6 @@ namespace Editor.DialogueGraph.Nodes
 
         private Foldout foldout;
         private ListView linesList;
-        private TextField author;
 
         public Multiline() { }
 
@@ -42,7 +41,7 @@ namespace Editor.DialogueGraph.Nodes
 
         public override void LoadProperties()
         {
-            author.value = this.properties.author;
+            
         }
 
         public override void LoadVisualContent()
@@ -59,14 +58,6 @@ namespace Editor.DialogueGraph.Nodes
             // Get loaded node fields:
             foldout = visual_content.Q<Foldout>("LinesList");
             linesList = visual_content.Q<ListView>("List");
-            author = visual_content.Q<TextField>("Text_Author");
-
-            author.RegisterValueChangedCallback((evt) => 
-            { 
-                properties.author = evt.newValue;
-                EditorUtility.SetDirty(saveData);
-                EditorUtility.SetDirty(saveData.properties);
-            });
 
             Button button_add = visual_content.Q<Button>("Button_Add");
             button_add.clicked += AddTextField;

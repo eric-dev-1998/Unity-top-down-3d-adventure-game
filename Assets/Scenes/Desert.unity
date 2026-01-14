@@ -10868,6 +10868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   test: {fileID: 11400000, guid: 759c7109a5e948344b344a860d81d38b, type: 2}
+  trackedQuest: {fileID: 0}
 --- !u!1 &443303940
 GameObject:
   m_ObjectHideFlags: 0
@@ -16607,7 +16608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b623073d9b265b44cb1624d0add2bf11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequence: {fileID: 11400000, guid: a6ad8c9eed607e040abc2bb541baf567, type: 2}
+  sequence: {fileID: 11400000, guid: dab0b95bf330f354aa3f185251922159, type: 2}
 --- !u!65 &609062191
 BoxCollider:
   m_ObjectHideFlags: 0

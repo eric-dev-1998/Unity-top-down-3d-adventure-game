@@ -7,12 +7,10 @@ namespace Assets.Scripts.Event_system.Events
 {
     public class Multiline : Event_System.Event
     {
-        public string author = "";
         public List<String> lines = new List<String>();
 
-        public Multiline(string author, List<string> lines) 
+        public Multiline(List<string> lines) 
         {
-            this.author = author;
             this.lines = lines;
         }
 
@@ -23,7 +21,8 @@ namespace Assets.Scripts.Event_system.Events
 
             foreach (string line in lines)
             {
-                dManager.StartCoroutine(dManager.WriteText(author, line, false, null, null));
+                GameText.DialogueLine dLine = dManager.textManager.GetDialogueLine(line);
+                dManager.StartCoroutine(dManager.WriteText(dLine.id.Split('_')[0], dLine.content, false, null, null));
                 yield return new WaitUntil(() => dManager.advance == true);
             }
 

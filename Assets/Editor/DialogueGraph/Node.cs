@@ -26,6 +26,9 @@ namespace Editor.DialogueGraph
         // Node name, used as title.
         public string name = string.Empty;
 
+        public Dictionary<string, Port> inputPorts = new();
+        public Dictionary<string, Port> outputPorts = new();
+
         // Node position on screen.
         public Vector2 screenPosition;
 
@@ -62,9 +65,11 @@ namespace Editor.DialogueGraph
             node_data.extensionContainer.style.paddingRight = 6;
 
             // Create main ports:
+            string inputId = Guid.NewGuid().ToString();
             Port inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Node));
             inputPort.portName = "Input";
             
+            string outputId = Guid.NewGuid().ToString();
             Port outputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Node));
             outputPort.portName = "Output";
 
@@ -139,6 +144,38 @@ namespace Editor.DialogueGraph
             node_data.outputContainer.Clear();
         }
 
+        public Port GetInputPortByName(string name)
+        {
+            foreach (VisualElement e in node_data.inputContainer.Children())
+            {
+                if (e is Port p && p.portName == name)
+                    return p;
+            }
+
+            return null;
+        }
+
+        public Port GetOutputPortByName(string name)
+        {
+            foreach (VisualElement e in node_data.outputContainer.Children())
+            {
+                if (e is Port p && p.portName == name)
+                    return p;
+            }
+
+            return null;
+        }
+
+        public Port GetInputPortById(string id)
+        {
+            return inputPorts[id];
+        }
+
+        public Port GetOutputPortById(string id)
+        { 
+            return outputPorts[id];
+        }
+
         public Port GetInputPort()
         {
             if (node_data.inputContainer.childCount <= 0)
@@ -155,6 +192,11 @@ namespace Editor.DialogueGraph
         public Port GetOutputPort(int index)
         { 
             return node_data.outputContainer.ElementAt(index) as Port;
+        }
+
+        public Port GetInputPort(int index)
+        {
+            return node_data.inputContainer.ElementAt(index) as Port;
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Assets.Scripts.Quest_System
     {
         public Quest test;
 
+        public Quest trackedQuest;
+
         private Uxml_QuestMenu menu;
         private List<Quest> questDatabase;      // All quest data.
         private List<Quest> currentGameQuests;  // Only active or completed quests.
@@ -100,6 +102,16 @@ namespace Assets.Scripts.Quest_System
             return result;
         }
 
+        public List<Quest> GetMainQuestsData()
+        { 
+            List<Quest> result = new List<Quest>();
+            foreach (Quest q in questDatabase)
+                if (q.type == Quest.QuestType.MainQuest)
+                    result.Add(q);
+
+            return result;
+        }
+
         public List<Quest> GetNpcQuests(string id)
         {
             Debug.Log($"[Quest manager]: Searching quests for npc: '{id}'...");
@@ -182,6 +194,8 @@ namespace Assets.Scripts.Quest_System
 
         public void TriggerQuest(Quest questData)
         {
+            Debug.Log("About to trigger a quest...");
+
             if (currentGameQuests.Contains(questData))
                 return;
 

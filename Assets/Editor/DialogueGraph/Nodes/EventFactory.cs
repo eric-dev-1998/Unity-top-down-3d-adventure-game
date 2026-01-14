@@ -1,11 +1,7 @@
-﻿using Assets.Editor.DialogueGraph.Nodes;
-using Assets.Scripts.Event_system.Events;
-using Assets.Scripts.Event_System;
+﻿using Assets.Scripts.Event_system.Events;
 using Assets.Scripts.Event_System.Events;
 using Assets.Scripts.Runtime.Editor;
 using Assets.Scripts.Runtime.Editor.Node_properties;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace EventSystem
@@ -36,7 +32,6 @@ namespace EventSystem
                         throw new System.Exception("Multiline properties are missing.");
 
                     var evt1 = ScriptableObject.CreateInstance<Multiline>();
-                    evt1.author = p1.author;
                     evt1.lines = p1.lines;
 
                     return evt1;
@@ -47,10 +42,7 @@ namespace EventSystem
                         throw new System.Exception("Question properties doesnt exist.");
 
                     var evt2 = ScriptableObject.CreateInstance<Assets.Scripts.Event_system.Events.Question>();
-                    evt2.author = p2.author;
                     evt2.question = p2.question;
-                    evt2.optionA = p2.optionA;
-                    evt2.optionB = p2.optionB;
 
                     return evt2;
 

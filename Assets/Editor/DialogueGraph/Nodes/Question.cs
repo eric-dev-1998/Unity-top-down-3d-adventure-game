@@ -12,10 +12,7 @@ namespace Assets.Editor.DialogueGraph.Nodes
     {
         public QuestionProperties properties => GetProperties<QuestionProperties>();
 
-        private TextField author;
         private TextField question;
-        private TextField optionA;
-        private TextField optionB;
 
         public Question() { }
 
@@ -48,6 +45,8 @@ namespace Assets.Editor.DialogueGraph.Nodes
 
             node_data.RefreshPorts();
             node_data.RefreshExpandedState();
+
+            Debug.Log($"[Question node]: Output ports updated, current port count: {node_data.outputContainer.childCount}");
         }
 
         public override void LoadVisualContent()
@@ -62,17 +61,11 @@ namespace Assets.Editor.DialogueGraph.Nodes
             base.LoadVisualContent();
 
             // Get loaded node fields:
-            author = node_data.extensionContainer.Q<TextField>("Text_Author");
             question = node_data.extensionContainer.Q<TextField>("Text_Question");
-            optionA = node_data.extensionContainer.Q<TextField>("Text_A");
-            optionB = node_data.extensionContainer.Q<TextField>("Text_B");
 
             if (properties != null)
             {
-                author.value = properties.author;
                 question.value = properties.question;
-                optionA.value = properties.optionA;
-                optionB.value = properties.optionB;
             }
 
             OverwriteOutputPorts();
@@ -92,33 +85,15 @@ namespace Assets.Editor.DialogueGraph.Nodes
 
         public override void LoadProperties()
         {
-            author.value = properties.author;
             question.value = properties.question;
-            optionA.value = properties.optionA;
-            optionB.value = properties.optionB;
 
             SetCallbacks();
         }
 
         public void SetCallbacks()
         {
-            author.RegisterValueChangedCallback(evt => {
-                properties.author = evt.newValue;
-                EditorUtility.SetDirty(saveData);
-                EditorUtility.SetDirty(properties);
-            });
             question.RegisterValueChangedCallback(evt => {
                 properties.question = evt.newValue;
-                EditorUtility.SetDirty(saveData);
-                EditorUtility.SetDirty(properties);
-            });
-            optionA.RegisterValueChangedCallback(evt => {
-                properties.optionA = evt.newValue;
-                EditorUtility.SetDirty(saveData);
-                EditorUtility.SetDirty(properties);
-            });
-            optionB.RegisterValueChangedCallback(evt => {
-                properties.optionB = evt.newValue;
                 EditorUtility.SetDirty(saveData);
                 EditorUtility.SetDirty(properties);
             });

@@ -14,6 +14,7 @@ namespace Assets.Art.UI.UXML
         public bool trackerOpen = false;
 
         private TextManager textManager;
+        private QuestManager questManager;
 
         private UIDocument document;
         private UIDocument hud;
@@ -33,7 +34,8 @@ namespace Assets.Art.UI.UXML
         private Label nonSelected;
         private Label viewTitle;
         private Label viewDescription;
-        private Label viewObjectives;
+        private ScrollView viewObjectives;
+        private Label viewOwner;
 
         private Button buttonCloseTracker;
         private VisualElement trackCard;
@@ -55,7 +57,8 @@ namespace Assets.Art.UI.UXML
 
             viewTitle = document.rootVisualElement.Q<Label>("QuestTitle");
             viewDescription = document.rootVisualElement.Q<Label>("QuestDescription");
-            viewObjectives = document.rootVisualElement.Q<Label>("QuestObjectives");
+            viewObjectives = document.rootVisualElement.Q<ScrollView>("QuestObjectives");
+            viewOwner = document.rootVisualElement.Q<Label>("QuestOwner");
 
             buttonClose = document.rootVisualElement.Q<Button>("ButtonClose");
             buttonClose.clicked += CloseMenu;
@@ -97,6 +100,7 @@ namespace Assets.Art.UI.UXML
             buttonCloseTracker = trackCard.Q<Button>("ButtonCloseTracker");
             buttonCloseTracker.clicked += StopTrackingQuest;
 
+            questManager = GetComponent<QuestManager>();
             LoadText();
         }
 
@@ -240,18 +244,40 @@ namespace Assets.Art.UI.UXML
             QuestText text = textManager.GetQuest(quest.id);
 
             viewTitle.text = text.title;
+            viewOwner.text = $"From: {quest.from}";
             viewDescription.text = text.description;
 
-            viewObjectives.text = "";
+            viewObjectives.contentContainer.Clear();
             foreach (Objective o in quest.objectives)
             {
-                if(o.completed)
-                    viewObjectives.text += textManager.GetUIText("quest_objective_complete") + text.objectives[quest.objectives.ToList().IndexOf(o)];
-                else
-                    viewObjectives.text += text.objectives[quest.objectives.ToList().IndexOf(o)];
+                Toggle objective = new Toggle();
+                objective.SetEnabled(false);
+                objective.AddToClassList("objective");
+                objective.text = o.description;
+                objective.value = o.completed;
+                viewObjectives.contentContainer.Add(objective);
             }
 
-            noSelectedQuestMessage.style.visibility = Visibility.Hidden;
+            if (questManager.trackedQuest != null)
+            {
+                if (questManager.trackedQuest.id == quest.id)
+                {
+                    buttonTrack.SetEnabled(false);
+                    buttonStopTrack.SetEnabled(true);
+                }
+                else
+                {
+                    buttonTrack.SetEnabled(true);
+                    buttonStopTrack.SetEnabled(false);
+                }
+            }
+            else
+            {
+                buttonTrack.SetEnabled(true);
+                buttonStopTrack.SetEnabled(false);
+            }
+
+                noSelectedQuestMessage.style.visibility = Visibility.Hidden;
         }
 
         public void DisplayNotification(QuestNotification.NotificationType type, string questName)
@@ -330,6 +356,10 @@ namespace Assets.Art.UI.UXML
             if (selectedQuest == null)
                 return;
 
+            questManager.trackedQuest = selectedQuest;
+            buttonTrack.SetEnabled(false);
+            buttonStopTrack.SetEnabled(true);
+
             trackTitle.text = $"Tracking quest: {selectedQuest.name}";
             trackObjectivesContainer.contentContainer.Clear();
             foreach (Objective o in selectedQuest.objectives)
@@ -351,6 +381,11 @@ namespace Assets.Art.UI.UXML
 
         private void StopTrackingQuest()
         {
+            questManager.trackedQuest = null;
+
+            buttonTrack.SetEnabled(true);
+            buttonStopTrack.SetEnabled(false);
+
             trackerOpen = false;
             trackCard.AddToClassList("quest-tracker-hidden");
         }

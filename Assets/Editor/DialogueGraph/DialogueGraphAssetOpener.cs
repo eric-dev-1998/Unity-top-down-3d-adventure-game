@@ -15,7 +15,7 @@ namespace Assets.Editor.DialogueGraph
         [OnOpenAsset(1)]
         public static bool OnOpenAsset(int instanceId, int line)
         {
-            var asset = EditorUtility.InstanceIDToObject(instanceId) as DialogueGraphData;
+            var asset = EditorUtility.EntityIdToObject(instanceId) as DialogueGraphData;
             if(asset == null)
                 return false;
 

@@ -1,4 +1,4 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <engine:TextField placeholder-text="Line text..." name="Text" multiline="true" class="text-field" style="white-space: pre-wrap; width: 256px;"/>
-    <engine:TextField placeholder-text="Line preview..." name="Preview" enabled="true" readonly="true" class="text-field" style="margin-bottom: 8px; width: 256px;"/>
+    <engine:TextField placeholder-text="Line text..." name="Text" multiline="true" class="text-field" style="white-space: pre-wrap; width: 196px;"/>
+    <engine:TextField placeholder-text="Line preview..." name="Preview" enabled="true" readonly="true" class="text-field" style="margin-bottom: 8px; width: 196px;"/>
 </engine:UXML>
