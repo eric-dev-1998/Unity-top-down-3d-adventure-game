@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:TextField label="" placeholder-text="Object name..." name="ObjectName"/>
+    <ui:TextField label="" placeholder-text="Boolean name..." name="BooleanName"/>
+    <ui:Toggle label="Set value to:" name="BooleanValue"/>
+</ui:UXML>

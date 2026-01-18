@@ -18,7 +18,7 @@ namespace Assets.Scripts.Quest_System
         private List<Quest> questDatabase;      // All quest data.
         private List<Quest> currentGameQuests;  // Only active or completed quests.
 
-        private Inventory_System.Manager inventoryManager;
+        private Inventory_System.InventoryManager inventoryManager;
 
         private void Start()
         {
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Quest_System
                 return;
             }
 
-            inventoryManager = FindAnyObjectByType<Inventory_System.Manager>();
+            inventoryManager = FindAnyObjectByType<Inventory_System.InventoryManager>();
 
             menu = FindAnyObjectByType<Uxml_QuestMenu>();
             currentGameQuests = new List<Quest>();
@@ -99,6 +99,9 @@ namespace Assets.Scripts.Quest_System
                 if(q.type == Quest.QuestType.MainQuest)
                     result.Add(q);
 
+            if (result.Count == 0)
+                Debug.LogWarning("[Quest manager]: No available or completed main quest data was found.");
+
             return result;
         }
 
@@ -165,7 +168,7 @@ namespace Assets.Scripts.Quest_System
                     {
                         if (q.from == id)
                         {
-                            if (q.requirement.Matched(q))
+                            if (q.requirement.Matched(currentGameQuests))
                             {
                                 Debug.Log($"[Quest manager]: Found quest: '{q.name}'.");
                                 return q;
@@ -178,7 +181,7 @@ namespace Assets.Scripts.Quest_System
                 else
                 {
                     if (q.from == id)
-                    {   if (q.requirement.Matched(q))
+                    {   if (q.requirement.Matched(currentGameQuests))
                         {
                             Debug.Log($"[Quest manager]: Found quest: '{q.name}'.");
                             return q;
@@ -189,6 +192,22 @@ namespace Assets.Scripts.Quest_System
                 }
             }
 
+            return null;
+        }
+
+        public Quest GetAvailableMainQuest()
+        {
+            foreach (Quest q in questDatabase)
+            {
+                if (!currentGameQuests.Contains(q))
+                    if (q.requirement.Matched(currentGameQuests))
+                    {
+                        Debug.Log("[Quest manager]: An available quest was found.");
+                        return q;
+                    }
+            }
+
+            Debug.LogWarning("[Quest manager]: No available main quest was found.");
             return null;
         }
 
@@ -228,14 +247,25 @@ namespace Assets.Scripts.Quest_System
             {
                 foreach (Objective o in q.objectives)
                 {
-                    if (o.type == Objective.ObjectiveType.GetItem && newCount >= o.maxCount)
+                    if (o.type == Objective.ObjectiveType.GetItem)
                     {
-                        o.completed = true;
-                        if (menu.trackerOpen)
+                        if (o.targetId == data.item_id)
+                            o.completed = o.maxCount >= newCount;
+                        else if (o.targetId == "any" || o.targetId == "Any")
                         {
-                            Debug.Log("[Quest system]: Toggling objective.");
+                            if (inventoryManager.GetCurrentlyUsedStorage() > 0)
+                                o.completed = true;
+                            else
+                                o.completed = false;
+                        }
+                    }
+
+                    if (menu.trackerOpen)
+                    {
+                        if (trackedQuest != null && trackedQuest.id == q.id)
+                        {
                             Toggle tObjective = menu.GetTrackerObjectives().Find(t => t.text == o.description);
-                            tObjective.value = true;
+                            tObjective.value = o.completed;
                         }
                     }
                 }

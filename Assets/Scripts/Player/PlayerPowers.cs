@@ -7,12 +7,12 @@ namespace Assets.Scripts.Player
     public class PlayerPowers : MonoBehaviour
     {
         Power_Wind wind;
-        Inventory_System.Manager inventory;
+        Inventory_System.InventoryManager inventory;
         EventManager eventManager;
 
         private void Start()
         {
-            inventory = FindAnyObjectByType<Inventory_System.Manager>();
+            inventory = FindAnyObjectByType<Inventory_System.InventoryManager>();
             eventManager = FindAnyObjectByType<EventManager>();
         }
 

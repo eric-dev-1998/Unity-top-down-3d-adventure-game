@@ -13,12 +13,12 @@ namespace Assets.Scripts.Event_System
         public bool busy = false;
 
         public Quest_System.QuestManager questManager;
-        public Inventory_System.Manager inventoryManager;
+        public Inventory_System.InventoryManager inventoryManager;
 
         private void Start()
         {
             questManager = FindAnyObjectByType<Quest_System.QuestManager>();
-            inventoryManager = FindAnyObjectByType<Inventory_System.Manager>();
+            inventoryManager = FindAnyObjectByType<Inventory_System.InventoryManager>();
         }
 
         public void StartSequence(EventSequence eventSequence)
@@ -56,6 +56,11 @@ namespace Assets.Scripts.Event_System
 
             busy = false;
             yield return null;
+        }
+
+        public GameObject Find(string objectName)
+        {
+            return GameObject.Find(objectName);
         }
     }
 }

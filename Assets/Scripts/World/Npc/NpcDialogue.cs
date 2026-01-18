@@ -73,16 +73,18 @@ namespace Assets.Scripts.World.Npc
             eventManager.OnEventFinished += GetComponent<NPC>().OnSequenceEnd;
 
             // 1. Check own quest.
-            CheckOwnQuest();
+            if (CheckOwnQuest())
+                return;
 
             // 2. Check main quest.
-            CheckMainQuest();
+            if (CheckMainQuest())
+                return;
 
             // 3. Do standard dialogue.
             DoStandardDialogue();
         }
 
-        public void CheckOwnQuest()
+        public bool CheckOwnQuest()
         {
             // Is current quest active or completed?
             QuestSet.QuestState currentQuestState = GetCurrentQuestState();
@@ -96,11 +98,11 @@ namespace Assets.Scripts.World.Npc
                     Debug.LogWarning($"[Npc dialogue manager]: No dialogue at '/Resources/GameText/Dialogues/{id}/{lastQuestId}/active' was found. " +
                         $"It means either the dialogue id on the resources folder doesnt match or this " +
                         $"npc is not meant to say something about this quest.");
-                    return;
+                    return false;
                 }
 
                 eventManager.StartSequence(dialogue);
-                return;
+                return true;
             }
             else if (currentQuestState == QuestSet.QuestState.Completed)
             {
@@ -112,10 +114,11 @@ namespace Assets.Scripts.World.Npc
                     Debug.LogWarning($"[Npc dialogue manager]: No dialogue at 'Resources/GameText/Dialogues/{id}/{lastQuestId}/complete' was found. " +
                         $"It means either the dialogue id on the resources folder doesnt match or this " +
                         $"npc is not meant to say something about this quest.");
-                    return;
+                    return false;
                 }
 
                 eventManager.StartSequence(dialogue);
+                return true;
             }
             else
             {
@@ -136,7 +139,7 @@ namespace Assets.Scripts.World.Npc
 
                     // Return if 'last quest' is not completed yet.
                     if (q != null && !q.Completed())
-                        return;
+                        return false;
                 }
 
                 // Reached this point, this npc can check if there is a quest of is own
@@ -152,99 +155,100 @@ namespace Assets.Scripts.World.Npc
                         Debug.LogWarning($"[Npc dialogue manager]: No dialogue with at 'Resources/GameText/Dialogues/{id}/{availableQuest.id}/available' was found. " +
                             $"It means either the dialogue id on the resources folder doesnt match or this " +
                             $"npc is not meant to say something about this quest.");
-                        return;
+                        return false;
                     }
 
                     eventManager.StartSequence(dialogue);
                     lastQuestId = availableQuest.id;
                     onQuest = true;
-                    return;
+                    return true;
                 }
+
+                return false;
             }
 
             // This npc doesnt have any quest to talk about right now.
             // Do dont do anything here.
         }
 
-        public void CheckMainQuest()
+        public bool CheckMainQuest()
         {
+            // Get current quests: this inlcudes only 'active' and 'completed' quests.
             List<Quest> mainQuests = questManager.GetMainQuests();
+
             if (mainQuests == null || mainQuests.Count <= 0)
             {
-                // There are no main quests active yet.
-                Debug.LogError("[Quest manager]: No 'Main' quests were found in quests database.");
+                // No active or completed quests have beend found, so there is nothing to say about that.
+                // But, there may be some quests avaliable, so let's see:
 
-                // Is there any available?
-                List<Quest> mainQuestsData = questManager.GetMainQuestsData();
-                Quest nextAvailableQuest = mainQuestsData[mainQuestsData.Count - 1];
+                // Look for any available main quest:
+                Quest nextAvailableQuest = questManager.GetAvailableMainQuest();
 
-                if (mainQuests.Contains(nextAvailableQuest))
+                if (nextAvailableQuest != null)
                 {
-                    Debug.LogError("[Npc dialogue]: Found an 'available' main quests, but turns out is active already.");
-                    return;
-                }
-
-                Quest requiredQuest = questManager.FindQuest(nextAvailableQuest.requirement.questId);
-                if (requiredQuest == null)
-                {
-                    Debug.LogError("[Npc dialogue]: No quest was found to check next available quest requirements.");
-                    return;
-                }
-
-                if (nextAvailableQuest != null && nextAvailableQuest.requirement.Matched(requiredQuest))
-                {
-                    // There is an available main quest.
+                    // An available quest was found. So let's check:
 
                     if (lastMainQuestId == nextAvailableQuest.id)
                     {
+                        // This npc already said something about this npc.
                         Debug.Log($"[Npc dialogue]: Already said something about this available quest.\n'{lastMainQuestId}' == '{nextAvailableQuest.id}'");
-                        return;
+                        return false;
                     }
 
+                    // This npc haven't said anything about this available, so let them say something.
                     lastMainQuestId = nextAvailableQuest.id;
 
+                    // Start the dialogue.
                     EventSequence dialogue = Resources.Load<EventSequence>($"GameText/Dialogues/{id}/{nextAvailableQuest.id}/available");
                     if (dialogue == null)
                     {
-                        Debug.LogError($"[Npc dialogue]: No event sequence found at: 'GameText/Dialogues/{id}/{nextAvailableQuest.id}/available'," +
+                        // If this npc instance has no dialogue linked to te available main quests, it just wont do anything as
+                        // this is expected to happen in some cases, npc's are not intended to talk about every quest.
+
+                        Debug.LogWarning($"[Npc dialogue]: No event sequence found at: 'GameText/Dialogues/{id}/{nextAvailableQuest.id}/available'," +
                             $"either the asset is missing or this npc is not intended to say something about this availble quest.");
-                        return;
+                        
+                        return false;
                     }
 
                     eventManager.StartSequence(dialogue);
+                    return true;
                 }
+
+                return false;
             }
             else
             {
-                // There are main quests.
+                // There are active and/or complete main quests. So let's check:
+
+                // Get the latest quest added. This doesnt mean the last updated quest. It means
+                // the latest quest added to the list, the order on that list should not change.
                 Quest lastQuest = mainQuests[mainQuests.Count - 1];
                 if (lastQuest == null)
-                    return;
+                    return false;
 
                 // This npc may have something do say about the last quest.
                 if (lastQuest.id == lastMainQuestId)
                 {
-                    Debug.Log("Already talked about this main quest...");
                     // This npc already said something about this quest, but has the quest
                     // state changed since then?
 
+                    Debug.Log("[Npc dialogue]: This npc already talked about this main quest.");
+
                     if (lastMainQuestState == lastQuest.Completed())
                     {
-                        Debug.Log("But nothing has changed.");
-                        return;
+                        Debug.Log("But nothing has changed since then.");
+                        return false;
                     }
                     else
-                        Debug.Log("But something changed...");
+                        Debug.Log("But something changed.");
                 }
 
-                // The quest status has changed or is a new quest so this npc may want to
+                // The quest status either changed or it is a new quest so this npc may want to
                 // say something about it.
-
-                Debug.Log("Quest manager was here.");
 
                 lastMainQuestId = lastQuest.id;
                 lastMainQuestState = lastQuest.Completed();
-                //talkedAboutMainQuest = true;
 
                 string dialogueId = "";
 
@@ -259,7 +263,7 @@ namespace Assets.Scripts.World.Npc
                     dialogueId = $"{id}_{lastQuest.id}_active";
                 }
 
-                Debug.Log("So i'll say something about it.");
+                Debug.Log("[Dialogue npc]: A npc dalogue about the recently updated quest is about to start.");
 
                 EventSequence dialogueSequence = Resources.Load<EventSequence>(dialogueId);
                 if (dialogueSequence == null)
@@ -267,14 +271,15 @@ namespace Assets.Scripts.World.Npc
                     Debug.LogWarning($"[Npc dialogue manager]: No dialogue with id '{dialogueId}' was found. " +
                         $"It means either the dialogue id on the resources folder doesnt match or this " +
                         $"npc is not meant to say something about this quest.");
-                    return;
+                    return false;
                 }
 
                 eventManager.StartSequence(dialogueSequence);
+                return true;
             }
         }
 
-        public void DoStandardDialogue()
+        public bool DoStandardDialogue()
         {
             // Say something random.
 
@@ -282,16 +287,18 @@ namespace Assets.Scripts.World.Npc
             if (dialogues == null || dialogues.Count <= 0)
             {
                 Debug.LogError($"[Npc dialogue manager]: No dialogues were found for npc with id: '{id}'");
-                return;
+                return false;
             }
 
             if (dialogues.Count == 1)
                 eventManager.StartSequence(dialogues[0]);
             else
             {
-                int rnd = Random.Range(0, dialogues.Count - 1);
+                int rnd = Random.Range(0, dialogues.Count);
                 eventManager.StartSequence(dialogues[rnd]);
             }
+
+            return true;
         }
 
         public QuestSet.QuestState GetCurrentQuestState()

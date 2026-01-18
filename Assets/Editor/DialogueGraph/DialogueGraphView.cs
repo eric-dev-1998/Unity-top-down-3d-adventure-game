@@ -238,6 +238,7 @@ namespace Editor.DialogueGraph
             string path = "";
             string primaryDir = "";
             string secondaryDir = "";
+            bool isProjectRelative = false;
 
             // Read save command:
             string saveCommand = textSaveCommand.text;
@@ -248,7 +249,7 @@ namespace Editor.DialogueGraph
                 // the output event sequence if no save command was entered.
 
                 path = EditorUtility.SaveFilePanel("Build event sequence as...",
-                    Application.dataPath + "/Resources", "new_event_sequence", ".asset");
+                    Application.dataPath + "/Resources", "new_event_sequence", "asset");
             }
             else
             {
@@ -279,6 +280,8 @@ namespace Editor.DialogueGraph
                             ce = Resources.LoadAll<EventSequence>($"GameText/Dialogues/{command[1]}").Count();
                             path = $"Assets/Resources/GameText/Dialogues/{command[1]}/Standard/standard_{ce}.asset";
                         }
+
+                        isProjectRelative = true;
                         break;
 
                     case "npcq":
@@ -295,7 +298,9 @@ namespace Editor.DialogueGraph
                             AssetDatabase.CreateFolder($"Assets/Resources/GameText/Dialogues/{command[1]}", command[2]);
 
                         path = $"Assets/Resources/GameText/Dialogues/{command[1]}/{command[2]}/{command[3]}.asset";
-                        break;
+                        
+                        isProjectRelative = true;
+                        break; ;
 
                     case "cs":
 
@@ -313,12 +318,16 @@ namespace Editor.DialogueGraph
                             ce = Resources.LoadAll<EventSequence>("GameText/Cutscenes/{command[1]}").Count();
                             path = $"Assets/Resources/GameText/Cutscenes/{command[1]}/cutscene_{ce}.asset";
                         }
-                        break;
+
+                        isProjectRelative = true;
+                        break; ;
                 }
             }
 
             // Save resulting sequence to assets:
-            //path = Application.dataPath + path;
+            if (!isProjectRelative)
+                path = FileUtil.GetProjectRelativePath(path);
+
             AssetDatabase.CreateAsset(outputSequence, path);
             AssetDatabase.Refresh();
 
@@ -474,6 +483,7 @@ namespace Editor.DialogueGraph
             evt.menu.AppendAction("Add node/GameObject", (a) => { CreateNode(typeof(Assets.Editor.DialogueGraph.Nodes.GameObject), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Quest/Set state", (a) => { CreateNode(typeof(QuestSetNode), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Quest/Get state", (a) => { CreateNode(typeof(QuestState), mousePosition); }, DropdownMenuAction.Status.Normal);
+            evt.menu.AppendAction("Add node/Play animation", (a) => { CreateNode(typeof(Nodes.Animation), mousePosition); }, DropdownMenuAction.Status.Normal);
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)

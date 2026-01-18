@@ -285,7 +285,7 @@ namespace Assets.Scripts.Dialogue_System
             string content = itemText.description;
 
             itemDisplayAnimator = Camera.main.transform.Find("Item display").GetComponent<Animator>();
-            Inventory_System.Manager inventoryManager = FindAnyObjectByType<Inventory_System.Manager>();
+            Inventory_System.InventoryManager inventoryManager = FindAnyObjectByType<Inventory_System.InventoryManager>();
 
             Inventory_System.Item item = inventoryManager.itemDatabase.GetItemById(item_id);
             if (item == null)

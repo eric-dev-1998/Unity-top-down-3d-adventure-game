@@ -90,6 +90,18 @@ namespace EventSystem
                     evt6.type = p6.type;
 
                     return evt6;
+
+                case "Editor.DialogueGraph.Nodes.Animation":
+                    var p7 = saveData.properties as AnimationProperties;
+                    if (p7 == null)
+                        throw new System.Exception("Animation properties doesn't exist,");
+
+                    var evt7 = ScriptableObject.CreateInstance<Assets.Scripts.Event_system.Events.Animation>();
+                    evt7.objectName = p7.objectName;
+                    evt7.booleanName = p7.booleanName;
+                    evt7.booleanValue = p7.booleanValue;
+
+                    return evt7;
             }
 
             UnityEngine.Debug.Log("Couldnt match any event case.");

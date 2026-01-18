@@ -349,3 +349,27 @@ Npc dialogue is improving, and events are responding very well.
 
 Next:
 1. Somehow, 'lastMainQuestID' is beign set before event validating it in the code when checking for available main quests.
+
+### 01/16/2026 11:33am:
+The npc dialogue main quest check code was polished a little, but the same problem occours: some how lastMainQuestId is beign set before the manager check the available quest id.
+
+### 01/16/2026 11:45am:
+The previous problem was fixed by making the npc dialogue manager stop when a dialogue
+case started. This also helps optimiztion by avoding unnecesary quest validation processes.
+
+Right now, the npc dialogue system seems to work, it is not final though.
+
+Next:
+1. Door interaction.
+2. Sand dune interaction.
+
+### 01/16/2026
+First quest for the deser demo level has been desingned and the dialogue events have been build, but it needs the following:
+1. The inventory system will understand that an id value of "any" means inventory.count > 0.
+
+### 01/18/2026 9:38am:
+Created a new animation node for the dialogue graph editor.
+
+Next:
+1. Create a camera node for camera motion in game.
+2. Implement this 2 nodes in desert level events.

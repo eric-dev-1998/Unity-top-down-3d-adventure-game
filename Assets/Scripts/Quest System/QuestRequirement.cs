@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Event_system.Events;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Quest_System
 {
@@ -8,21 +9,23 @@ namespace Assets.Scripts.Quest_System
         public string questId;
         public QuestSet.QuestState state;
 
-        public bool Matched(Quest quest)
+        public bool Matched(List<Quest> quests)
         {
-            // Validate that 'quest' state matches this requirement state.
-
-            // Just return true if this requirement is set to none:
+            // Just return true if this quest requirement is set to none:
             if (state == QuestSet.QuestState.None)
                 return true;
 
-            // Validate:
+            foreach (Quest q in quests)
+            {
+                // Validate that 'quest' state matches this requirement state.
+                // Validate:
 
-            if (quest.Completed() && state == QuestSet.QuestState.Completed)
-                return true;
+                if (q.Completed() && state == QuestSet.QuestState.Completed)
+                    return true;
 
-            if (!quest.Completed() && state == QuestSet.QuestState.Active)
-                return true;
+                if (!q.Completed() && state == QuestSet.QuestState.Active)
+                    return true;
+            }
 
             return false;
         }

@@ -45,7 +45,7 @@ namespace Assets.Scripts.Event_system.Events
         {
             UnityEngine.Debug.Log($"[Event manager]: Item -> Get: {id}, count: {count}");
 
-            Inventory_System.Manager inventoryManager = GameObject.FindAnyObjectByType<Inventory_System.Manager>();
+            Inventory_System.InventoryManager inventoryManager = GameObject.FindAnyObjectByType<Inventory_System.InventoryManager>();
             inventoryManager.AddItem(id, count);
 
             yield return dManager.StartCoroutine(dManager.DisplayItem(id));
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Event_system.Events
         {
             UnityEngine.Debug.Log($"[Event manager]: Item -> Give: {id}, count: {count}");
 
-            Inventory_System.Manager inventoryManager = GameObject.FindAnyObjectByType<Inventory_System.Manager>();
+            Inventory_System.InventoryManager inventoryManager = GameObject.FindAnyObjectByType<Inventory_System.InventoryManager>();
             inventoryManager.ConsumeItem(id, count);
 
             yield break;
@@ -64,9 +64,10 @@ namespace Assets.Scripts.Event_system.Events
         private IEnumerator Buy(Dialogue_System.Manager dManager)
         {
             UnityEngine.Debug.Log($"[Event manager]: Item -> Buy: {id}, count: {count}");
+
             yield return dManager.StartCoroutine(dManager.DisplayItem(id));
 
-            Inventory_System.Manager inventoryManager = GameObject.FindAnyObjectByType<Inventory_System.Manager>();
+            Inventory_System.InventoryManager inventoryManager = GameObject.FindAnyObjectByType<Inventory_System.InventoryManager>();
             inventoryManager.AddItem(id, count);
         }
 
@@ -74,7 +75,7 @@ namespace Assets.Scripts.Event_system.Events
         {
             UnityEngine.Debug.Log($"[Event manager]: Item -> Sell: {id}, count: {count}");
 
-            Inventory_System.Manager inventoryManager = GameObject.FindAnyObjectByType<Inventory_System.Manager>();
+            Inventory_System.InventoryManager inventoryManager = GameObject.FindAnyObjectByType<Inventory_System.InventoryManager>();
             inventoryManager.ConsumeItem(id, count);
 
             Inventory_System.Item item = inventoryManager.itemDatabase.GetItemById(id);

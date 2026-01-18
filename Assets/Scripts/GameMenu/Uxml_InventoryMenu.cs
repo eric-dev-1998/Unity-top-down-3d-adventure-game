@@ -20,11 +20,11 @@ namespace Assets.Scripts.GameMenu
         private Button buttonClose;
         private ListView itemList;
 
-        private Inventory_System.Manager manager;
+        private Inventory_System.InventoryManager manager;
 
         private void Start()
         {
-            manager = FindAnyObjectByType<Inventory_System.Manager>();
+            manager = FindAnyObjectByType<Inventory_System.InventoryManager>();
 
             document = GetComponent<UIDocument>();
             menuPanel = document.rootVisualElement.Q<VisualElement>("Root");
