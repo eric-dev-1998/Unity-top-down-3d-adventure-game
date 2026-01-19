@@ -25,6 +25,7 @@ namespace Assets.Scripts.Event_system.Events
             anim.SetBool(booleanName, booleanValue);
             yield return new WaitForSeconds(0.2f);
             yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
+            yield return base.Process(eManager, dManager);
         }
     }
 }

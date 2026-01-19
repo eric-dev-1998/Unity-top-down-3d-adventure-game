@@ -102,6 +102,16 @@ namespace EventSystem
                     evt7.booleanValue = p7.booleanValue;
 
                     return evt7;
+
+                case "Assets.Editor.DialogueGraph.Nodes.Camera":
+                    var p8 = saveData.properties as CameraProperties;
+                    if (p8 == null)
+                        throw new System.Exception("Animation properties doesn't exist,");
+
+                    var evt8 = ScriptableObject.CreateInstance<Assets.Scripts.Event_system.Events.Camera>();
+                    evt8.target = p8.target;
+
+                    return evt8;
             }
 
             UnityEngine.Debug.Log("Couldnt match any event case.");

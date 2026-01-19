@@ -9,6 +9,7 @@ public class GameCamera : MonoBehaviour
     public Vector3 offset;
 
     public bool showDebugRay = false;
+    public bool inPosition = false;
 
     public float followSpeed = 0.5f;
     public float rotationSpeed = 0.5f;
@@ -37,6 +38,11 @@ public class GameCamera : MonoBehaviour
     {
         Vector3 targetPos = new Vector3(focus_target.position.x + offset.x, focus_target.position.y + offset.y, focus_target.position.z - targetZOffset);
         transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
+
+        if (Vector3.Distance(transform.position, targetPos) <= 0.25f)
+            inPosition = true;
+        else
+            inPosition = false;
     }
 
     void LookAtPlayer()

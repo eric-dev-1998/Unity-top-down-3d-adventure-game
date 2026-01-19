@@ -634,6 +634,7 @@ MonoBehaviour:
   focus_target: {fileID: 722169126}
   offset: {x: 0, y: 4, z: 4}
   showDebugRay: 0
+  inPosition: 0
   followSpeed: 2
   rotationSpeed: 0.5
   startAngle: 45
@@ -66496,7 +66497,8 @@ GameObject:
   - component: {fileID: 2123556055}
   - component: {fileID: 2123556054}
   - component: {fileID: 2123556053}
-  - component: {fileID: 2123556052}
+  - component: {fileID: 2123556058}
+  - component: {fileID: 2123556057}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -66504,19 +66506,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2123556052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2123556051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b623073d9b265b44cb1624d0add2bf11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Event_system.AreaTrigger
-  sequence: {fileID: 11400000, guid: 02b050b50734e7a4ab336ea2d9afce9e, type: 2}
 --- !u!65 &2123556053
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -66532,7 +66521,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -66610,6 +66599,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2123556057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123556051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: febcb9dde03d0b348b24527f5bf60bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Event_system.ItemPickup
+  item: {fileID: 11400000, guid: 61503e5fa051db644a5d5e9a986cc72c, type: 2}
+  count: 1
+  triggered: 0
+--- !u!65 &2123556058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123556051}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.25, y: 1.25, z: 1.25}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2136032874
 GameObject:
   m_ObjectHideFlags: 0

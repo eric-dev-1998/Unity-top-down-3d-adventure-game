@@ -373,3 +373,14 @@ Created a new animation node for the dialogue graph editor.
 Next:
 1. Create a camera node for camera motion in game.
 2. Implement this 2 nodes in desert level events.
+
+### 01/19/2026 11:04am:
+The first demo level (Desert) quest has been updated, camera can now focus different objects diring a event sequence and object animations can be played.
+
+Next:
+1. Door opens when interacted but doesnt do anything before that.
+2. Polish player motion animations.
+3. Add human interaction animations: Talk.
+4. Add a highlight icon for interactable objects.
+5. Add water efects: walking on shallow water, walking on deep water, water ambience sfx.
+6. Add walking effects: material based footsteps, material based step particles.
