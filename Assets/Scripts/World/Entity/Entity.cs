@@ -9,6 +9,7 @@ public class Entity : MonoBehaviour
     public EntityAnimator animator;
 
     // STEP VARIABLES
+    public float gravity = 5;
     public float stepDistance = 1f;
     public float moveSpeed = 0f;
     public float walkSpeed = 0.5f;
@@ -22,6 +23,7 @@ public class Entity : MonoBehaviour
     // VECTOR VARIABLES
     private CharacterController characterController;
     private PlayerInput playerInput;
+    private Vector3 velocity;
     private Vector3 moveVector = Vector3.zero;
 
     public RaycastHit slopeHit;
@@ -67,31 +69,39 @@ public class Entity : MonoBehaviour
         if (!isFollowingPath)
         {
             // Get move vector:
-            Vector3 moveVector = new Vector3(playerInput.GetHorizontalInput(), 0, playerInput.GetVerticalInput());
+            moveVector = new Vector3(playerInput.GetHorizontalInput(), 0, playerInput.GetVerticalInput());
 
             // Apply animation:
             animator.SetWalkBlendValue(Mathf.Clamp01(moveVector.magnitude));
 
             // Ignore movement and rotation if no input is detected.
-            if (moveVector.sqrMagnitude < 0.0001f)
+            if (moveVector.sqrMagnitude < 0.001f)
                 return;
-
-            // Apply movement speed.
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-                moveSpeed = walkSpeed;
-            else
-                moveSpeed = runSpeed;
 
             // Rotate entity based on move vector:
             float playerRotationAngle = Mathf.Rad2Deg * Mathf.Atan2(moveVector.x, moveVector.z);
             Quaternion targetRotation = Quaternion.Euler(0, playerRotationAngle, 0);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            // Apply speed modifier to move vector to move entity around:
-            moveVector *= moveSpeed * Time.deltaTime;
+            // Apply movement speed.
+            if (Input.GetKey(KeyCode.LeftShift))
+                moveSpeed = runSpeed;
+            else
+                moveSpeed = walkSpeed;
+
+            // Apply side movement:
+            Vector3 horizontal = moveVector.normalized * moveSpeed;
+
+            // Apply vertical movement:
+            if(characterController.isGrounded && velocity.y < 0)
+                velocity.y = -2f;
+            velocity.y -= gravity * Time.deltaTime;
+
+            // Combine both side and vertical movements:
+            Vector3 finalMovement = horizontal + Vector3.up * velocity.y;
 
             // Apply movement:
-            characterController.Move(moveVector);
+            characterController.Move(finalMovement * Time.deltaTime);
         }
     }
 }

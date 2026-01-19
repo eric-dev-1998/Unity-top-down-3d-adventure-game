@@ -21567,10 +21567,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce1dcf0b999536498c0d4a4e1896366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravity: 5
   stepDistance: 1
   moveSpeed: 0
-  walkSpeed: 0.5
-  runSpeed: 1.25
+  walkSpeed: 1
+  runSpeed: 1.5
   rotationSpeed: 10
   stepSmoothness: 0.05
   slopeAngle: 0
@@ -45063,6 +45064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce1dcf0b999536498c0d4a4e1896366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravity: 5
   stepDistance: 1
   moveSpeed: 0
   walkSpeed: 0.5

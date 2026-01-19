@@ -378,9 +378,10 @@ Next:
 The first demo level (Desert) quest has been updated, camera can now focus different objects diring a event sequence and object animations can be played.
 
 Next:
-1. Door opens when interacted but doesnt do anything before that.
-2. Polish player motion animations.
-3. Add human interaction animations: Talk.
-4. Add a highlight icon for interactable objects.
-5. Add water efects: walking on shallow water, walking on deep water, water ambience sfx.
-6. Add walking effects: material based footsteps, material based step particles.
+1. [] Door opens when interacted but doesnt do anything before that.
+2. [Done] Polish player motion: Apply gravity to player.
+3. [] Polish player motion animations.
+4. [] Add human interaction animations: Talk.
+5. [] Add a highlight icon for interactable objects.
+6. [] Add water efects: walking on shallow water, walking on deep water, water ambience sfx.
+7. [] Add walking effects: material based footsteps, material based step particles.
