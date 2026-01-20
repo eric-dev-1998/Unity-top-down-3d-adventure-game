@@ -9,10 +9,14 @@ namespace Assets.Scripts.Event_System.Events
     public class SingleLine : Event
     {
         public string lineId;
+        
+        public enum Type { Dialogue, World };
+        public Type type = Type.Dialogue;
 
-        public SingleLine(string text) 
+        public SingleLine(string text, Type type) 
         {
             this.lineId = text;
+            this.type = type;
         }
 
         public override IEnumerator Process(EventManager eManager, Dialogue_System.Manager dManager)
@@ -21,11 +25,22 @@ namespace Assets.Scripts.Event_System.Events
             if (!dManager.OnDialogue())
                 yield return dManager.StartCoroutine(dManager.ShowDialogueBox());
 
-            GameText.DialogueLine line = dManager.textManager.GetDialogueLine(lineId);
-            string author = line.id.Split('_')[0];
+            string text = "";
+            string author = "";
+
+            if (type == Type.Dialogue)
+            {
+                GameText.DialogueLine line = dManager.textManager.GetDialogueLine(lineId);
+                text = line.content;
+                author = line.id.Split('_')[0];
+            }
+            else if (type == Type.World)
+            {
+                text = dManager.textManager.GetWorldText(lineId);
+            }
 
             // Start writing dialogue text.
-            dManager.StartCoroutine(dManager.WriteText(author, line.content, false, null, null));
+            dManager.StartCoroutine(dManager.WriteText(author, text, false, null, null));
             yield return new WaitUntil(() => dManager.advance == true);
 
             if (next != null && next.Count != 0)

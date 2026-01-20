@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Event_System;
+using Assets.Scripts.Event_System.Events;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,12 @@ namespace Assets.Scripts.Event_system.Events
     public class Multiline : Event_System.Event
     {
         public List<String> lines = new List<String>();
+        public SingleLine.Type type = SingleLine.Type.Dialogue;
 
-        public Multiline(List<string> lines) 
+        public Multiline(List<string> lines, SingleLine.Type type) 
         {
             this.lines = lines;
+            this.type = type;
         }
 
         public override System.Collections.IEnumerator Process(Event_System.EventManager eManager, Dialogue_System.Manager dManager)
@@ -21,8 +24,21 @@ namespace Assets.Scripts.Event_system.Events
 
             foreach (string line in lines)
             {
-                GameText.DialogueLine dLine = dManager.textManager.GetDialogueLine(line);
-                dManager.StartCoroutine(dManager.WriteText(dLine.id.Split('_')[0], dLine.content, false, null, null));
+                string text = "";
+                string author = "";
+
+                if (type == SingleLine.Type.Dialogue)
+                {
+                    GameText.DialogueLine dLine = dManager.textManager.GetDialogueLine(line);
+                    text = dLine.content;
+                    author = dLine.id.Split('_')[0];
+                }
+                else if (type == SingleLine.Type.World)
+                { 
+                    text = dManager.textManager.GetWorldText(line);
+                }
+
+                dManager.StartCoroutine(dManager.WriteText(author, text, false, null, null));
                 yield return new WaitUntil(() => dManager.advance == true);
             }
 

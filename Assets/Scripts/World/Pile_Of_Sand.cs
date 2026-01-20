@@ -1,6 +1,7 @@
+using Main;
 using UnityEngine;
 
-namespace Main
+namespace Assets.Scripts.World
 {
     public class Pile_Of_Sand : MonoBehaviour
     {
