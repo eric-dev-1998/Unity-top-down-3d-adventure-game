@@ -385,3 +385,11 @@ Next:
 5. [] Add a highlight icon for interactable objects.
 6. [] Add water efects: walking on shallow water, walking on deep water, water ambience sfx.
 7. [] Add walking effects: material based footsteps, material based step particles.
+
+### 01/20/2026 15:06pm:
+Started working with player audio, specifically footsteps audio.
+
+To do:
+1. [] Re organize main player script.
+2. [] Create a physics specific class for entities.
+3. [] Modify "Footsteps.cs"  apply these changes.

@@ -1,3 +1,4 @@
+using Assets.Scripts.Player;
 using UnityEngine;
 
 public class MainPlayer : MonoBehaviour
@@ -8,8 +9,13 @@ public class MainPlayer : MonoBehaviour
     // PLAYER'S INPUT MANAGER CLASS
     private PlayerInput playerInput;
 
+    // Player audio manager:
+    private PlayerAudio playerAudio;
+
     // Player properties:
     public bool canMove = true;
+    public bool onWater = false;
+    public float currentWaterHeight = 0f;
 
     private float velocity = 0;
     private float lookDistance = 2f;
@@ -41,6 +47,8 @@ public class MainPlayer : MonoBehaviour
         // WE ASSIGN A NEW INSTANCE.
 
         playerInput = GetComponent<PlayerInput>();
+
+        playerAudio = new PlayerAudio();
 
         if(!playerInput)
         {
@@ -87,9 +95,29 @@ public class MainPlayer : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Water")
+        {
+            currentWaterHeight = other.ClosestPoint(transform.position).y;
+            onWater = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Water")
+            onWater = false;
+    }
+
     public Entity GetEntity()
     {
         return entity;
+    }
+
+    public PlayerAudio GetAudio()
+    {
+        return playerAudio;
     }
 
     public void LockMovement()
