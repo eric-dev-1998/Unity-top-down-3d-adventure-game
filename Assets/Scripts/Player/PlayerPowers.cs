@@ -1,6 +1,5 @@
 using UnityEngine;
 using Assets.Scripts.Event_System;
-using Assets.Scripts;
 
 namespace Assets.Scripts.Player
 {

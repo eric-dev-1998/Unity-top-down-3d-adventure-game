@@ -1,10 +1,10 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.UIElements;
 using Assets.Scripts.GameText;
+using Assets.Scripts.Player;
 
 namespace Assets.Scripts.Dialogue_System
 {
@@ -61,7 +61,7 @@ namespace Assets.Scripts.Dialogue_System
         private bool isAsking = false;
 
         // References the player object.
-        MainPlayer player;
+        PlayerCore player;
 
         // Dialogue system properties:
         Dialogue currentDialogue;
@@ -100,7 +100,7 @@ namespace Assets.Scripts.Dialogue_System
             buttonB = document.rootVisualElement.Q<UnityEngine.UIElements.Button>("ButtonB");
             buttonB.clicked += PickB;
 
-            player = FindAnyObjectByType<MainPlayer>();
+            player = FindAnyObjectByType<PlayerCore>();
 
             LoadAudio();
         }
@@ -128,7 +128,7 @@ namespace Assets.Scripts.Dialogue_System
             dialogueText.text = "";
             dialogueFrame.RemoveFromClassList("frame-hidden");
 
-            player.LockMovement();
+            player.GetEntity().LockMovement();
 
             audio_start.Play();
 
@@ -144,7 +144,7 @@ namespace Assets.Scripts.Dialogue_System
             dialogueText.text = "";
             dialogueFrame.AddToClassList("frame-hidden");
 
-            player.UnlockMovement();
+            player.GetEntity().UnlockMovement();
 
             audio_end.Play();
 
@@ -177,7 +177,7 @@ namespace Assets.Scripts.Dialogue_System
         public void Load()
         {
             // Load main player data.
-            player = GameObject.FindAnyObjectByType<MainPlayer>();
+            player = GameObject.FindAnyObjectByType<PlayerCore>();
 
             // Get frame object and sprites.
             frame = GameObject.Find("Dialogue_Frame");

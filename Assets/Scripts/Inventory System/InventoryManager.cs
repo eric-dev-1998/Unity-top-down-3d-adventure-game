@@ -1,9 +1,6 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using TMPro;
-using UnityEditor.XR;
 using UnityEngine;
-using UnityEngine.UI;
+using Assets.Scripts.Player;
 
 namespace Assets.Scripts.Inventory_System
 {
@@ -13,7 +10,7 @@ namespace Assets.Scripts.Inventory_System
 
         // Logic properties:
         public bool open = false;
-        private MainPlayer player;
+        private PlayerCore player;
         private Animator animator;
         private Animator animator_blackscreen;
 
@@ -29,7 +26,7 @@ namespace Assets.Scripts.Inventory_System
 
             itemDatabase = new ItemDatabase();
             animator = GetComponent<Animator>();
-            player = FindFirstObjectByType<MainPlayer>();
+            player = FindFirstObjectByType<PlayerCore>();
 
             spaces = new List<InventorySpace>();
         }

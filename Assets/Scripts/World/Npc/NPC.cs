@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine;
-
 using Assets.Scripts.Event_System;
-using Assets.Scripts.Quest_System;
-using Assets.Scripts.World.Npc;
+using Assets.Scripts.Player;
 
 namespace Assets.Scripts.World.Npc
 {
@@ -85,7 +83,7 @@ namespace Assets.Scripts.World.Npc
             }
             else
             {
-                playerTransform.GetComponent<MainPlayer>().LockMovement();
+                playerTransform.GetComponent<PlayerCore>().GetEntity().LockMovement();
 
                 TurnToPlayer();
                 TurnPlayer();
@@ -99,7 +97,7 @@ namespace Assets.Scripts.World.Npc
             float smoothSpeed = 5f;
 
             if (targetWeight != 0)
-                playerTransform.GetComponent<MainPlayer>().objectOnSight = this.transform;
+                playerTransform.GetComponent<EntityAnimator>().objectOnSight = this.transform;
 
             currentWeight = Mathf.Lerp(currentWeight, targetWeight, Time.deltaTime * smoothSpeed);
 
@@ -117,7 +115,7 @@ namespace Assets.Scripts.World.Npc
         public void OnSequenceEnd()
         {
             onEvent = false;
-            playerTransform.GetComponent<MainPlayer>().UnlockMovement();
+            playerTransform.GetComponent<Entity>().UnlockMovement();
         }
 
         private void TurnToPlayer()

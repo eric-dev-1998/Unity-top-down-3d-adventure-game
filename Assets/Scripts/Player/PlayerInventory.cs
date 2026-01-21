@@ -1,4 +1,7 @@
-using UnityEngine;
+// This class was intended to manage player inventory.
+// Now there is a different complete class to fo that: "InventoryManager" and its complementary
+// clases. The difference is, this class managed player powers, this has to be implemented to the
+// inventory manager class, probably on a separate class.
 
 [System.Serializable]
 static class PlayerInventory

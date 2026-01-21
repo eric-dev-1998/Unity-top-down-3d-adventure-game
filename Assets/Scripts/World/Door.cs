@@ -1,4 +1,5 @@
 using Assets.Scripts.World.Npc;
+using Assets.Scripts.Player;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -107,7 +108,7 @@ namespace Assets.Scripts.World
 
         private float DistanceFromPlayer()
         {
-            Vector3 playerPosition = GameObject.FindAnyObjectByType<MainPlayer>().transform.position;
+            Vector3 playerPosition = GameObject.FindAnyObjectByType<PlayerCore>().transform.position;
             float distance = Vector3.Distance(transform.position, playerPosition);
 
             return distance;
@@ -116,7 +117,7 @@ namespace Assets.Scripts.World
         IEnumerator MovePlayerTowardsDoor()
         {
             // Get player.
-            MainPlayer player = GameObject.Find("Player").GetComponent<MainPlayer>();
+            PlayerCore player = GameObject.Find("Player").GetComponent<PlayerCore>();
             Entity playerEntity = player.GetEntity();
 
             // Move player.

@@ -393,3 +393,10 @@ To do:
 1. [] Re organize main player script.
 2. [] Create a physics specific class for entities.
 3. [] Modify "Footsteps.cs"  apply these changes.
+
+PlayerCore.cs
+1. Input
+2. Entity.cs
+    1. Movement
+    2. Collision
+3. PlayerAudio.cs

@@ -5,13 +5,13 @@ namespace Assets.Scripts.Player
     [RequireComponent(typeof(AudioSource))]
     public class Footstep : MonoBehaviour
     {
-        private MainPlayer player;
+        private PlayerCore player;
         private PlayerAudio playerAudio;
         private AudioSource audio;
 
         private void Start()
         {
-            player = FindAnyObjectByType<MainPlayer>();
+            player = FindAnyObjectByType<PlayerCore>();
             playerAudio = player.GetAudio();
             audio = GetComponent<AudioSource>();
         }

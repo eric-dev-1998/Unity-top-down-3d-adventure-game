@@ -33,12 +33,12 @@ namespace Assets.Scripts.Player
 
             if (windParticles.isPlaying)
             {
-                GameObject.FindAnyObjectByType<MainPlayer>().LockMovement();
+                GameObject.FindAnyObjectByType<PlayerCore>().GetEntity().LockMovement();
                 collider.enabled = true;
             }
             else
             {
-                GameObject.FindAnyObjectByType<MainPlayer>().UnlockMovement();
+                GameObject.FindAnyObjectByType<PlayerCore>().GetEntity().UnlockMovement();
                 collider.enabled = false;
             }
         }
