@@ -3,6 +3,9 @@ using Assets.Scripts.Player;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using Assets.Scripts.Inventory_System;
+using UnityEngine.SceneManagement;
+using Assets.Scripts.Event_System;
 
 namespace Assets.Scripts.World
 {
@@ -14,7 +17,7 @@ namespace Assets.Scripts.World
 
         [Header("Lock properties:")]
         public bool locked = false;
-        public string itemId;
+        public Item neededItem;
         public int itemCount = 1;
         [TextArea]
         public string lockedDescription;
@@ -65,18 +68,18 @@ namespace Assets.Scripts.World
 
         private void Open()
         {
-            // 1. Is is locked?
-            // 1.1 Does the player have what is needed to open this door?
-            // 1.2 If so, open it.
-            // 1.3 If not, display locked description.
-            // 2. Open door if it's not locked.
-
             if (locked)
             {
-                if (PlayerInventory.Owns(itemId, itemCount))
+                InventoryManager iManager = FindAnyObjectByType<InventoryManager>();
+                if (iManager == null)
+                {
+                    Debug.LogError($"[Door('{name}')]: No inventory manager was found on scene, this door will not work.");
+                    return;
+                }
+
+                if (iManager.ConsumeItem(neededItem.item_id, 1))
                 {
                     OpenDoor();
-                    PlayerInventory.ConsumeItem(itemId, itemCount);
                     locked = false;
                 }
                 else
@@ -97,7 +100,16 @@ namespace Assets.Scripts.World
 
         private void ShowLockedDescription()
         {
+            // Find a locked door dialogue.
+            // For now, a generic dialogue will be used for every door.
 
+            EventSequence dialogue = Resources.Load<EventSequence>("GameText/Dialogues/World/Door_Locked");
+            if (dialogue != null)
+            { 
+                EventManager eManager = FindAnyObjectByType<EventManager>();
+                if(eManager != null && !eManager.busy)
+                    eManager.StartSequence(dialogue);
+            }
         }
 
         private void CloseDoor()
@@ -121,7 +133,7 @@ namespace Assets.Scripts.World
             Entity playerEntity = player.GetEntity();
 
             // Move player.
-            path.SetTargetEntity(playerEntity);
+            path.SetEntity(playerEntity);
             path.StartFollowingPath(0, false);
 
             yield return new WaitUntil(() => !path.isFollowing());
@@ -154,7 +166,7 @@ namespace Assets.Scripts.World
             yield return new WaitUntil(() => fadeAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
 
             // Load scene.
-            //SceneManager.LoadScene(sceneToLoad.name, LoadSceneMode.Single);
+            SceneManager.LoadScene(sceneToLoad.name, LoadSceneMode.Single);
         }
     }
 }

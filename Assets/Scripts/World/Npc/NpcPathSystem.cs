@@ -327,7 +327,7 @@ namespace Assets.Scripts.World.Npc
             StopMotionAnimation();
         }
 
-        public void SetTargetEntity(Entity entity)
+        public void SetEntity(Entity entity)
         { 
             targetEntity = entity;
         }
