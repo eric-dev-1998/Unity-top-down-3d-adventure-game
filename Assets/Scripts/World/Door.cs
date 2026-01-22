@@ -160,10 +160,8 @@ namespace Assets.Scripts.World
             }
 
             // Start fade animation and wait.
-            Animator fadeAnimator = GameObject.Find("BlackScreen").GetComponent<Animator>();
-            fadeAnimator.SetBool("FadeIn", true);
-            yield return new WaitForSeconds(0.5f);
-            yield return new WaitUntil(() => fadeAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
+            VFXManager vfxManager = FindAnyObjectByType<VFXManager>();
+            yield return StartCoroutine(vfxManager.PlayVFX(VFXManager.VFX.Dark_FadeIn));
 
             // Load scene.
             SceneManager.LoadScene(sceneToLoad.name, LoadSceneMode.Single);

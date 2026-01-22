@@ -390,9 +390,12 @@ Next:
 Started working with player audio, specifically footsteps audio.
 
 To do:
-1. [] Re organize main player script.
+1. [Done] Re organize main player script.
 2. [] Create a physics specific class for entities.
 3. [] Modify "Footsteps.cs"  apply these changes.
+
+### 01/21/2026 13:31pm:
+Re organized player code.
 
 PlayerCore.cs
 1. Input
@@ -400,3 +403,6 @@ PlayerCore.cs
     1. Movement
     2. Collision
 3. PlayerAudio.cs
+
+### 01/22/2026 14:16pm:
+The first demo level exit door is now working.
