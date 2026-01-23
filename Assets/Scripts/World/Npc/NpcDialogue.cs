@@ -3,6 +3,7 @@ using Assets.Scripts.Event_system.Events;
 using Assets.Scripts.Event_System;
 using Assets.Scripts.GameText;
 using Assets.Scripts.Quest_System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,8 +18,9 @@ namespace Assets.Scripts.World.Npc
 
     public class NpcDialogue : MonoBehaviour
     {
-        private Quest_System.QuestManager questManager;
-        private Event_System.EventManager eventManager;
+        private NPC npc;
+        private QuestManager questManager;
+        private EventManager eventManager;
         private TextManager textManager;
 
         private string id;
@@ -38,8 +40,9 @@ namespace Assets.Scripts.World.Npc
         private NpcQuestText nextOwnQuest;
         private NpcQuestText currentMainQuest;
 
-        public void Load(string id)
+        public void Load(string id, NPC npc)
         {
+            this.npc = npc;
             this.id = id;
 
             // Load quest manager to access actual quest list to check status.
@@ -65,12 +68,13 @@ namespace Assets.Scripts.World.Npc
                 Debug.LogError("[Npc dialogue manager]: No event manager was found on scene.");
                 return;
             }
+
+            eventManager.OnEventFinished += (() => { npc.onEvent = false; });
         }
 
         public void TriggerDialogue()
         {
             questManager.InteractedWithNPC(id);
-            eventManager.OnEventFinished += GetComponent<NPC>().OnSequenceEnd;
 
             // 1. Check own quest.
             if (CheckOwnQuest())
@@ -101,7 +105,8 @@ namespace Assets.Scripts.World.Npc
                     return false;
                 }
 
-                eventManager.StartSequence(dialogue);
+                npc.onEvent = true;
+                StartCoroutine(StartDialogue(dialogue));
                 return true;
             }
             else if (currentQuestState == QuestSet.QuestState.Completed)
@@ -117,7 +122,8 @@ namespace Assets.Scripts.World.Npc
                     return false;
                 }
 
-                eventManager.StartSequence(dialogue);
+                npc.onEvent = true;
+                StartCoroutine(StartDialogue(dialogue));
                 return true;
             }
             else
@@ -158,7 +164,8 @@ namespace Assets.Scripts.World.Npc
                         return false;
                     }
 
-                    eventManager.StartSequence(dialogue);
+                    npc.onEvent = true;
+                    StartCoroutine(StartDialogue(dialogue));
                     lastQuestId = availableQuest.id;
                     onQuest = true;
                     return true;
@@ -211,7 +218,8 @@ namespace Assets.Scripts.World.Npc
                         return false;
                     }
 
-                    eventManager.StartSequence(dialogue);
+                    npc.onEvent = true;
+                    StartCoroutine(StartDialogue(dialogue));
                     return true;
                 }
 
@@ -274,7 +282,8 @@ namespace Assets.Scripts.World.Npc
                     return false;
                 }
 
-                eventManager.StartSequence(dialogueSequence);
+                npc.onEvent = true;
+                StartCoroutine(StartDialogue(dialogueSequence));
                 return true;
             }
         }
@@ -291,13 +300,18 @@ namespace Assets.Scripts.World.Npc
             }
 
             if (dialogues.Count == 1)
-                eventManager.StartSequence(dialogues[0]);
+            {
+                npc.onEvent = true;
+                StartCoroutine(StartDialogue(dialogues[0]));
+            }
             else
             {
                 int rnd = Random.Range(0, dialogues.Count);
-                eventManager.StartSequence(dialogues[rnd]);
+                npc.onEvent = true;
+                StartCoroutine(StartDialogue(dialogues[rnd]));
             }
 
+            npc.onEvent = true;
             return true;
         }
 
@@ -317,6 +331,16 @@ namespace Assets.Scripts.World.Npc
             }
             else
                 return QuestSet.QuestState.Active;
+        }
+
+        private IEnumerator StartDialogue(EventSequence sequence)
+        {
+            npc.onPosition = false;
+            npc.playerOnPosition = false;
+
+            yield return new WaitUntil(() => npc.onPosition && npc.playerOnPosition);
+
+            eventManager.StartSequence(sequence);
         }
     }
 }

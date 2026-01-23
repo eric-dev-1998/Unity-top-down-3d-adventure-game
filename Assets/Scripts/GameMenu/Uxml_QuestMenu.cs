@@ -152,6 +152,9 @@ namespace Assets.Art.UI.UXML
                     activeOnly.Add(q);
             }
 
+            if (activeOnly == null || activeOnly.Count == 0)
+                return;
+
             activeList.itemsSource = activeOnly;
             activeList.fixedItemHeight = 64;
 
@@ -199,6 +202,9 @@ namespace Assets.Art.UI.UXML
                 if (q.Completed())
                     completeOnly.Add(q);
             }
+
+            if (completeOnly == null || completeOnly.Count == 0)
+                return;
 
             completeList.itemsSource = completeOnly;
             completeList.fixedItemHeight = 64;

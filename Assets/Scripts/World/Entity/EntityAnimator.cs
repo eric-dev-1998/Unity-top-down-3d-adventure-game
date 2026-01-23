@@ -22,7 +22,7 @@ public class EntityAnimator : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if (objectOnSight)
+        if (objectOnSight != null)
         {
             float distance = Vector3.Distance(transform.position, objectOnSight.position);
             float targetWeight = distance < lookDistance ? lookWeight : 0f;
@@ -37,8 +37,16 @@ public class EntityAnimator : MonoBehaviour
 
             smoothedTarget = Vector3.Lerp(smoothedTarget, playerHead.position, Time.deltaTime * 5f);
 
-            GetComponent<Animator>().SetLookAtWeight(currentWeight);
-            GetComponent<Animator>().SetLookAtPosition(smoothedTarget);
+            float blend = animator.GetFloat("MoveInput");
+            float runLookModifier = Mathf.Lerp(1.0f, 0.35f, blend);
+
+            GetComponent<Animator>().SetLookAtWeight(currentWeight * runLookModifier);
+
+            Vector3 target = smoothedTarget;
+            if (blend > 0.6f)
+                target.y = animator.GetBoneTransform(HumanBodyBones.Head).position.y;
+
+            GetComponent<Animator>().SetLookAtPosition(target);
         }
     }
 

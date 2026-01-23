@@ -27,6 +27,8 @@ namespace Assets.Scripts.World.Npc
         // Properties:
         public bool isLookingAtPlayer = false;
         public bool onEvent = false;
+        public bool onPosition = false;
+        public bool playerOnPosition = false;
 
         private bool isPlayerOnTrigger = false;
         private float lookDistance = 2f;
@@ -43,7 +45,7 @@ namespace Assets.Scripts.World.Npc
         private void Start()
         {
             dialogue = GetComponent<NpcDialogue>();
-            dialogue.Load(npc_id);
+            dialogue.Load(npc_id, this);
 
             eventManager = FindAnyObjectByType<EventManager>();
 
@@ -83,8 +85,6 @@ namespace Assets.Scripts.World.Npc
             }
             else
             {
-                playerTransform.GetComponent<PlayerCore>().GetEntity().LockMovement();
-
                 TurnToPlayer();
                 TurnPlayer();
             }
@@ -112,13 +112,7 @@ namespace Assets.Scripts.World.Npc
             animator.SetLookAtPosition(smoothedTarget);
         }
 
-        public void OnSequenceEnd()
-        {
-            onEvent = false;
-            playerTransform.GetComponent<Entity>().UnlockMovement();
-        }
-
-        private void TurnToPlayer()
+        public void TurnToPlayer()
         {
             // Turn npc to player.
             Vector3 direction = (playerTransform.position - transform.position).normalized;
@@ -136,14 +130,17 @@ namespace Assets.Scripts.World.Npc
             if (Quaternion.Angle(transform.rotation, targetRotation) < 10f)
             {
                 transform.rotation = targetRotation;
+                onPosition = true;
 
                 // Stop animation.
                 animator.SetBool("Turn/Enabled", false);
                 animator.SetBool("Turn/Left", false);
             }
+            else
+                onPosition = false;
         }
 
-        private void TurnPlayer()
+        public void TurnPlayer()
         {
             Animator playerAnimator = playerTransform.GetComponent<Animator>();
 
@@ -163,25 +160,14 @@ namespace Assets.Scripts.World.Npc
             if (Quaternion.Angle(playerTransform.rotation, targetPlayerRotation) < 0.5f)
             {
                 playerTransform.rotation = targetPlayerRotation;
+                playerOnPosition = true;
 
                 // Stop turn animation.
                 playerAnimator.SetBool("Turn/Enabled", false);
                 playerAnimator.SetBool("Turn/Left", false);
             }
-        }
-
-        private IEnumerator StartEvent()
-        {
-            onEvent = true;
-            Assets.Scripts.Event_System.EventManager manager = FindAnyObjectByType<Assets.Scripts.Event_System.EventManager>();
-
-            if (manager == null)
-                yield break;
-
-            manager.OnEventFinished += OnSequenceEnd;
-
-            yield return new WaitUntil(() => transform.rotation == targetRotation && playerTransform.rotation == targetPlayerRotation);
-            manager.StartSequence(eventSequence);
+            else
+                playerOnPosition = false;
         }
 
         private void OnTriggerEnter(Collider other)

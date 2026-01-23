@@ -406,3 +406,6 @@ PlayerCore.cs
 
 ### 01/22/2026 14:16pm:
 The first demo level exit door is now working.
+
+### 01/22/2026 11:45am:
+A bug with player head rotation has been fixed.
