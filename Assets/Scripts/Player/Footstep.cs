@@ -37,7 +37,7 @@ namespace Assets.Scripts.Player
                         audio.clip = playerAudio.footsteps["sfx_footsteps_sand"];
                         break;
 
-                    case "Water":
+                    case "Water" or "Water (Instance)":
                         audio.clip = playerAudio.footsteps["sfx_footsteps_water"];
                         break;
 

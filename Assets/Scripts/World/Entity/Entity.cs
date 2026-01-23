@@ -59,11 +59,17 @@ public class Entity : MonoBehaviour
                     // Star swimming if it's too deep.
                     MoveInWater();
                 }
+                else if (playerDeepValue > 0.25f && playerDeepValue < waterDeepLimit)
+                {
+                    // Play heavy walk motion:
+                    entityAnimator.animator.SetBool("Water/Enabled", true);
+                    moveSpeed *= 0.5f;
+                    Move();
+                }
                 else
                 {
                     // Slow down while walking on water.
-                    moveSpeed *= 1 - (playerDeepValue / waterDeepLimit);
-                    moveSpeed += 0.6f;
+                    entityAnimator.animator.SetBool("Water/Enabled", false);
                     Move();
                 }
             }
@@ -121,7 +127,7 @@ public class Entity : MonoBehaviour
 
     public void MoveInWater()
     { 
-        
+        // Swim motion.
     }
 
     public void LockMovement()

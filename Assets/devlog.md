@@ -407,5 +407,17 @@ PlayerCore.cs
 ### 01/22/2026 14:16pm:
 The first demo level exit door is now working.
 
-### 01/22/2026 11:45am:
+### 01/23/2026 11:45am:
 A bug with player head rotation has been fixed.
+
+### 01/23/2026 14:23pm:
+Human animation have been polished a little and they work for now.
+
+Next: 
+Add animation/motion for: walk on deep water
+
+### 01/23/2026 15:01pm:
+Added motion animation for walking on deep water.
+
+Next:
+Add water motion sfx.

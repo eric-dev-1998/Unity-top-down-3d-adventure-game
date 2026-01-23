@@ -67,9 +67,13 @@ namespace Assets.Scripts.World.Npc
                 if (!entity.isFollowingPath)
                 {
                     // Turn npc back to its original position.
-                    transform.rotation = Quaternion.Slerp(transform.rotation, originalRotation, Time.deltaTime * 2);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, originalRotation, Time.deltaTime * 4);
+                    animator.SetBool("Turn/Enabled", true);
                     if (Quaternion.Angle(transform.rotation, originalRotation) < 0.005f)
+                    {
                         transform.rotation = originalRotation;
+                        animator.SetBool("Turn/Enabled", false);
+                    }
                 }
 
                 // Try trigger event if player is on trigger and action input is detected.
@@ -118,23 +122,18 @@ namespace Assets.Scripts.World.Npc
             Vector3 direction = (playerTransform.position - transform.position).normalized;
             direction.y = 0;
             targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 4);
 
             // Play animation.
             animator.SetBool("Turn/Enabled", true);
-            if (targetRotation.eulerAngles.y > transform.eulerAngles.y)
-                animator.SetBool("Turn/Left", false);
-            else
-                animator.SetBool("Turn/Left", true);
 
-            if (Quaternion.Angle(transform.rotation, targetRotation) < 10f)
+            if (Quaternion.Angle(transform.rotation, targetRotation) < 0.005f)
             {
                 transform.rotation = targetRotation;
                 onPosition = true;
 
                 // Stop animation.
                 animator.SetBool("Turn/Enabled", false);
-                animator.SetBool("Turn/Left", false);
             }
             else
                 onPosition = false;
@@ -157,7 +156,7 @@ namespace Assets.Scripts.World.Npc
             else
                 playerAnimator.SetBool("Turn/Left", true);
 
-            if (Quaternion.Angle(playerTransform.rotation, targetPlayerRotation) < 0.5f)
+            if (Quaternion.Angle(playerTransform.rotation, targetPlayerRotation) < 0.005f)
             {
                 playerTransform.rotation = targetPlayerRotation;
                 playerOnPosition = true;
