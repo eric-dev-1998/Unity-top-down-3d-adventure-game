@@ -23,9 +23,11 @@ public class Entity : MonoBehaviour
 
     private Vector3 velocity;
     private Vector3 moveVector = Vector3.zero;
+    private PhysicsMaterial currentGroundMaterial;
 
     // Case specific properties:
-    private bool onWater = false;
+    public bool onWater = false;
+    public bool onDeepWater = false;
     private float currentWaterBodyHeight = 0f;
 
 
@@ -58,18 +60,21 @@ public class Entity : MonoBehaviour
                 {
                     // Star swimming if it's too deep.
                     MoveInWater();
+                    onDeepWater = false;
                 }
                 else if (playerDeepValue > 0.25f && playerDeepValue < waterDeepLimit)
                 {
                     // Play heavy walk motion:
                     entityAnimator.animator.SetBool("Water/Enabled", true);
                     moveSpeed *= 0.5f;
+                    onDeepWater = true;
                     Move();
                 }
                 else
                 {
                     // Slow down while walking on water.
                     entityAnimator.animator.SetBool("Water/Enabled", false);
+                    onDeepWater = false;
                     Move();
                 }
             }
@@ -159,6 +164,22 @@ public class Entity : MonoBehaviour
     public bool isPlayer()
     {
         return gameObject.name == "Player";
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.point.y < transform.position.y + 0.075f)
+        {
+            currentGroundMaterial = hit.collider.material;
+        }
+    }
+
+    public PhysicsMaterial GetGroundSurfaceMaterial()
+    {
+        if (!characterController.isGrounded)
+            return null;
+
+        return currentGroundMaterial;
     }
 }
 

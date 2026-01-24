@@ -9,7 +9,6 @@ namespace Assets.Scripts.Player
         private PlayerAudio playerAudio;
 
         public bool canMove = true;
-        public bool onWater = false;
         public float currentWaterHeight = 0f;
 
         private float velocity = 0;
@@ -25,7 +24,7 @@ namespace Assets.Scripts.Player
                     Application.Quit();
             }
 
-            playerAudio = new PlayerAudio();
+            playerAudio = GetComponent<PlayerAudio>();
 
             playerInput = GetComponent<PlayerInput>();
             if (!playerInput)
