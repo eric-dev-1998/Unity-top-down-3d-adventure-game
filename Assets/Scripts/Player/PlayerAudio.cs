@@ -10,6 +10,9 @@ namespace Assets.Scripts.Player
         private PlayerCore core;
         public Dictionary<string, AudioClip> footsteps;
 
+        private float lastStepTime = 0f;
+        private float stepCooldown = 0.15f;
+
         private AudioSource footstep;
 
         private void Start()
@@ -45,6 +48,17 @@ namespace Assets.Scripts.Player
 
         public void OnFootstep()
         {
+            if (!GetComponent<CharacterController>().isGrounded)
+                return;
+
+            if (core.GetEntity().currentVelocity.magnitude < 0.1f)
+                return;
+
+            if (Time.time - lastStepTime < stepCooldown)
+                return;
+
+            lastStepTime = Time.time;
+
             if (core.GetEntity().onWater)
             {
                 if (core.GetEntity().onDeepWater)

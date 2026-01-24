@@ -421,3 +421,8 @@ Added motion animation for walking on deep water.
 
 Next:
 Add water motion sfx.
+
+### 01/24/2026 10:58pm:
+Updated footsteps logic.
+
+Next: Polish animations a little more.

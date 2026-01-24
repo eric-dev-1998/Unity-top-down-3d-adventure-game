@@ -5,7 +5,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     // Core properties:
-    private EntityAnimator entityAnimator;
+    public EntityAnimator entityAnimator;
     private CharacterController characterController;
     private PlayerInput playerInput;
     private EventManager eventManager;
@@ -20,8 +20,12 @@ public class Entity : MonoBehaviour
     public float walkSpeed = 0.5f;
     public float runSpeed = 1f;
     public float rotationSpeed = 10f;
+    private float animSpeed;
+    private float acceleration = 12f;
+    private float deceleration = 18f;
 
     private Vector3 velocity;
+    public Vector3 currentVelocity = Vector3.zero;
     private Vector3 moveVector = Vector3.zero;
     private PhysicsMaterial currentGroundMaterial;
 
@@ -45,9 +49,9 @@ public class Entity : MonoBehaviour
         {
             // Apply movement speed.
             if (Input.GetKey(KeyCode.LeftShift))
-                moveSpeed = runSpeed;
-            else
                 moveSpeed = walkSpeed;
+            else
+                moveSpeed = runSpeed;
 
             if (onWater)
             {
@@ -102,37 +106,40 @@ public class Entity : MonoBehaviour
             // Get move vector:
             moveVector = new Vector3(playerInput.GetHorizontalInput(), 0, playerInput.GetVerticalInput());
 
-            // Apply animation:
-            entityAnimator.SetWalkBlendValue(Mathf.Clamp01(moveVector.magnitude));
+            // This prevents the player to rorate back to zero degrees.
+            if (moveVector.magnitude > 0.001f)
+            {
+                // Rotate entity based on move vector:
+                float playerRotationAngle = Mathf.Rad2Deg * Mathf.Atan2(moveVector.x, moveVector.z);
+                Quaternion targetRotation = Quaternion.Euler(0, playerRotationAngle, 0);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
 
-            // Ignore movement and rotation if no input is detected.
-            if (moveVector.sqrMagnitude < 0.001f)
-                return;
-
-            // Rotate entity based on move vector:
-            float playerRotationAngle = Mathf.Rad2Deg * Mathf.Atan2(moveVector.x, moveVector.z);
-            Quaternion targetRotation = Quaternion.Euler(0, playerRotationAngle, 0);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-            // Apply side movement:
-            Vector3 horizontal = moveVector.normalized * moveSpeed;
+            // Apply acceleration:
+            Vector3 targetVelocity = moveVector.sqrMagnitude > 0.001f ? moveVector.normalized * moveSpeed : Vector3.zero;
+            float accel = moveVector.sqrMagnitude > 0.01f ? acceleration : deceleration;
+            currentVelocity = Vector3.MoveTowards(currentVelocity, targetVelocity, accel * Time.deltaTime);
 
             // Apply vertical movement:
-            if(characterController.isGrounded && velocity.y < 0)
+            if (characterController.isGrounded && velocity.y < 0)
                 velocity.y = -2f;
             velocity.y -= gravity * Time.deltaTime;
 
-            // Combine both side and vertical movements:
-            Vector3 finalMovement = horizontal + Vector3.up * velocity.y;
+            Vector3 finalMove = currentVelocity;
+            finalMove.y = velocity.y;
+            characterController.Move(finalMove * Time.deltaTime);
 
-            // Apply movement:
-            characterController.Move(finalMovement * Time.deltaTime);
+            // Apply to animation:
+            float targetAnimSpeed = currentVelocity.magnitude / moveSpeed;
+            animSpeed = Mathf.Lerp(animSpeed, targetAnimSpeed, Time.deltaTime * 10f);
+            entityAnimator.SetWalkBlendValue(animSpeed);
         }
     }
 
     public void MoveInWater()
-    { 
+    {
         // Swim motion.
+        Debug.Log("Water movement");
     }
 
     public void LockMovement()
