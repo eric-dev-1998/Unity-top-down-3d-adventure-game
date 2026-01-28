@@ -1,5 +1,6 @@
 using Assets.Scripts.Event_System;
 using Assets.Scripts.Player;
+using Assets.Scripts.World;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -159,13 +160,18 @@ public class Entity : MonoBehaviour
         {
             onWater = true;
             currentWaterBodyHeight = other.transform.position.y;
+
+            other.GetComponent<Water>().playerEntity = this;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Water")
+        if (other.tag == "Water")
+        {
             onWater = false;
+            other.GetComponent<Water>().playerEntity = null;
+        }
     }
 
     public bool isPlayer()

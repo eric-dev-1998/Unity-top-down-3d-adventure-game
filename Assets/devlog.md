@@ -426,3 +426,15 @@ Add water motion sfx.
 Updated footsteps logic.
 
 Next: Polish animations a little more.
+
+### 01/24/2026 12:12pm:
+Improved player movement, animation and footstep sfx sync.
+
+Next:
+Imlpement water ripple and splash effects.
+
+### 01/28/2026 13:29pm:
+Water distortion vfx has been implemented
+
+Next:
+Imlpement water splash vfx.

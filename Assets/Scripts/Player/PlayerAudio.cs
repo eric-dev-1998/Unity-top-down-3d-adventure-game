@@ -46,7 +46,17 @@ namespace Assets.Scripts.Player
             Debug.Log("[Player][Audio]: Footsteps audio clips were loaded.");
         }
 
-        public void OnFootstep()
+        public void OnLeftFootstep()
+        {
+            OnFootstep(true);
+        }
+
+        public void OnRightFootstep()
+        {
+            OnFootstep(false);
+        }
+
+        public void OnFootstep(bool left)
         {
             if (!GetComponent<CharacterController>().isGrounded)
                 return;
@@ -64,7 +74,14 @@ namespace Assets.Scripts.Player
                 if (core.GetEntity().onDeepWater)
                     footstep.PlayOneShot(footsteps["sfx_footsteps_water_deep"]);
                 else
+                {
                     footstep.PlayOneShot(footsteps["sfx_footsteps_water"]);
+                    if (left)
+                        transform.Find("Armature/Hips/LeftLeg/LeftKnee/LeftAnkle/Water_Splash").GetComponent<ParticleSystem>().Play();
+                    else
+                        transform.Find("Armature/Hips/RightLeg/RightKnee/RightAnkle/Water_Splash").GetComponent<ParticleSystem>().Play();
+
+                }
             }
             else
             {
