@@ -438,3 +438,8 @@ Water distortion vfx has been implemented
 
 Next:
 Imlpement water splash vfx.
+
+### 01/29/2026 13:52pm:
+Implemented water splash vfx.
+
+Next: Add wind sfx to the desert level.

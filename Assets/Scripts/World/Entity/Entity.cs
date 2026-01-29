@@ -33,7 +33,7 @@ public class Entity : MonoBehaviour
     // Case specific properties:
     public bool onWater = false;
     public bool onDeepWater = false;
-    private float currentWaterBodyHeight = 0f;
+    public float currentWaterBodyHeight = 0f;
 
 
     void Start()

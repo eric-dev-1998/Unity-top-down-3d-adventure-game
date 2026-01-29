@@ -64,10 +64,12 @@ namespace Assets.Scripts.Player
             if (core.GetEntity().currentVelocity.magnitude < 0.1f)
                 return;
 
+            /*
             if (Time.time - lastStepTime < stepCooldown)
                 return;
 
             lastStepTime = Time.time;
+            */
 
             if (core.GetEntity().onWater)
             {
@@ -76,11 +78,41 @@ namespace Assets.Scripts.Player
                 else
                 {
                     footstep.PlayOneShot(footsteps["sfx_footsteps_water"]);
-                    if (left)
-                        transform.Find("Armature/Hips/LeftLeg/LeftKnee/LeftAnkle/Water_Splash").GetComponent<ParticleSystem>().Play();
-                    else
-                        transform.Find("Armature/Hips/RightLeg/RightKnee/RightAnkle/Water_Splash").GetComponent<ParticleSystem>().Play();
+                    ParticleSystem leftSplash = transform.Find("Armature/Hips/LeftLeg/LeftKnee/LeftAnkle/Water_Splash").GetComponent<ParticleSystem>();
+                    ParticleSystem rightSplash = transform.Find("Armature/Hips/RightLeg/RightKnee/RightAnkle/Water_Splash").GetComponent<ParticleSystem>();
 
+                    leftSplash.transform.position = new Vector3(
+                        leftSplash.transform.position.x,
+                        core.GetEntity().currentWaterBodyHeight,
+                        leftSplash.transform.position.z);
+
+                    rightSplash.transform.position = new Vector3(
+                        rightSplash.transform.position.x,
+                        core.GetEntity().currentWaterBodyHeight,
+                        rightSplash.transform.position.z);
+
+                    if (leftSplash == null || rightSplash == null)
+                    {
+                        Debug.LogError("[Player][VFX]: No splash particle vfx was found.");
+                        return;
+                    }
+
+                    if (left)
+                    {
+                        if (!leftSplash.isPlaying)
+                            leftSplash.Play();
+
+                        leftSplash.Emit(1);
+                    }
+                    else
+                    {
+                        if (!rightSplash.isPlaying)
+                            rightSplash.Play();
+
+                        leftSplash.Emit(1);
+                    }
+
+                    Debug.Log("Emitted water splash.");
                 }
             }
             else
@@ -97,10 +129,10 @@ namespace Assets.Scripts.Player
                 {
                     case "Sand" or "Sand (Instance)":
                         footstep.PlayOneShot(footsteps["sfx_footsteps_sand"]);
-                        break;
-
-                    case "Water" or "Water (Instace)":
-                        footstep.PlayOneShot(footsteps["sfx_footsteps_water"]);
+                        if (left)
+                            transform.Find("Armature/Hips/LeftLeg/LeftKnee/LeftAnkle/Sand").GetComponent<ParticleSystem>().Emit(1);
+                        else
+                            transform.Find("Armature/Hips/RightLeg/RightKnee/RightAnkle/Sand").GetComponent<ParticleSystem>().Emit(1);
                         break;
 
                     default:
