@@ -91,12 +91,6 @@ namespace Assets.Scripts.Player
                         core.GetEntity().currentWaterBodyHeight,
                         rightSplash.transform.position.z);
 
-                    if (leftSplash == null || rightSplash == null)
-                    {
-                        Debug.LogError("[Player][VFX]: No splash particle vfx was found.");
-                        return;
-                    }
-
                     if (left)
                     {
                         if (!leftSplash.isPlaying)
@@ -109,10 +103,8 @@ namespace Assets.Scripts.Player
                         if (!rightSplash.isPlaying)
                             rightSplash.Play();
 
-                        leftSplash.Emit(1);
+                        rightSplash.Emit(1);
                     }
-
-                    Debug.Log("Emitted water splash.");
                 }
             }
             else
