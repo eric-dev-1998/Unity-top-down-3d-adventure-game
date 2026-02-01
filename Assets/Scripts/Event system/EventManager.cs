@@ -2,6 +2,7 @@
 using UnityEngine;
 using Assets.Scripts.Event_System;
 using System;
+using Assets.Scripts.Event_system;
 
 namespace Assets.Scripts.Event_System
 {
@@ -15,10 +16,13 @@ namespace Assets.Scripts.Event_System
         public Quest_System.QuestManager questManager;
         public Inventory_System.InventoryManager inventoryManager;
 
+        public IconManager iconManager;
+
         private void Start()
         {
             questManager = FindAnyObjectByType<Quest_System.QuestManager>();
             inventoryManager = FindAnyObjectByType<Inventory_System.InventoryManager>();
+            iconManager = new IconManager(this);
         }
 
         public void StartSequence(EventSequence eventSequence)

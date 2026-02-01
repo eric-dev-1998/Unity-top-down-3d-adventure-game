@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Assets.Scripts.Event_System;
 using Assets.Scripts.Player;
+using Assets.Scripts.Event_system;
 
 namespace Assets.Scripts.World.Npc
 {
@@ -10,10 +11,7 @@ namespace Assets.Scripts.World.Npc
     {
         // NPC Name:
         public string npc_id = "";
-
         private NpcDialogue dialogue;
-
-        public EventSequence eventSequence;
 
         // NPC entity:
         // Used to acces the animator controller component and path system.
@@ -172,13 +170,21 @@ namespace Assets.Scripts.World.Npc
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
+            {
                 isPlayerOnTrigger = true;
+
+                eventManager.iconManager.GetIcon(IconManager.IconType.Interaction, transform.Find("Icon"));
+            }
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (other.tag == "Player")
+            {
                 isPlayerOnTrigger = false;
+
+                eventManager.iconManager.RetrieveIcon(IconManager.IconType.Interaction);
+            }
         }
     }
 }

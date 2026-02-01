@@ -443,3 +443,14 @@ Imlpement water splash vfx.
 Implemented water splash vfx.
 
 Next: Add wind sfx to the desert level.
+
+### 01/30/2026 10:56am:
+Wind sfx implementation will be posponed.
+
+Next:
+1. Add an interaction icon to be displayed over interactable objects.
+2. Add a talking animation for npc interactions.
+3. The door is probably implemented, test and fix or implement if needed.
+
+### 02/01/2026 17:59pm:
+The interaction icon has been implemented.
