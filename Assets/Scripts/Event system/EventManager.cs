@@ -18,6 +18,8 @@ namespace Assets.Scripts.Event_System
 
         public IconManager iconManager;
 
+        public GameObject owner;
+
         private void Start()
         {
             questManager = FindAnyObjectByType<Quest_System.QuestManager>();
@@ -39,6 +41,25 @@ namespace Assets.Scripts.Event_System
                 return;
             }
 
+            currentEventSequence = eventSequence;
+            StartCoroutine(ProcessSequence());
+        }
+
+        public void StartSequence(EventSequence eventSequence, GameObject owner)
+        {
+            if (busy)
+            {
+                Debug.LogWarning("[Event manager]: Event manager is currently bussy.");
+                return;
+            }
+
+            if (eventSequence == null)
+            {
+                Debug.LogWarning("[Event manager]: The selected event sequence is null or is corrupted. Operation aborted.");
+                return;
+            }
+
+            this.owner = owner;
             currentEventSequence = eventSequence;
             StartCoroutine(ProcessSequence());
         }

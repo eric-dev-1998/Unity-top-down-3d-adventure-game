@@ -454,3 +454,19 @@ Next:
 
 ### 02/01/2026 17:59pm:
 The interaction icon has been implemented.
+
+Next:
+1. Add a talking animation for npc interactions:
+    1. Talk
+    2. Accept
+    3. Decline
+
+### 02/03/2026 13:51pm:
+Talk animation for npc has been implemented.
+
+Node: Player action animations should be implemented as a dialogue node so following events continue after the animation is played.
+
+Next:
+1. Add pending npc animations:
+    1. Accept
+    2. Decline

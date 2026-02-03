@@ -7,7 +7,7 @@ using Assets.Scripts.Event_system;
 namespace Assets.Scripts.World.Npc
 {
     [RequireComponent(typeof(NpcDialogue))]
-    public class NPC : MonoBehaviour
+    public class NpcCore : MonoBehaviour
     {
         // NPC Name:
         public string npc_id = "";

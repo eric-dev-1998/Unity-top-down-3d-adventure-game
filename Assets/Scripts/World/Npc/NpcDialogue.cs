@@ -18,7 +18,7 @@ namespace Assets.Scripts.World.Npc
 
     public class NpcDialogue : MonoBehaviour
     {
-        private NPC npc;
+        private NpcCore npc;
         private QuestManager questManager;
         private EventManager eventManager;
         private TextManager textManager;
@@ -40,7 +40,7 @@ namespace Assets.Scripts.World.Npc
         private NpcQuestText nextOwnQuest;
         private NpcQuestText currentMainQuest;
 
-        public void Load(string id, NPC npc)
+        public void Load(string id, NpcCore npc)
         {
             this.npc = npc;
             this.id = id;
@@ -340,7 +340,7 @@ namespace Assets.Scripts.World.Npc
 
             yield return new WaitUntil(() => npc.onPosition && npc.playerOnPosition);
 
-            eventManager.StartSequence(sequence);
+            eventManager.StartSequence(sequence, gameObject);
         }
     }
 }

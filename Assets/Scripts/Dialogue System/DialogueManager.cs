@@ -5,6 +5,10 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using Assets.Scripts.GameText;
 using Assets.Scripts.Player;
+using Assets.Scripts.Event_System;
+using Assets.Scripts.World.Npc;
+using System.Linq;
+using Unity.VisualScripting;
 
 namespace Assets.Scripts.Dialogue_System
 {
@@ -312,6 +316,8 @@ namespace Assets.Scripts.Dialogue_System
 
         public IEnumerator WriteText(string author, string line, bool isQuestion, string a, string b)
         {
+            StartCoroutine(PlayAuthorAnimation(author));
+
             chooseA = false;
             chooseB = false;
 
@@ -374,6 +380,29 @@ namespace Assets.Scripts.Dialogue_System
 
             // Reset writting state to false.
             isWriting = false;
+        }
+
+        private IEnumerator PlayAuthorAnimation(string author)
+        {
+            var npcs = FindObjectsByType<NpcCore>(FindObjectsSortMode.None).ToList();
+            NpcCore npc = npcs.Find(n => n.npc_id == author.FirstCharacterToUpper());
+
+            if (npc == null)
+            {
+                // Return if no npc was found.
+
+                Debug.LogError($"[Dialogue manager]: Tried to play talk animation for '{author.FirstCharacterToUpper()}', but the npc object was not found on the scene.");
+                yield break;
+            }
+
+            // Play animation.
+            Animator anim = npc.GetComponent<Animator>();
+            anim.SetBool("Action/Talk", true);
+
+            yield return new WaitForSeconds(0.1f);
+            yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.78f);
+
+            anim.SetBool("Action/Talk", false);
         }
     }
 }
