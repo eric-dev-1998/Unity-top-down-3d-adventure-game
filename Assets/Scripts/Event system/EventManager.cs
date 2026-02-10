@@ -3,6 +3,8 @@ using UnityEngine;
 using Assets.Scripts.Event_System;
 using System;
 using Assets.Scripts.Event_system;
+using Assets.Scripts.World.Npc;
+using System.Linq;
 
 namespace Assets.Scripts.Event_System
 {
@@ -86,6 +88,19 @@ namespace Assets.Scripts.Event_System
         public GameObject Find(string objectName)
         {
             return GameObject.Find(objectName);
+        }
+
+        public Entity FindEntity(string id)
+        {
+            var entitiesOnScene = FindObjectsByType<NpcCore>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
+            if (entitiesOnScene.Count == 0)
+                Debug.LogError("[Event manager]: No npc was found on current scene.");
+
+            Entity res = entitiesOnScene.Find(e => e.npc_id == id).GetEntity();
+            if (!res)
+                Debug.LogErrorFormat($"[Event manager]: No npc with id: '{id}' was found on current scene.");
+
+            return res;
         }
     }
 }

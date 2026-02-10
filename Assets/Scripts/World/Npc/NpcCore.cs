@@ -167,6 +167,11 @@ namespace Assets.Scripts.World.Npc
                 playerOnPosition = false;
         }
 
+        public Entity GetEntity()
+        {
+            return entity;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")

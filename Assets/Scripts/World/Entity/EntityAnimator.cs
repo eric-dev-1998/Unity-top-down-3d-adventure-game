@@ -1,4 +1,8 @@
+using Assets.Scripts.World.Npc;
 using System;
+using System.Collections;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EntityAnimator : MonoBehaviour
@@ -59,5 +63,17 @@ public class EntityAnimator : MonoBehaviour
     {
         float targetValue = Mathf.SmoothDamp(animator.GetFloat("MoveInput"), 0, ref velocity, Time.deltaTime * 0.03f);
         animator.SetFloat("MoveInput", targetValue);
+    }
+
+    public IEnumerator PlayGesture(int value)
+    {
+        animator.SetBool("Gesture/Active", true);
+        animator.SetFloat("Gesture/Value", 1);
+
+        yield return new WaitForSeconds(0.1f);
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.78f);
+
+        animator.SetBool("Gesture/Active", false);
+        animator.SetFloat("Gesture/Value", 0);
     }
 }

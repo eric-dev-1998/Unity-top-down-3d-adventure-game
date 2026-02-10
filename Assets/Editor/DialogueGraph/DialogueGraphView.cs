@@ -479,6 +479,7 @@ namespace Editor.DialogueGraph
             evt.menu.AppendAction("Add node/Dialogue/Line", (a) => { CreateNode(typeof(Line), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Dialogue/Multiline", (a) => { CreateNode(typeof(Multiline), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Dialogue/Question", (a) => { CreateNode(typeof(Question), mousePosition); }, DropdownMenuAction.Status.Normal);
+            evt.menu.AppendAction("Add node/Dialogue/Play human gesture", (a) => { CreateNode(typeof(HumanGesture), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Player/Item", (a) => { CreateNode(typeof(Item), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/GameObject", (a) => { CreateNode(typeof(Assets.Editor.DialogueGraph.Nodes.GameObject), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Quest/Set state", (a) => { CreateNode(typeof(QuestSetNode), mousePosition); }, DropdownMenuAction.Status.Normal);

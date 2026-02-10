@@ -467,6 +467,44 @@ Talk animation for npc has been implemented.
 Node: Player action animations should be implemented as a dialogue node so following events continue after the animation is played.
 
 Next:
-1. Add pending npc animations:
+1. Find some human animations:
     1. Accept
     2. Decline
+2. Add animations to the animation controllers.
+    1. Player
+    2. Npc
+3. Adjust animations if needed.
+
+### 02/10/2026 10:34pm:
+Currently, human animators use a boolean to determine when a character plays the talk animation.
+That is going to change, a int value will be used instead to select actions by id:
+
+Right now:
+    1 -> talk
+    2 -> say yes
+    3 -> say no
+    n -> etc...
+
+How does this affect?:
+    Dialogue system code will change a little, animator.SetBool() will change to animator.SetInteger().
+
+### 02/010/2026 11:14am:
+Human gestures: talk, say yes, say no have been added to both player and npc human animator controllers.
+Human gesture animations should be played from the entity class, which will be called from the event sequence when the event takes place.
+
+Next:
+1. [Done] Code entity gesture animation function.
+2. Create gesture animation node:
+    1. [Done] Create the node properties.
+    2. [Done] Design node ui.
+    3. [Done] Create the node class.
+    4. [Done] Create the event class.
+    4. [Done] Implement to node factory.
+3. Test
+
+### 02/10/2026 15:45pm:
+Human gesture node has been created.
+
+Next:
+1. Fix an error that prevents the event manager from wating when waitUntilFinish is set to true.
+2. Test

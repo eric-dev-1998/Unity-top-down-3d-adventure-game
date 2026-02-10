@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:TextField label="Character id:" placeholder-text="id..." name="Character" hide-placeholder-on-focus="false"/>
+    <ui:DropdownField label="Gesture:" name="GestureType" choices="Talk,SayYes,SayNo" index="0"/>
+    <ui:Toggle label="Wait for animation to end" name="Wait" value="true"/>
+</ui:UXML>

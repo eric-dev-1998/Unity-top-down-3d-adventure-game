@@ -106,12 +106,24 @@ namespace EventSystem
                 case "Assets.Editor.DialogueGraph.Nodes.Camera":
                     var p8 = saveData.properties as CameraProperties;
                     if (p8 == null)
-                        throw new System.Exception("Animation properties doesn't exist,");
+                        throw new System.Exception("Camera properties doesn't exist,");
 
                     var evt8 = ScriptableObject.CreateInstance<Assets.Scripts.Event_system.Events.Camera>();
                     evt8.target = p8.target;
 
                     return evt8;
+
+                case "Assets.Editor.DialogueGraph.Nodes.HumanGesture":
+                    var p9 = saveData.properties as GestureProperties;
+                    if (p9 == null)
+                        throw new System.Exception("Gesture properties doesn't exist,");
+
+                    var evt9 = ScriptableObject.CreateInstance<Assets.Scripts.Event_system.Events.HumanGesture>();
+                    evt9.characterId = p9.characterName;
+                    evt9.gestureType = (int)p9.gestureType;
+                    evt9.wait = p9.waitUntilFinish;
+
+                    return evt9;
             }
 
             UnityEngine.Debug.Log("Couldnt match any event case.");
