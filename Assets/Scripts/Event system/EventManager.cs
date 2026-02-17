@@ -92,6 +92,9 @@ namespace Assets.Scripts.Event_System
 
         public Entity FindEntity(string id)
         {
+            if (id == "Player" || id == "player")
+                return Find("Player").GetComponent<Entity>();
+
             var entitiesOnScene = FindObjectsByType<NpcCore>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
             if (entitiesOnScene.Count == 0)
                 Debug.LogError("[Event manager]: No npc was found on current scene.");

@@ -23,7 +23,12 @@ namespace Assets.Scripts.Event_system.Events
             // Find target character entity.
             Entity e = eManager.FindEntity(characterId);
             if (!e)
+            {
+                UnityEngine.Debug.LogError($"[Event manager]: No npc was found to play a gesture animation.");
                 yield break;
+            }
+
+            UnityEngine.Debug.Log($"Wait: {wait}");
 
             // Play gesture animation.
             if (wait)
@@ -32,7 +37,7 @@ namespace Assets.Scripts.Event_system.Events
                 eManager.StartCoroutine(e.entityAnimator.PlayGesture(gestureType));
 
             // Continue.
-            yield return next[0].Process(eManager, dManager);
+            yield return eManager.StartCoroutine(base.Process(eManager, dManager));
         }
     }
 }

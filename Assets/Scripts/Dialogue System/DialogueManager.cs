@@ -316,7 +316,7 @@ namespace Assets.Scripts.Dialogue_System
 
         public IEnumerator WriteText(string author, string line, bool isQuestion, string a, string b)
         {
-            //PlayAuthorAnimation(author);
+            PlayAuthorAnimation(author);
 
             chooseA = false;
             chooseB = false;
@@ -396,7 +396,7 @@ namespace Assets.Scripts.Dialogue_System
             }
 
             // Play animation.
-            StartCoroutine(npc.GetEntity().entityAnimator.PlayGesture(1));
+            StartCoroutine(npc.GetEntity().entityAnimator.PlayGesture(0));
         }
     }
 }

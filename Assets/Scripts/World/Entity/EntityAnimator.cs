@@ -68,12 +68,12 @@ public class EntityAnimator : MonoBehaviour
     public IEnumerator PlayGesture(int value)
     {
         animator.SetBool("Gesture/Active", true);
-        animator.SetFloat("Gesture/Value", 1);
+        animator.SetInteger("Gesture/Value", value);
 
-        yield return new WaitForSeconds(0.1f);
-        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.78f);
+        yield return new WaitForSeconds(0.26f);
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f );
 
         animator.SetBool("Gesture/Active", false);
-        animator.SetFloat("Gesture/Value", 0);
+        animator.SetInteger("Gesture/Value", 0);
     }
 }

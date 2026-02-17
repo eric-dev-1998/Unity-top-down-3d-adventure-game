@@ -494,7 +494,7 @@ Human gesture animations should be played from the entity class, which will be c
 
 Next:
 1. [Done] Code entity gesture animation function.
-2. Create gesture animation node:
+2. [Done] Create gesture animation node:
     1. [Done] Create the node properties.
     2. [Done] Design node ui.
     3. [Done] Create the node class.
@@ -506,5 +506,21 @@ Next:
 Human gesture node has been created.
 
 Next:
-1. Fix an error that prevents the event manager from wating when waitUntilFinish is set to true.
-2. Test
+1. [Done] Fix an error that prevents the event manager from wating when waitUntilFinish is set to true.
+2. [Done] Test
+
+Notes:
+1. The gesture value has to be set from the event, right now is beign hardcoded.
+2. The gesture state in the animator is only lasting less than a second, it should last longer.
+
+### 02/17/2026 10:17am:
+Human gesture node and its event code are now working.
+
+Next:
+1. [Done] Modify player human animator controller to be compatible.
+
+### 02/17/2026 10:32am:
+Player human animator controller is now compatible with gesture animations.
+
+Next:
+1. Make player play nod animation when answering yes or no questions.
