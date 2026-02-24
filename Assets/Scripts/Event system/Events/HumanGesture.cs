@@ -11,13 +11,6 @@ namespace Assets.Scripts.Event_system.Events
         public int gestureType;
         public bool wait;
 
-        HumanGesture(string characterId, int gestureType, bool wait)
-        {
-            this.characterId = characterId;
-            this.gestureType = gestureType;
-            this.wait = wait;
-        }
-
         public override IEnumerator Process(EventManager eManager, Manager dManager)
         {
             // Find target character entity.

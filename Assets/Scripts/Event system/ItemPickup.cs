@@ -33,6 +33,11 @@ namespace Assets.Scripts.Event_system
             objectEvent.name = gameObject.name;
             objectEvent.Load();
 
+            HumanGesture gestureEvent = ScriptableObject.CreateInstance<HumanGesture>();
+            gestureEvent.characterId = "Player";
+            gestureEvent.gestureType = 3;
+            gestureEvent.wait = true;
+
             ItemEvent evt = ScriptableObject.CreateInstance<ItemEvent>();
             evt.type = ItemEvent.ItemEventType.Get;
             evt.id = item.item_id;
@@ -43,15 +48,16 @@ namespace Assets.Scripts.Event_system
             objectEvent1.name = gameObject.name;
             objectEvent1.Load();
 
+            gestureEvent.next.Add(objectEvent);
             objectEvent.next.Add(evt);
             evt.next.Add(objectEvent1);
 
             sequence = ScriptableObject.CreateInstance<EventSequence>();
-            sequence.startEvent = objectEvent;
+            sequence.startEvent = gestureEvent;
 
             if (sequence == null)
             {
-                Debug.LogError($"[Item pickup]: '{name}' Sequence could not be created.");
+                Debug.LogError($"[Item pickup]: '{name}' pickup sequence could not be created.");
             }
         }
 

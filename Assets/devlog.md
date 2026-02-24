@@ -523,4 +523,32 @@ Next:
 Player human animator controller is now compatible with gesture animations.
 
 Next:
-1. Make player play nod animation when answering yes or no questions.
+1. [Done?] Fix abug that make the player rig tilt before and after a dialogue when picking up items from the ground.
+
+### 02/24/2026 8:55am:
+The bug that made the player rig tilt while picking up items from the ground somehow disappeared.
+
+Next:
+1. Design the dev npc model.
+2. Design the player model.
+3. Design demo level 2.
+
+### 02/24/2026 11:16am:
+Eye and eyebrows alogn with some blendshapes have been added to the human body to make character customization easier.
+
+Notes:
+1. The cube whould probable need to be replaced for something that fits more the environment.
+2. The dialogue enter sfx should only be played when the first interaction happens.
+3. The inventory menu should not display a place holder text for description labels.
+4. In the quest menu, the drop down arrows should be bigger.
+5. The quest system notification texture has a little transparency problem, that should be fixed.
+
+Next:
+1. Add body blendshapes to the human body model for: chest, weight and curves.
+
+### 02/24/2026 11:42am:
+Pending blend shapes have been added to the human body model: chest, curves and weight. The human body model is ready to design characters.
+
+Next:
+1. Design the Dev npc model.
+2. Design the player default models: Female & Male.

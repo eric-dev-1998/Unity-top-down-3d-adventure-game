@@ -48,12 +48,6 @@ public class Entity : MonoBehaviour
     {
         if (name == "Player")
         {
-            // Apply movement speed.
-            if (Input.GetKey(KeyCode.LeftShift))
-                moveSpeed = walkSpeed;
-            else
-                moveSpeed = runSpeed;
-
             if (onWater)
             {
                 float playerYPos = transform.position.y;
@@ -100,10 +94,22 @@ public class Entity : MonoBehaviour
     public void Move()
     {
         if (eventManager.busy || !GetComponent<PlayerCore>().canMove || playerInput.isGameMenuOpen())
+        {
+            moveVector = Vector3.zero;
+            currentVelocity = Vector3.zero;
+            entityAnimator.SetWalkBlendValue(0);
+            animSpeed = 0f;
             return;
+        }
 
         if (!isFollowingPath)
         {
+            // Apply movement speed.
+            if (Input.GetKey(KeyCode.LeftShift))
+                moveSpeed = walkSpeed;
+            else
+                moveSpeed = runSpeed;
+
             // Get move vector:
             moveVector = new Vector3(playerInput.GetHorizontalInput(), 0, playerInput.GetVerticalInput());
 
@@ -132,7 +138,10 @@ public class Entity : MonoBehaviour
 
             // Apply to animation:
             float targetAnimSpeed = currentVelocity.magnitude / moveSpeed;
-            animSpeed = Mathf.Lerp(animSpeed, targetAnimSpeed, Time.deltaTime * 10f);
+            if (moveSpeed == walkSpeed)
+                animSpeed = Mathf.Lerp(animSpeed, 0.5f, Time.deltaTime * 10);
+            else
+                animSpeed = Mathf.Lerp(animSpeed, targetAnimSpeed, Time.deltaTime * 10f);
             entityAnimator.SetWalkBlendValue(animSpeed);
         }
     }
@@ -152,6 +161,7 @@ public class Entity : MonoBehaviour
     public void UnlockMovement()
     {
         canMove = true;
+        entityAnimator.SetWalkBlendValue(0);
     }
 
     private void OnTriggerEnter(Collider other)
