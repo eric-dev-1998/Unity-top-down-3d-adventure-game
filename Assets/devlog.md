@@ -537,7 +537,7 @@ Next:
 Eye and eyebrows alogn with some blendshapes have been added to the human body to make character customization easier.
 
 Notes:
-1. The cube whould probable need to be replaced for something that fits more the environment.
+1. The test cube should probably need to be replaced for something that fits more in the environment.
 2. The dialogue enter sfx should only be played when the first interaction happens.
 3. The inventory menu should not display a place holder text for description labels.
 4. In the quest menu, the drop down arrows should be bigger.
@@ -550,5 +550,5 @@ Next:
 Pending blend shapes have been added to the human body model: chest, curves and weight. The human body model is ready to design characters.
 
 Next:
-1. Design the Dev npc model.
+1. [Done] Design the Dev npc model.
 2. Design the player default models: Female & Male.
