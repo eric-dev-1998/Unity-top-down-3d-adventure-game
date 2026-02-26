@@ -551,4 +551,17 @@ Pending blend shapes have been added to the human body model: chest, curves and 
 
 Next:
 1. [Done] Design the Dev npc model.
-2. Design the player default models: Female & Male.
+2. [Done] Design the player model.
+
+### 02/26/2026 9:46am:
+Both Dev and Player models have been designed.
+
+Next:
+1. [Done] Add the dev model on demo level 1.
+2. [Done] Update the player model on demo level 1.
+
+### 02/26/2026 10:16am:
+Both dev and player models have been added to demo level 1.
+
+Next:
+1. Make the player emit sand particles only when running.

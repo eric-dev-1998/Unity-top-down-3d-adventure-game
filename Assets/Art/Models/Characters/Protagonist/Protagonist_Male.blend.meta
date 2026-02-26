@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6360d5ce6ebf9aa46bf9a4aaba355f16
+guid: 23f77e05c3d49224782c276e88d9f41e
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -8,27 +8,27 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Clothes
-    second: {fileID: 2100000, guid: bbab2dbfb4477874199c3e26212fbf97, type: 2}
+    second: {fileID: 2100000, guid: eb2c9cad6d5093a4f94581efca7f52a4, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Default_Skin
-    second: {fileID: 2100000, guid: 4f94aa3c61ba8154a9ccac905b697883, type: 2}
+    second: {fileID: 2100000, guid: 9f34199e55745004a9e3ba5e9186b56a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Eyebrows
-    second: {fileID: 2100000, guid: 01697afd3e33bfe49bdf0d23b0774535, type: 2}
+    second: {fileID: 2100000, guid: e2d1a8c348f02a54e814c4bf4b61ba1d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Eyes
-    second: {fileID: 2100000, guid: 787a7b5deaf4a9048b1abf7918299167, type: 2}
+    second: {fileID: 2100000, guid: e1ae8d9a0a4b06e4a9c04a1725c6cd69, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Hair
-    second: {fileID: 2100000, guid: 4f5897af630392a40833d1f13220879a, type: 2}
+    second: {fileID: 2100000, guid: f9f7b575e07ca884f9206d5938f33971, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
