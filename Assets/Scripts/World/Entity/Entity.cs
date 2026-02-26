@@ -139,7 +139,11 @@ public class Entity : MonoBehaviour
             // Apply to animation:
             float targetAnimSpeed = currentVelocity.magnitude / moveSpeed;
             if (moveSpeed == walkSpeed)
+            {
+                if (targetVelocity.magnitude <= 0.001f)
+                    return;
                 animSpeed = Mathf.Lerp(animSpeed, 0.5f, Time.deltaTime * 10);
+            }
             else
                 animSpeed = Mathf.Lerp(animSpeed, targetAnimSpeed, Time.deltaTime * 10f);
             entityAnimator.SetWalkBlendValue(animSpeed);

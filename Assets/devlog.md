@@ -564,4 +564,9 @@ Next:
 Both dev and player models have been added to demo level 1.
 
 Next:
-1. Make the player emit sand particles only when running.
+1. [Done] Make the player emit sand particles only when running.
+
+### 02/26/2026 10:33am:
+Level 1 is finished.
+
+Next: Design level 2.

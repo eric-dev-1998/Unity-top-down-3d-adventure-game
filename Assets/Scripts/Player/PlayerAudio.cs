@@ -121,6 +121,11 @@ namespace Assets.Scripts.Player
                 {
                     case "Sand" or "Sand (Instance)":
                         footstep.PlayOneShot(footsteps["sfx_footsteps_sand"]);
+
+                        Entity entity = core.GetEntity();
+                        if (entity.moveSpeed <= entity.walkSpeed)
+                            return;
+
                         if (left)
                             transform.Find("Armature/Hips/LeftLeg/LeftKnee/LeftAnkle/Sand").GetComponent<ParticleSystem>().Emit(1);
                         else
