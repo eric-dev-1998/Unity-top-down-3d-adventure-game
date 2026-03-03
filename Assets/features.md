@@ -1,24 +1,24 @@
-Features:
+# Features:
 
-Core systems:
-1. Player movement
-2. Interaction system
-3. Quest system
-4. Dialogues
-5. Inventory
+### Core systems:
+1. [Done] Player movement
+2. [Done] Interaction system
+3. [Done] Quest system
+4. [Done] Dialogues
+5. [Done] Inventory
 6. Save and load system
-7. Camera
+7. [Done] Camera
 
-Gameplay faetures:
-1. Main quest
-2. Side quests
+### Gameplay faetures:
+1. [Done] Main quest
+2. [Done] Side quests
 3. Starfox-like level transitions
 4. Puzzles
-5. NPC AI
+5. [Done] NPC AI
 6. Combat
 7. Enemy AI
 
-Content:
+### Content:
 1. Levels:
 	1. Real world:
 		1. Protagonist home

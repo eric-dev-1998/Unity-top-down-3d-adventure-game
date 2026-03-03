@@ -570,3 +570,99 @@ Next:
 Level 1 is finished.
 
 Next: Design level 2.
+
+# 03/03/2026 12:39pm:
+Level 1 is now finished, next big milestone is finising demo level 2.
+
+But before going any further, the concept for these demo levels have changed. Originally, these levels were intended to be based on the different power elements: File, Wind, Water and Earth, but i recently conlcluded that this should be a technical demo so the main focus should now be showcasing the different system this game have implemented in it like the dynamic npc dialogue system, inventory, quests, powers and so.
+
+## Review of current and future game systems:
+### Current systems:
+1. Event sequence system.
+2. Dialogue system.
+3. Inventory system.
+4. Quest system.
+
+### Future systems:
+1. Spell casting system.
+2. Health and damage system.
+3. Enemies.
+
+### System used in the demo level 1:
+1. Event sequence system.
+2. Dialogue system.
+3. Inventory system but only a brief description.
+4. Quest system but only a brief description.
+
+## How should these systems be showcased?
+### Demo stage 1: A brief introduction
+Introduce the user to the game mechanics by giving a biref introduction.
+#### Systems used:
+1. Event sequence.
+2. Dialogue system.
+
+### Demo stage 2: Interactions
+These sgate should showcase how the user can interact with different objects like npcs, pickupable items and some different type of triggers.
+#### Systems used:
+1. Event sequence.
+2. Dialogue.
+3. Inventory.
+
+### Demo stage 3: Quest & Inventory
+These stage shows the user the quest and more about the inventory system.
+#### Systems used:
+1. Event sequence.
+2. Dialogue.
+3. Inventory.
+4. Quest.
+
+### Demo stage 4: Spell casting system
+Here is where the user will learn about spell casting and how to use it. Right now spells are intented to be used for:
+1. Self defense from enemies.
+2. Help the user advance trough some puzzles and obstacles.
+#### Systems used:
+1. Event sequence.
+2. Dialogue.
+3. Inventory.
+4. Enemy AI.
+5. Health & damage.
+
+## The demo original idea has changed:
+Right now, this demo has now turned into a technical demo, intended to show case the game systems.
+
+As explained before, this demo was originally intented to showcase 4 different levels, each level will represent a different magic element. But since this has turned into a technical demo it will switch its focus to the game systems over the game visuals. Not that the game visuals don't matter that much, they do.
+
+## The demo stage design changes drastically:
+Now, to fit this technical theme, the demo levels will look different. It will look more like a laboratory.
+
+Additionally, instead of having multiple scenes for each demo level, the demo will take place in a single scene. This means, the "laboratory" will be separated by doors in 3 different rooms designed for each demo level.
+
+## Demo stages layout design:
+### Introduction:
+1. The user enters the lab from an elevator.
+2. The user meets the dev.
+3. The Dev ask the user if he wants to be guided step by step.
+4. The Dev gives a brief introduction if guide was accepted.
+5. The door to the first level opens.
+
+### Stage 2:
+1. The user try different types of trigger: interaction and area trigger.
+2. The user try to pickup the key.
+3. The user try interacting with the locked door.
+
+### Stage 3:
+1. The user can talk to Nina, the Dev's assistant.
+2. The user triggers a quest by talking to Nina.
+3. Nina reminds the user about the inventory system.
+
+### Stage 4:
+1. The user can obtain all for basic magic powers.
+2. The user can test the spells on some obstacles.
+3. The user can test the spells on some enemies.
+
+## Technical demo checklist:
+### Introduction:
+1. Design & add the room 3d model.
+2. Design & add the room decorations.
+3. Create the first dialogue where the dev offers guidance.
+4. Create the introduction dialogue.
