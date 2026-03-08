@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9d2ba023fa048d5f1fe70c4af9ed975d32702c25be278b9ee62362a663632cc5
-size 479
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes: []
+  m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
