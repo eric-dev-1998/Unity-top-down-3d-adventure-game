@@ -662,7 +662,7 @@ Additionally, instead of having multiple scenes for each demo level, the demo wi
 
 ## Technical demo checklist:
 ### Introduction:
-1. Design & add the room 3d model.
+1. [Done] Design & add the room 3d model.
 2. Design & add the room decorations.
 3. Create the first dialogue where the dev offers guidance.
 4. Create the introduction dialogue.
