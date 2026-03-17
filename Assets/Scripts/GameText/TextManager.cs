@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Event_system.Events;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,13 +17,17 @@ namespace Assets.Scripts.GameText
 
         public void LoadLibrary()
         {
-            Debug.Log("Loading text library.");
-            currentLibrary = Resources.Load<TextLibrary>("GameText/English");
-            if (currentLibrary == null)
+            try
+            {
+                currentLibrary = Resources.Load<TextLibrary>("GameText/English");
+            }
+            catch (Exception e)
+            {
                 Debug.LogError("[Text manager]: Text library asset could not be loaded.");
+                return;
+            }
 
-            if (currentLibrary != null)
-                Debug.Log("Loaded text library.");
+            Debug.Log("[Text manager]: Loaded text library.");
         }
 
         public string GetUIText(string id)
