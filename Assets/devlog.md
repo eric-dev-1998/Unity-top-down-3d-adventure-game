@@ -666,3 +666,8 @@ Additionally, instead of having multiple scenes for each demo level, the demo wi
 2. Design & add the room decorations.
 3. Create the first dialogue where the dev offers guidance.
 4. Create the introduction dialogue.
+
+# 3/17/2026 11:31pm:
+The new toggable is now working.
+
+This allows to toggle many different object types that derives from "Toggable" by just overriding the Toggle() function.
