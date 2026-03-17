@@ -23,20 +23,26 @@ namespace Assets.Scripts.Event_system
 
         private void LoadIcons()
         {
-            var icons = Resources.LoadAll<GameObject>("World/Icons");
-
-            foreach (var icon in icons)
+            try
             {
-                GameObject instance = GameObject.Instantiate(icon, eManager.transform);
-                instance.transform.position = Vector3.zero;
-                instance.GetComponent<Animator>().SetFloat("Speed", 0);
+                var icons = Resources.LoadAll<GameObject>("World/Icons");
 
-                availableIcons.Add(instance);
-                Debug.Log(instance.name);
+                foreach (var icon in icons)
+                {
+                    GameObject instance = GameObject.Instantiate(icon, eManager.transform);
+                    instance.transform.position = Vector3.zero;
+                    instance.GetComponent<Animator>().SetFloat("Speed", 0);
+
+                    availableIcons.Add(instance);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"[Event manager][Icon manager]: Interaction icons could not be loaded:\n\n{e}");
+                return;
             }
 
-            if (availableIcons.Count <= 0)
-                Debug.LogError("[Event manager]: Interaction icons could not be loaded.");
+            Debug.Log("[Event manager][Icon manager]: Interaction icons loaded.");
         }
 
         public GameObject GetIcon(IconType type, Transform parent)

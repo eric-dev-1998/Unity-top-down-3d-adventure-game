@@ -1,5 +1,6 @@
 ﻿using Assets.Art.UI.UXML;
 using Assets.Scripts.Inventory_System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -22,10 +23,14 @@ namespace Assets.Scripts.Quest_System
 
         private void Start()
         {
-            questDatabase = Resources.LoadAll<Quest>("Quests").ToList();
-            if (questDatabase == null || questDatabase.Count <= 0)
+            try
             {
-                Debug.LogError("[Quest manager]: Quest database could not be loaded.");
+                questDatabase = Resources.LoadAll<Quest>("Quests").ToList();
+                Debug.Log("[Quest manager]: Quest database loaded.");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Quest manager]: Quest database could not be loaded:\n\n{e}");
                 return;
             }
 
