@@ -671,3 +671,9 @@ Additionally, instead of having multiple scenes for each demo level, the demo wi
 The new toggable is now working.
 
 This allows to toggle many different object types that derives from "Toggable" by just overriding the Toggle() function.
+
+# 3/17/2026 14:16pm:
+The introduction dialogue event has been created. The part of the player following Dev has not been added though.
+
+### Next:
+Add the last part to the introduction dialougue event where the player follows the Dev.
