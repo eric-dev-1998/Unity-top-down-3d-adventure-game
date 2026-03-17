@@ -47,6 +47,12 @@ namespace Assets.Scripts.Event_system
 
         public GameObject GetIcon(IconType type, Transform parent)
         {
+            if (parent == null)
+            {
+                Debug.LogError("[Event manager][Icon manager]: Parent object cannot be null.");
+                return null;
+            }
+
             GameObject icon = null;
 
             switch (type)
@@ -60,7 +66,7 @@ namespace Assets.Scripts.Event_system
 
             if (icon == null)
             {
-                Debug.LogError("[Event][Icon]: No icon could be shared, the desired icon is already on use.");
+                Debug.LogError("[Event manager][Icon manager]: No icon could be shared, the desired icon is already on use.");
                 return null;
             }
 
@@ -90,7 +96,7 @@ namespace Assets.Scripts.Event_system
 
             if (icon == null)
             {
-                Debug.LogError("[Event manager][Icon]: The icon is not in use.");
+                Debug.LogError("[Event manager][Icon manager]: The icon is not in use.");
                 return;
             }
 
