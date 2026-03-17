@@ -84,6 +84,9 @@ namespace Assets.Scripts.Quest_System
         { 
             List <Quest> current = new List<Quest>();
 
+            if (currentGameQuests == null || currentGameQuests.Count <= 0)
+                return null;
+
             foreach(Quest q in currentGameQuests)
                 if(!q.Completed())
                     current.Add(q);
@@ -91,8 +94,16 @@ namespace Assets.Scripts.Quest_System
             return current;
         }
 
+        public bool NoCurrentQuest()
+        { 
+            return currentGameQuests == null || !currentGameQuests.Any();
+        }
+
         public List<Quest> GetMainQuests()
         {
+            if (NoCurrentQuest())
+                return null;
+
             List<Quest> result = new List<Quest>();
 
             foreach(Quest q in currentGameQuests)
@@ -118,6 +129,9 @@ namespace Assets.Scripts.Quest_System
         public List<Quest> GetNpcQuests(string id)
         {
             Debug.Log($"[Quest manager]: Searching quests for npc: '{id}'...");
+
+            if (NoCurrentQuest())
+                return null;
 
             List<Quest> result = new List<Quest>();
             foreach (Quest q in currentGameQuests)
@@ -215,7 +229,7 @@ namespace Assets.Scripts.Quest_System
         {
             Debug.Log("About to trigger a quest...");
 
-            if (currentGameQuests.Contains(questData))
+            if (NoCurrentQuest())
                 return;
 
             // Change quest status to active.
@@ -243,6 +257,9 @@ namespace Assets.Scripts.Quest_System
 
         public void ItemInventoryChanged(Item data, int newCount)
         {
+            if (NoCurrentQuest())
+                return;
+
             foreach (Quest q in currentGameQuests)
             {
                 foreach (Objective o in q.objectives)
@@ -283,6 +300,9 @@ namespace Assets.Scripts.Quest_System
         {
             // Check if any of current active quests has an area reached objective:
 
+            if (NoCurrentQuest())
+                return;
+
             foreach (Quest q in GetCurrentQuests())
             {
                 foreach (Objective o in q.objectives)
@@ -309,6 +329,9 @@ namespace Assets.Scripts.Quest_System
 
         public void Interacted(string objectName)
         {
+            if (NoCurrentQuest())
+                return;
+
             foreach (Quest q in GetCurrentQuests())
             {
                 foreach (Objective o in q.objectives)
@@ -335,6 +358,9 @@ namespace Assets.Scripts.Quest_System
 
         public void InteractedWithNPC(string id)
         {
+            if (NoCurrentQuest())
+                return;
+
             foreach (Quest q in GetCurrentQuests())
             {
                 foreach (Objective o in q.objectives)
