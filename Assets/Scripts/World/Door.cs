@@ -9,10 +9,12 @@ using Assets.Scripts.Event_System;
 
 namespace Assets.Scripts.World
 {
-    public class Door : MonoBehaviour
+    public class Door : Toggable
     {
         [Header("Main properties:")]
+        public string doorId = string.Empty;
         public bool openOnce = false;
+        public BoxCollider[] colliders;
         public SceneAsset sceneToLoad;
 
         [Header("Lock properties:")]
@@ -31,6 +33,21 @@ namespace Assets.Scripts.World
 
         private void Start()
         {
+            if (string.IsNullOrEmpty(doorId))
+            {
+                // Disable this door if no door id was entered.
+
+                Debug.LogError($"[Door][{name}]: Door ID is null or empty.");
+                this.enabled = false;
+                return;
+            }
+
+            if (colliders == null || colliders.Length <= 0)
+            {
+                Debug.LogError($"[Door][{name}]: This door has no colliders.");
+                return;
+            }
+
             animator = GetComponent<Animator>();
             path = GetComponent<NpcPathSystem>();
         }
@@ -66,21 +83,37 @@ namespace Assets.Scripts.World
                 playerOnTrigger = false;
         }
 
-        private void Open()
+        public override IEnumerator Toggle()
+        {
+            if (!opened) 
+                OpenDoor();
+            else 
+                CloseDoor();
+
+            yield return new WaitForSeconds(0.1f);
+            yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+        }
+
+        public void Open()
         {
             if (locked)
             {
-                InventoryManager iManager = FindAnyObjectByType<InventoryManager>();
-                if (iManager == null)
+                if (neededItem != null)
                 {
-                    Debug.LogError($"[Door('{name}')]: No inventory manager was found on scene, this door will not work.");
-                    return;
-                }
+                    InventoryManager iManager = FindAnyObjectByType<InventoryManager>();
+                    if (iManager == null)
+                    {
+                        Debug.LogError($"[Door][{name}]: No inventory manager was found on scene, this door will not work.");
+                        return;
+                    }
 
-                if (iManager.ConsumeItem(neededItem.item_id, 1))
-                {
-                    OpenDoor();
-                    locked = false;
+                    if (iManager.ConsumeItem(neededItem.item_id, 1))
+                    {
+                        OpenDoor();
+                        locked = false;
+                    }
+                    else
+                        ShowLockedDescription();
                 }
                 else
                     ShowLockedDescription();
@@ -93,6 +126,9 @@ namespace Assets.Scripts.World
         {
             animator.SetBool("Open", true);
             opened = true;
+
+            foreach (BoxCollider col in colliders)
+                col.enabled = false;
 
             if (sceneToLoad != null)
                 StartCoroutine(LoadScene());

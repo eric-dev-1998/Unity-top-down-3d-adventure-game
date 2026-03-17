@@ -486,6 +486,7 @@ namespace Editor.DialogueGraph
             evt.menu.AppendAction("Add node/Quest/Get state", (a) => { CreateNode(typeof(QuestState), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Play animation", (a) => { CreateNode(typeof(Nodes.Animation), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Set camera target", (a) => { CreateNode(typeof(Assets.Editor.DialogueGraph.Nodes.Camera), mousePosition); }, DropdownMenuAction.Status.Normal);
+            evt.menu.AppendAction("Add node/Toggle world object", (a) => { CreateNode(typeof(Toggable), mousePosition); }, DropdownMenuAction.Status.Normal);
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)

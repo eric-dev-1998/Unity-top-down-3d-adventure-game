@@ -124,6 +124,16 @@ namespace EventSystem
                     evt9.wait = p9.waitUntilFinish;
 
                     return evt9;
+
+                case "Assets.Editor.DialogueGraph.Nodes.Toggable":
+                    var p10 = saveData.properties as ToggableObjectProperties;
+                    if (p10 == null)
+                        throw new System.Exception("Toggable object properties doesn't exist,");
+
+                    var evt10 = ScriptableObject.CreateInstance<Assets.Scripts.Event_system.Events.ToggleWorldObject>();
+                    evt10.objectName = p10.objectName;
+
+                    return evt10;
             }
 
             UnityEngine.Debug.Log("Couldnt match any event case.");
