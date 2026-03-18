@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:TextField label="" placeholder-text="Character object name..." name="Who"/>
+    <ui:TextField label="" placeholder-text="Path object name..." name="PathID"/>
+    <ui:Toggle label="Syncronized?" name="Sync" tooltip="Should the event manager wait for this path to finish to continue?"/>
+</ui:UXML>

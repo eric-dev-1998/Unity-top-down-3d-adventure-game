@@ -134,6 +134,18 @@ namespace EventSystem
                     evt10.objectName = p10.objectName;
 
                     return evt10;
+
+                case "Assets.Editor.DialogueGraph.Nodes.FollowPath":
+                    var p11 = saveData.properties as PathProperties;
+                    if (p11 == null)
+                        throw new System.Exception("Path properties doesn't exist,");
+
+                    var evt11 = ScriptableObject.CreateInstance<Assets.Scripts.Event_system.Events.FollowPath>();
+                    evt11.who = p11.who;
+                    evt11.path = p11.path;
+                    evt11.sync = p11.sync;
+
+                    return evt11;
             }
 
             UnityEngine.Debug.Log("Couldnt match any event case.");
