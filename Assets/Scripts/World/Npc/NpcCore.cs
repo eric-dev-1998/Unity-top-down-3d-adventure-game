@@ -94,6 +94,9 @@ namespace Assets.Scripts.World.Npc
 
         private void OnAnimatorIK(int layerIndex)
         {
+            if (entity.isFollowingPath)
+                return;
+
             float distance = Vector3.Distance(transform.position, playerTransform.position);
             float targetWeight = distance < lookDistance ? lookWeight : 0f;
             float smoothSpeed = 5f;

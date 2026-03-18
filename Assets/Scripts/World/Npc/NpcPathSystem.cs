@@ -1,7 +1,11 @@
+using Assets.Scripts.Event_system.Events;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.World.Npc
 {
@@ -13,6 +17,8 @@ namespace Assets.Scripts.World.Npc
         // References the path that is currently set to be followed. Is null by default.
         private NpcPath selectedPath;
 
+        private bool begin = false;
+        private bool readyToStart = false;
         private bool followEnabled = false;
         private bool followLoop = false;
         private bool followingBackwards = false;
@@ -22,6 +28,7 @@ namespace Assets.Scripts.World.Npc
         private float t = 0f;
         private float playerMovementThreshold = 0f;
 
+        private Quaternion targetRotationToStart;
         private Vector3 velocity = Vector3.zero;
         private Vector3 startPosition = Vector3.zero;
 
@@ -68,6 +75,45 @@ namespace Assets.Scripts.World.Npc
                     StopFollowingPath();
                 }
             }
+        }
+
+        public IEnumerator SetAndFollow(Entity entity, string path)
+        {
+            try
+            {
+                targetEntity = entity;
+                targetEntity.isFollowingPath = true;
+
+                selectedPath = paths.Find(p => p.pathName == path);
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"[Path following system]: Path could not be started:\n\n{e}");
+                yield break;
+            }
+
+            Vector3 direction = selectedPath.pathPoints[0].transform.position - targetEntity.transform.position;
+            yield return TurnTowardsFirstPathPoint(Quaternion.LookRotation(direction), 1.0f);
+
+            StartFollowingPath(paths.IndexOf(selectedPath), false);
+        }
+
+        private IEnumerator TurnTowardsFirstPathPoint(Quaternion target, float duration)
+        {
+            Quaternion start = targetEntity.transform.rotation;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float percent = elapsed / duration; // Always goes 0.0 to 1.0
+
+                // This stays smooth even at very slow speeds
+                targetEntity.transform.rotation = Quaternion.Slerp(start, target, percent);
+                yield return null;
+            }
+
+            targetEntity.transform.rotation = target; // Final snap for 100% precision
         }
 
         private void MoveOverPathLine()
