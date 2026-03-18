@@ -676,4 +676,27 @@ This allows to toggle many different object types that derives from "Toggable" b
 The introduction dialogue event has been created. The part of the player following Dev has not been added though.
 
 ### Next:
-Add the last part to the introduction dialougue event where the player follows the Dev.
+1. Create a "Follow path" node (It should be able to work asyncronized).
+2. Add the last part to the introduction dialougue event where the player follows the Dev.
+
+# 3/17/2026 14:55pm:
+The Follow path node has been created. The event logic still need to be coded, as for now it just logs a success message.
+
+### Next:
+1. Create a path on the scene for testing.
+2. Create the event code logic.
+3. Test.
+4. Complete the introduction dialogue event.
+
+# 3/17/2026 15:56pm:
+The follow path node is now working, but path following logic have to be improved:
+1. Character should rotated and wait until its facing the first path point to start moving.
+2. Character should face a desired direction after following the path and the event should wait until the character faces the desired direction.
+3. The event should wait if the path is set to be synced.
+
+# 3/18/2026 16:11pm:
+The characters now turn to the first path point before start walking, it doesnt look natural at all but it works for now.
+
+### Next:
+1. In the demo case, the player should walk too.
+2. The event should wait if the path is set to be synced.
