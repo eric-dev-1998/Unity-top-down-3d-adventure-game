@@ -1,5 +1,6 @@
 using Assets.Scripts.Event_System;
 using Assets.Scripts.Player;
+using Assets.Scripts.Systems.Character_Path;
 using Assets.Scripts.World;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class Entity : MonoBehaviour
     private CharacterController characterController;
     private PlayerInput playerInput;
     private EventManager eventManager;
+    private PathHandler pathHandler;
 
     // General properties:
     public bool canMove = true;
@@ -35,17 +37,23 @@ public class Entity : MonoBehaviour
     public bool onDeepWater = false;
     public float currentWaterBodyHeight = 0f;
 
-
     void Start()
     {
         entityAnimator = GetComponent<EntityAnimator>();
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
         eventManager = FindAnyObjectByType<EventManager>();
+        pathHandler = GetComponent<PathHandler>();
     }
 
     private void Update()
     {
+        if (pathHandler.follow)
+            return;
+
+        if (!characterController.enabled)
+            return;
+
         if (name == "Player")
         {
             if (onWater)
@@ -102,7 +110,7 @@ public class Entity : MonoBehaviour
             return;
         }
 
-        if (!isFollowingPath)
+        if (!pathHandler.follow)
         {
             // Apply movement speed.
             if (Input.GetKey(KeyCode.LeftShift))

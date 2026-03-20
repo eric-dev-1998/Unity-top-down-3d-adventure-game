@@ -26,6 +26,9 @@ public class EntityAnimator : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
+        if (name != "Player")
+            return;
+
         if (objectOnSight != null)
         {
             float distance = Vector3.Distance(transform.position, objectOnSight.position);
