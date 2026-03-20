@@ -700,3 +700,27 @@ The characters now turn to the first path point before start walking, it doesnt 
 ### Next:
 1. In the demo case, the player should walk too.
 2. The event should wait if the path is set to be synced.
+
+# 3/19/2026 10:04am:
+Found a problem with the current paht follow system. The system can only handle one entity at a time.
+To fix this, each character, be it the player or an npc, will have their own path follow component.
+
+## Character path system structure:
+### The path class:
+This class named PathSystem.Path will be used to define a path and its points. This will be placed on the scene as a separate object as it serves just to provide path information to characters.
+### The path editor class:
+This class named PathSystem.PathEditor is used to create/edit path and its points from the inspector.
+### The path follow handler:
+This class named PathSystem.Handler is the piece of code that will make a character move over a path.
+
+## Next:
+Upgrade the current path follow code to this new structure.
+
+# 3/19/2026 15:06pm:
+The Path system code has been upgraded, but for some reason the player don't follow the path.
+
+### Next:
+1. Fix the problem that prevents the player from following the path.
+
+# 3/20/2026 15:06pm:
+The player now follows his path but the walk animation is playing too slow, that needs to be fixed.
