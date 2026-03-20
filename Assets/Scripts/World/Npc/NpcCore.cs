@@ -24,6 +24,7 @@ namespace Assets.Scripts.World.Npc
 
         // Properties:
         public bool isLookingAtPlayer = false;
+        public bool canLookAtPlayer = true;
         public bool onEvent = false;
         public bool onPosition = false;
         public bool playerOnPosition = false;
@@ -95,6 +96,9 @@ namespace Assets.Scripts.World.Npc
         private void OnAnimatorIK(int layerIndex)
         {
             if (entity.isFollowingPath)
+                return;
+
+            if (!canLookAtPlayer)
                 return;
 
             float distance = Vector3.Distance(transform.position, playerTransform.position);
