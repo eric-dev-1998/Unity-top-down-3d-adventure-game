@@ -1,15 +1,16 @@
 using Assets.Scripts.World.Npc;
+using Assets.Scripts.Systems.Character_Path;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(NpcPathSystem))]
-public class NpcPathSystemEditor : UnityEditor.Editor
+[CustomEditor(typeof(PathContainer))]
+public class CharacterPathEditor : UnityEditor.Editor
 {
-    private NpcPathSystem pathSystem;
+    private PathContainer container;
 
     private void OnEnable()
     { 
-        pathSystem = (NpcPathSystem)target;
+        container = (PathContainer)target;
     }
 
     public override void OnInspectorGUI()
@@ -21,49 +22,49 @@ public class NpcPathSystemEditor : UnityEditor.Editor
 
         if (GUILayout.Button("Add path"))
         {
-            pathSystem.paths.Add(new NpcPath());
+            container.paths.Add(new Path());
         }
 
-        for (int i = 0; i < pathSystem.paths.Count; i++)
+        for (int i = 0; i < container.paths.Count; i++)
         { 
-            var path = pathSystem.paths[i];
+            var path = container.paths[i];
             EditorGUILayout.BeginVertical("box");
 
-            path.pathName = EditorGUILayout.TextField("Name", path.pathName);
+            path.name = EditorGUILayout.TextField("Name", path.name);
 
             if (GUILayout.Button("Add path point"))
             {
-                Transform pathParent = pathSystem.transform.Find(path.pathName);
+                Transform pathParent = container.transform.Find(path.name);
                 if (pathParent == null)
                 { 
-                    GameObject parentObj = new GameObject(path.pathName);
-                    parentObj.transform.SetParent(pathSystem.transform);
+                    GameObject parentObj = new GameObject(path.name);
+                    parentObj.transform.SetParent(container.transform);
                     parentObj.transform.localPosition = Vector3.zero;
                     pathParent = parentObj.transform;
                 }
 
                 GameObject point = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                point.name = $"Point_{path.pathPoints.Count}";
+                point.name = $"Point_{path.points.Count}";
                 point.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                 point.transform.SetParent(pathParent);
                 point.transform.localPosition = Vector3.zero;
-                path.pathPoints.Add(new PathPoint(point.transform));
+                path.points.Add(new Point(point.transform));
             }
 
             if (GUILayout.Button("Remove last point"))
             {
-                Transform lastPoint = path.pathPoints[path.pathPoints.Count - 1].transform;
+                Transform lastPoint = path.points[path.points.Count - 1].transform;
                 if(lastPoint != null)
                     DestroyImmediate(lastPoint.gameObject);
-                path.pathPoints.RemoveAt(path.pathPoints.Count - 1);
+                path.points.RemoveAt(path.points.Count - 1);
             }
 
             if (GUILayout.Button("Remove path"))
             {
-                Transform pathParent = pathSystem.transform.Find(path.pathName);
+                Transform pathParent = container.transform.Find(path.name);
                 if(pathParent != null)
                     DestroyImmediate(pathParent.gameObject);
-                pathSystem.paths.RemoveAt(i);
+                container.paths.RemoveAt(i);
                 break;
             }
 
@@ -72,20 +73,20 @@ public class NpcPathSystemEditor : UnityEditor.Editor
 
         if (GUI.changed)
         { 
-            EditorUtility.SetDirty(pathSystem);
+            EditorUtility.SetDirty(container);
         }
     }
 
     private void OnSceneGUI()
     {
         Handles.color = Color.yellow;
-        foreach (var path in pathSystem.paths)
+        foreach (var path in container.paths)
         {
-            for (int i = 0; i < path.pathPoints.Count - 1; i++)
+            for (int i = 0; i < path.points.Count - 1; i++)
             {
-                if (path.pathPoints[i] != null && path.pathPoints[i + 1] != null)
+                if (path.points[i] != null && path.points[i + 1] != null)
                 {
-                    Handles.DrawLine(path.pathPoints[i].transform.position, path.pathPoints[i + 1].transform.position);
+                    Handles.DrawLine(path.points[i].transform.position, path.points[i + 1].transform.position);
                 }
             }
         }
