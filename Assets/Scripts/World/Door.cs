@@ -24,7 +24,7 @@ namespace Assets.Scripts.World
         [TextArea]
         public string lockedDescription;
 
-        private float distanceToClose = 3f;
+        private float distanceToClose = 2f;
         private Animator animator;
         private bool playerOnTrigger = false;
         private bool opened = false;
@@ -144,7 +144,7 @@ namespace Assets.Scripts.World
             { 
                 EventManager eManager = FindAnyObjectByType<EventManager>();
                 if(eManager != null && !eManager.busy)
-                    eManager.StartSequence(dialogue);
+                    eManager.StartSequence(dialogue, true);
             }
         }
 
