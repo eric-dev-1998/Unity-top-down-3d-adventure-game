@@ -724,3 +724,21 @@ The Path system code has been upgraded, but for some reason the player don't fol
 
 # 3/20/2026 15:06pm:
 The player now follows his path but the walk animation is playing too slow, that needs to be fixed.
+
+# 3/24/2026 11:48am:
+The bug that made the player walk animation was fixed.
+
+### What happened?
+At NpcCore.cs the TurnPlayer() function was runing at the same time as the path follow logic.
+
+### How was it fixed?
+Adding a flag at the TurnPlayer function to stop running while the player is following a path.
+
+### Next:
+Continue building the dev introduction event sequence.
+
+# 3/26/2026 16:56pm:
+Stage 0 and 1 of the technical demo level are now finished... at least their design and interactable objects. The dev event sequence for showcasing everything is still under development.
+
+### Next:
+1. Create Diane's quest and the needed events.
