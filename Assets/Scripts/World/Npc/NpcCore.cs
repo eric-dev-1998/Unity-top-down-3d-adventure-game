@@ -3,10 +3,15 @@ using UnityEngine;
 using Assets.Scripts.Event_System;
 using Assets.Scripts.Player;
 using Assets.Scripts.Event_system;
+using Assets.Scripts.Systems.Character_Path;
 
 namespace Assets.Scripts.World.Npc
 {
     [RequireComponent(typeof(NpcDialogue))]
+    [RequireComponent(typeof(Entity))]
+    [RequireComponent(typeof(PathHandler))]
+    [RequireComponent(typeof(CapsuleCollider))]
+    [RequireComponent(typeof(BoxCollider))]
     public class NpcCore : MonoBehaviour
     {
         // NPC Name:
@@ -37,9 +42,23 @@ namespace Assets.Scripts.World.Npc
         private Vector3 smoothedTarget = Vector3.zero;
         private Transform playerTransform;
         private Transform head;
-        private Quaternion originalRotation;
+        public Quaternion originalRotation;
         private Quaternion targetRotation;
         private Quaternion targetPlayerRotation;
+
+        private void Reset()
+        {
+            var boxCollider = GetComponent<BoxCollider>();
+            var capsuleCollider = GetComponent<CapsuleCollider>();
+
+            boxCollider.isTrigger = true;
+            boxCollider.center = new Vector3(0, 0.375f, 0);
+            boxCollider.size = new Vector3(0.5f, 0.75f, 0.5f);
+
+            capsuleCollider.radius = 0.4f;
+            capsuleCollider.height = 1f;
+            capsuleCollider.center = new Vector3(0, 0.5f, 0);
+        }
 
         private void Start()
         {
@@ -146,6 +165,9 @@ namespace Assets.Scripts.World.Npc
 
         public void TurnPlayer()
         {
+            if (playerTransform.GetComponent<Entity>().isFollowingPath)
+                return;
+
             Animator playerAnimator = playerTransform.GetComponent<Animator>();
 
             // Turn player to npc.
