@@ -71,7 +71,7 @@ namespace Assets.Scripts.Event_system
                     {
                         triggered = true;
                         Event_System.EventManager eManager = FindAnyObjectByType<Event_System.EventManager>();
-                        eManager.StartSequence(sequence);
+                        eManager.StartSequence(sequence, true);
                     }
                 }
             }

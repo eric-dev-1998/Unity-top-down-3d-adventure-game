@@ -24,7 +24,7 @@ namespace Assets.Scripts.Event_System
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     manager.questManager.Interacted(name);
-                    manager.StartSequence(sequence);
+                    manager.StartSequence(sequence, true);
                 }
             }
         }
