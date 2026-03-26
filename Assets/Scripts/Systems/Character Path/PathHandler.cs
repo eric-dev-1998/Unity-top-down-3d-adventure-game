@@ -283,10 +283,7 @@ namespace Assets.Scripts.Systems.Character_Path
                             break;
 
                         default:
-                            if (anim.GetFloat("MoveInput") == 0)
-                            {
-                                playerMovementThreshold = 0.5f;
-                            }
+                            playerMovementThreshold = 0.5f;
                             break;
                     }
 
@@ -357,8 +354,14 @@ namespace Assets.Scripts.Systems.Character_Path
 
         private void StopFollowingPath()
         {
-            Debug.Log($"[Npc path system]: {entity.gameObject.name} Reached path end.");
             entity.transform.position = currentPath.points[^1].transform.position;
+
+            if (!entity.isPlayer())
+            { 
+                NpcCore npcCore = entity.GetComponent<NpcCore>();
+                npcCore.originalRotation = entity.transform.rotation;
+            }    
+
             follow = false;
             entity.isFollowingPath = false;
             StopMotionAnimation();
