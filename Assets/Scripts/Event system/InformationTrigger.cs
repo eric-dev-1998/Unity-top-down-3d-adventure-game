@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Event_system.Events;
 using Assets.Scripts.Event_System;
 using Assets.Scripts.Event_System.Events;
+using Assets.Scripts.GameText;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace Assets.Scripts.Event_system
     public class InformationTrigger : MonoBehaviour
     {
         // Text to be displayed, it's text id's from the text library, plain text won't work.
-        public string[] text;
+        public string worldTextId;
+
+        private string plainText;
 
         private bool onTrigger = false;
 
@@ -21,6 +24,21 @@ namespace Assets.Scripts.Event_system
 
         private void Start()
         {
+            TextManager textManager = FindAnyObjectByType<TextManager>();
+            if (textManager == null)
+            {
+                Debug.LogError($"[Door][{name}]: Text manager was not found on scene.");
+                this.enabled = false;
+                return;
+            }
+
+            plainText = textManager.GetWorldText(worldTextId);
+            if (plainText == "")
+            {
+                this.enabled = false;
+                return;
+            }
+
             eManager = FindAnyObjectByType<EventManager>();
             if (eManager == null)
                 Debug.LogError("[Information trigger]: No event manager was found on scene.");
@@ -37,23 +55,12 @@ namespace Assets.Scripts.Event_system
 
         private EventSequence Sequence()
         {
-            if (text.Length <= 0)
-            {
-                Debug.LogError("[Information trigger]: No text was entered. Operation aborted.");
-                return null;
-            }
+            var lines = plainText.Split('\n');
 
             EventSequence result = new EventSequence();
-            if (text.Length == 1)
-            {
-                SingleLine line = new SingleLine(text[0], SingleLine.Type.World);
-                result.startEvent = line;
-            }
-            else
-            {
-                Multiline multiline = new Multiline(text.ToList(), SingleLine.Type.World);
-                result.startEvent = multiline;
-            }
+            Multiline multiline = new Multiline(null, SingleLine.Type.World);
+            multiline.altLines = lines.ToList();
+            result.startEvent = multiline;
 
             return result;
         }
@@ -61,7 +68,7 @@ namespace Assets.Scripts.Event_system
         private void TriggerSequence()
         {
             if (eManager != null && !eManager.busy)
-                eManager.StartSequence(Sequence());
+                eManager.StartSequence(Sequence(), true);
         }
 
         private void OnTriggerEnter(Collider other)
