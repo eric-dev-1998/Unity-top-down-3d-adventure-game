@@ -1,9 +1,9 @@
-Vision:
+# Vision:
 A short 1-2 hour top down story driven game with puzzles about a human that
 accidentally enters a magic world and tries to go back to his world with the
 help of his new friends.
 
-What's in scope?
+### What's in scope?
 1. 19 explorable areas:
 	1. Protagonist home.
 	2. Protagonist way from home to magic world entrance.
@@ -32,7 +32,28 @@ What's in scope?
 7. Simple spell leveling system.
 8. Increasing enemy ai levels to make enemies in later game history more dificult.
 
-What is not in scope?
+### What is not in scope?
+1. Comlpex combat mechanics.
+2. Complex physics mechanics.
+3. Complex speel leveling system.
+4. Complex enemy ai system.
+
+# Update: The scope has now changed to the following:
+
+### What is now on scope:
+Main locations:
+1. Negumi's hut.
+2. Volcano
+3. Forest
+4. Ice mountain
+
+Dynamic NPC dialogues -> Done.
+
+Quest system -> Done.
+
+Spell based combat system -> Done.
+
+### What is not in scope?
 1. Comlpex combat mechanics.
 2. Complex physics mechanics.
 3. Complex speel leveling system.
