@@ -4,6 +4,9 @@ using Assets.Scripts.Systems.Character_Path;
 using Assets.Scripts.World;
 using UnityEngine;
 
+[RequireComponent(typeof(EntityAnimator))]
+[RequireComponent(typeof(Animator))]
+
 public class Entity : MonoBehaviour
 {
     // Core properties:
@@ -51,11 +54,11 @@ public class Entity : MonoBehaviour
         if (pathHandler.follow)
             return;
 
-        if (!characterController.enabled)
-            return;
-
         if (name == "Player")
         {
+            if (!characterController.enabled)
+                return;
+
             if (onWater)
             {
                 float playerYPos = transform.position.y;
