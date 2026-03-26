@@ -10,34 +10,47 @@ namespace Assets.Scripts.Event_system
 {
     public class AreaTrigger : MonoBehaviour
     {
-        public EventSequence sequence;
+        public EventSequence onEnterSequence;
+        public bool isEnterSequenceSynced;
+        public EventSequence onExitSequence;
+        public bool isExitSequenceSynced;
 
+        // This property exist for debuging purposes.
         private bool isPlayerOnTrigger = false;
 
-        private void TriggerEvent()
+        private void TriggerEvent(EventSequence sequence, bool synced)
         { 
             EventManager manager = FindAnyObjectByType<EventManager>();
             if (manager != null && !manager.busy)
             {
                 manager.questManager.ReachedArea(name);
-                manager.StartSequence(sequence);
+                manager.StartSequence(sequence, synced);
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
+            {
                 if (!isPlayerOnTrigger)
-                { 
+                {
                     isPlayerOnTrigger = true;
-                    TriggerEvent();
+
+                    if (onEnterSequence != null)
+                        TriggerEvent(onEnterSequence, isEnterSequenceSynced);
                 }
+            }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if(other.tag == "Player")
+            if (other.tag == "Player")
+            {
                 isPlayerOnTrigger = false;
+
+                if (onExitSequence != null)
+                    TriggerEvent(onExitSequence, isExitSequenceSynced);
+            }
         }
     }
 }
