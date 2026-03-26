@@ -18,6 +18,8 @@ namespace Assets.Scripts.Event_System
         public Quest_System.QuestManager questManager;
         public Inventory_System.InventoryManager inventoryManager;
 
+        private Dialogue_System.Manager dialogueManager;
+
         public IconManager iconManager;
 
         public GameObject owner;
@@ -27,24 +29,32 @@ namespace Assets.Scripts.Event_System
             questManager = FindAnyObjectByType<Quest_System.QuestManager>();
             inventoryManager = FindAnyObjectByType<Inventory_System.InventoryManager>();
             iconManager = new IconManager(this);
+            dialogueManager = FindAnyObjectByType<Dialogue_System.Manager>();
         }
 
-        public void StartSequence(EventSequence eventSequence)
+        public void StartSequence(EventSequence eventSequence, bool isSynced)
         {
-            if (busy)
-            {
-                Debug.LogWarning("[Event manager]: Event manager is currently bussy.");
-                return;
-            }
-
             if (eventSequence == null)
             {
                 Debug.LogWarning("[Event manager]: The selected event sequence is null or is corrupted. Operation aborted.");
                 return;
             }
 
-            currentEventSequence = eventSequence;
-            StartCoroutine(ProcessSequence());
+            if (isSynced)
+            {
+                if (busy)
+                {
+                    Debug.LogWarning("[Event manager]: Event manager is currently bussy.");
+                    return;
+                }
+
+                currentEventSequence = eventSequence;
+                StartCoroutine(ProcessSequence());
+            }
+            else
+            {
+                StartCoroutine(eventSequence.startEvent.Process(this, dialogueManager));
+            }
         }
 
         public void StartSequence(EventSequence eventSequence, GameObject owner)
@@ -70,7 +80,6 @@ namespace Assets.Scripts.Event_System
         {
             busy = true;
 
-            Dialogue_System.Manager dialogueManager = FindAnyObjectByType<Dialogue_System.Manager>();
             yield return StartCoroutine(currentEventSequence.startEvent.Process(this, dialogueManager));
 
             // Finish event sequence:
