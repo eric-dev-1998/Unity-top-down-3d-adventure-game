@@ -9,6 +9,7 @@ namespace Assets.Scripts.Event_system.Events
     public class Multiline : Event_System.Event
     {
         public List<String> lines = new List<String>();
+        public List<String> altLines = new List<String>();
         public SingleLine.Type type = SingleLine.Type.Dialogue;
 
         public Multiline(List<string> lines, SingleLine.Type type) 
@@ -22,26 +23,40 @@ namespace Assets.Scripts.Event_system.Events
             if (!dManager.OnDialogue())
                 yield return dManager.StartCoroutine(dManager.ShowDialogueBox());
 
-            foreach (string line in lines)
+            if (lines != null)
             {
-                string text = "";
-                string author = "";
-
-                if (type == SingleLine.Type.Dialogue)
+                foreach (string line in lines)
                 {
-                    GameText.DialogueLine dLine = dManager.textManager.GetDialogueLine(line);
-                    text = dLine.content;
-                    author = dLine.id.Split('_')[0];
-                }
-                else if (type == SingleLine.Type.World)
-                { 
-                    text = dManager.textManager.GetWorldText(line);
-                }
+                    string text = "";
+                    string author = "";
 
-                dManager.StartCoroutine(dManager.WriteText(author, text, false, null, null));
-                yield return new WaitUntil(() => dManager.advance == true);
+                    if (type == SingleLine.Type.Dialogue)
+                    {
+                        GameText.DialogueLine dLine = dManager.textManager.GetDialogueLine(line);
+                        text = dLine.content;
+                        author = dLine.id.Split('_')[0];
+                    }
+                    else if (type == SingleLine.Type.World)
+                    {
+                        text = dManager.textManager.GetWorldText(line);
+                    }
+
+                    dManager.StartCoroutine(dManager.WriteText(author, text, false, null, null));
+
+                    yield return new WaitUntil(() => dManager.advance == true);
+                }
             }
+            else
+            {
+                // Use alternate text if no lines were found:
 
+                foreach (string line in altLines)
+                {
+                    dManager.StartCoroutine(dManager.WriteText("", line, false, null, null));
+
+                    yield return new WaitUntil(() => dManager.advance == true);
+                }
+            }
             if (next != null && next.Count != 0)
                 yield return dManager.StartCoroutine(base.Process(eManager, dManager));
             else

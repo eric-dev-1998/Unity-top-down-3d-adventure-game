@@ -33,9 +33,9 @@ namespace Assets.Scripts.Event_system.Events
             dManager.HideAnswers();
 
             if (dManager.chooseA)
-                yield return dManager.StartCoroutine(next[0].Process(eManager, dManager));
-            if(dManager.chooseB)
                 yield return dManager.StartCoroutine(next[1].Process(eManager, dManager));
+            if(dManager.chooseB)
+                yield return dManager.StartCoroutine(next[0].Process(eManager, dManager));
         }
     }
 }

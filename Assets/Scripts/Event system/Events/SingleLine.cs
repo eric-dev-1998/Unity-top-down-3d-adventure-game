@@ -9,6 +9,7 @@ namespace Assets.Scripts.Event_System.Events
     public class SingleLine : Event
     {
         public string lineId;
+        public string altText;
         
         public enum Type { Dialogue, World };
         public Type type = Type.Dialogue;
@@ -40,7 +41,11 @@ namespace Assets.Scripts.Event_System.Events
             }
 
             // Start writing dialogue text.
-            dManager.StartCoroutine(dManager.WriteText(author, text, false, null, null));
+            if (text != null)
+                dManager.StartCoroutine(dManager.WriteText(author, text, false, null, null));
+            else
+                dManager.StartCoroutine(dManager.WriteText(author, altText, false, null, null));
+
             yield return new WaitUntil(() => dManager.advance == true);
 
             if (next != null && next.Count != 0)
