@@ -17,6 +17,8 @@ public class GameCamera : MonoBehaviour
     public float maxVerticalAngle = 75f;
     public float minPlayerDistanceToAdjustCameraAngle = 3f;
 
+    private float timeElapsed = 0;
+
     float targetZOffset = 0f;
 
     Vector3 velocity = Vector3.zero;
@@ -40,9 +42,22 @@ public class GameCamera : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
 
         if (Vector3.Distance(transform.position, targetPos) <= 0.06f)
-            inPosition = true;
+        {
+            if (timeElapsed >= 1f)
+            {
+                inPosition = true;
+                timeElapsed = 0;
+            }
+            else
+            {
+                StartCoroutine(WaitABitMore());
+            }
+        }
         else
+        {
             inPosition = false;
+            timeElapsed += Time.deltaTime;
+        }
     }
 
     void LookAtPlayer()
@@ -101,6 +116,8 @@ public class GameCamera : MonoBehaviour
         try
         {
             focus_target = GameObject.Find(newTarget).transform;
+            timeElapsed = 0f;
+            inPosition = false;
         }
         catch (Exception e)
         {
@@ -111,5 +128,12 @@ public class GameCamera : MonoBehaviour
     public void ResetFocusTarget()
     {
         focus_target = GameObject.Find("Player").transform;
+    }
+
+    private IEnumerator WaitABitMore()
+    {
+        yield return new WaitForSeconds(1.5f);
+        inPosition = true;
+        timeElapsed = 0;
     }
 }
