@@ -488,6 +488,7 @@ namespace Editor.DialogueGraph
             evt.menu.AppendAction("Add node/Set camera target", (a) => { CreateNode(typeof(Assets.Editor.DialogueGraph.Nodes.Camera), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Toggle world object", (a) => { CreateNode(typeof(Toggable), mousePosition); }, DropdownMenuAction.Status.Normal);
             evt.menu.AppendAction("Add node/Follow path", (a) => { CreateNode(typeof(FollowPath), mousePosition); }, DropdownMenuAction.Status.Normal);
+            evt.menu.AppendAction("Add node/Item ownership", (a) => { CreateNode(typeof(ItemOwnership), mousePosition); }, DropdownMenuAction.Status.Normal);
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)

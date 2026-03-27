@@ -146,6 +146,17 @@ namespace EventSystem
                     evt11.sync = p11.sync;
 
                     return evt11;
+
+                case "Assets.Editor.DialogueGraph.Nodes.ItemOwnership":
+                    var p12 = saveData.properties as ItemOwnershipProperties;
+                    if (p12 == null)
+                        throw new System.Exception("Item ownership properties doesn't exist,");
+
+                    var evt12 = ScriptableObject.CreateInstance<Assets.Scripts.Event_system.Events.ItemOwnership>();
+                    evt12.itemId = p12.itemId;
+                    evt12.count = p12.count;
+
+                    return evt12;
             }
 
             UnityEngine.Debug.Log("Couldnt match any event case.");
