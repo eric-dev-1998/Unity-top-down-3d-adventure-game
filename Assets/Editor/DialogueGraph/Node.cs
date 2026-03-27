@@ -66,7 +66,7 @@ namespace Editor.DialogueGraph
 
             // Create main ports:
             string inputId = Guid.NewGuid().ToString();
-            Port inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(Node));
+            Port inputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(Node));
             inputPort.portName = "Input";
             
             string outputId = Guid.NewGuid().ToString();
