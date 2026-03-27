@@ -32,10 +32,13 @@ namespace Assets.Scripts.Event_system.Events
             yield return new WaitForSeconds(0.26f);
             dManager.HideAnswers();
 
-            if (dManager.chooseA)
-                yield return dManager.StartCoroutine(next[1].Process(eManager, dManager));
-            if(dManager.chooseB)
-                yield return dManager.StartCoroutine(next[0].Process(eManager, dManager));
+            if (next.Count >= 2 && (next[0] != null && next[1] != null))
+            {
+                if (dManager.chooseA)
+                    yield return dManager.StartCoroutine(next[0].Process(eManager, dManager));
+                if (dManager.chooseB)
+                    yield return dManager.StartCoroutine(next[1].Process(eManager, dManager));
+            }
         }
     }
 }

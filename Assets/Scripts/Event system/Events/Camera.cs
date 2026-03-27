@@ -16,14 +16,15 @@ namespace Assets.Scripts.Event_system.Events
             GameCamera camera = eManager.Find("Main Camera").GetComponent<GameCamera>();
 
             if (camera == null || string.IsNullOrEmpty(target))
-                yield return base.Process(eManager, dManager);
+                yield return next[0].Process(eManager, dManager);
             else
             {
                 camera.SwitchFocusTarget(target);
 
                 yield return new WaitUntil(() => camera.inPosition);
 
-                yield return base.Process(eManager, dManager);
+                if (next.Count != 0 && next[0] != null)
+                    yield return next[0].Process(eManager, dManager);
             }
         }
     }

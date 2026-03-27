@@ -20,21 +20,14 @@ namespace Assets.Scripts.Event_system.Events
         {
             Quest_System.Quest quest = Resources.Load<Quest_System.Quest>($"Quests/{questName}");
 
-            switch (questState)
-            {
-                case QuestState.None:
-                    yield break;
+            if (questState == QuestState.Active)
+                eManager.questManager.TriggerQuest(quest);
+            else if (questState == QuestState.Completed)
+                eManager.questManager.SetComplete(quest);
 
-                case QuestState.Active:
-                    eManager.questManager.TriggerQuest(quest);
-                    yield break;
+            if (next.Count != 0 && next[0] != null)
+                yield return next[0].Process(eManager, dManager);
 
-                case QuestState.Completed:
-                    eManager.questManager.SetComplete(quest);
-                    yield break;
-            }
-
-            yield return base.Process(eManager, dManager);
         }
     }
 }

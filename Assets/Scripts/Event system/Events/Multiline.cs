@@ -20,6 +20,8 @@ namespace Assets.Scripts.Event_system.Events
 
         public override System.Collections.IEnumerator Process(Event_System.EventManager eManager, Dialogue_System.Manager dManager)
         {
+            UnityEngine.Debug.Log("Multiline event.");
+
             if (!dManager.OnDialogue())
                 yield return dManager.StartCoroutine(dManager.ShowDialogueBox());
 
