@@ -234,8 +234,15 @@ namespace Assets.Scripts.Quest_System
         {
             Debug.Log("About to trigger a quest...");
 
+            /*
+             * This code seems wrong here.
+             * 
             if (NoCurrentQuest())
+            {
+                Debug.Log("No current quest.");
                 return;
+            }
+            */
 
             // Change quest status to active.
             currentGameQuests.Add(questData);
