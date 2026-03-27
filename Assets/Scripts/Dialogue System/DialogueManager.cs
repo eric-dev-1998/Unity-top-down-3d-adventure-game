@@ -298,7 +298,8 @@ namespace Assets.Scripts.Dialogue_System
                 yield break;
             }
 
-            Instantiate(item.item_display, Camera.main.transform.Find("Item display/Container").transform);
+            GameObject display = Instantiate(item.item_display, Camera.main.transform.Find("Item display/Container").transform);
+            display.transform.localPosition = Vector3.zero;
             itemDisplayAnimator.SetBool("Show", true);
 
             yield return new WaitForSeconds(0.25F);
