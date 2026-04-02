@@ -46,6 +46,7 @@ Main locations:
 2. Volcano
 3. Forest
 4. Ice mountain
+5. Desert
 
 Dynamic NPC dialogues -> Done.
 
@@ -56,5 +57,5 @@ Spell based combat system -> Done.
 ### What is not in scope?
 1. Comlpex combat mechanics.
 2. Complex physics mechanics.
-3. Complex speel leveling system.
+3. Complex spell leveling system.
 4. Complex enemy ai system.
