@@ -742,3 +742,71 @@ Stage 0 and 1 of the technical demo level are now finished... at least their des
 
 ### Next:
 1. Create Diane's quest and the needed events.
+
+# 3/30/2026 13:49pm: The combat system design
+The combat system is not going to be anything complex.
+
+There are 5 main playable areas in the game:
+1. Negumi's Hut
+2. The forest
+3. The volcano
+4. Tropical island
+5. The desert
+
+The main magic spells reside on each one of these levels. The order is not defined yet.
+1. Neutral magic spell
+2. Wind magic spell
+3. Fire magic spell
+4. Water magic spell
+5. Earth magic spell
+
+Besides combat, these spells could be used to advance trough the levels.
+
+### Neutral magic spell:
+The player casts a small energy ball to attack.
+
+### Wind magic spell:
+The player blows air from his hand.
+
+### Fire magic spell:
+The player throws flames from his hands to burn things.
+
+### Water magic spell:
+The player casts a splash of water.
+
+### Earth magic spell:
+The player spawns a rock that can be thrown.
+
+## Stages of development of the combat system:
+This system is supported by these subsystems:
+1. Mana management system.
+2. Object reaction to magic system.
+3. Entity AI, health & reaction to magic system.
+
+### The order is the following:
+1. Make a spell cast system that allows a spell to be created from a buleprint or a prefab to make the creation process easier. This will come in handy if more spells are created in the future.
+    1. Particle VFX
+    2. Trigger collider (Will be animated as well)
+    3. Cooldown.
+    4. Vulnerability time.
+2. Create spell casting animations for the player.
+3. Implement object basic reactions to the diferent magic types.
+4. Add health to entities:
+    1. Player health.
+        1. Player health bar.
+    2. Hostile entities health.
+    3. Entity motions:
+        1. Damage.
+        2. Recover from damage.
+        3. Death.
+5. Entity reaction to magic.
+6. Hostile entity AI. Nothing to complex, just make the hostile enemies follow and attack. The AI can be adjusted the same way i did on the godot 2d game.
+
+# 4/1/2026 16:49pm
+Player can now enter on spell motion while holding the spell cast input.
+
+# 4/2/2026 14:52pm:
+Player can now cast the 5 main spells: Neutral, Fire, Water, Wind and Earth.
+
+### Next:
+Code basic interactions
