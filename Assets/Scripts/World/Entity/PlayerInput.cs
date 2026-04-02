@@ -82,4 +82,19 @@ public class PlayerInput : MonoBehaviour
     { 
         return gameMenu.open;
     }
+
+    public bool GetSpellCastInput()
+    { 
+        return Input.GetMouseButton(1);
+    }
+
+    public bool GetSpellCastInputDown()
+    { 
+        return Input.GetMouseButtonDown(1); 
+    }
+
+    public bool GetSpellCastInputUp()
+    {
+        return Input.GetMouseButtonUp(1);
+    }
 }

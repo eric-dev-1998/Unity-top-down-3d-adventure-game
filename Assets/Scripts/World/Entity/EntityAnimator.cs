@@ -1,9 +1,11 @@
+using Assets.Scripts.Player;
 using Assets.Scripts.World.Npc;
 using System;
 using System.Collections;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 
 public class EntityAnimator : MonoBehaviour
 {
@@ -78,5 +80,25 @@ public class EntityAnimator : MonoBehaviour
 
         animator.SetBool("Gesture/Active", false);
         animator.SetInteger("Gesture/Value", 0);
+    }
+
+    public void StartSpellCastingMotion(bool spawn)
+    {
+        animator.SetBool("Casting/Enabled", true);
+
+        if (spawn)
+            animator.SetBool("Casting/Spawn", true);
+        else
+            animator.SetBool("Casting/Spawn", false);
+
+        GetComponent<Entity>().LockMovement();
+    }
+
+    public void StopSpellCastingMotion()
+    {
+        animator.SetBool("Casting/Spawn", false);
+        animator.SetBool("Casting/Enabled", false);
+
+        GetComponent<Entity>().UnlockMovement();
     }
 }

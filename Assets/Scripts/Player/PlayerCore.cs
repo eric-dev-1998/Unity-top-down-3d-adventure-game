@@ -47,5 +47,17 @@ namespace Assets.Scripts.Player
         {
             return playerAudio;
         }
+
+        public void LockMovement()
+        {
+            canMove = false;
+            entity.LockMovement();
+        }
+
+        public void UnlockMovement()
+        {
+            canMove = true;
+            entity.UnlockMovement();
+        }
     }
 }
