@@ -7450,8 +7450,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8b52b819c61644ba7358df697ef317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Systems.Spell.SpellCaster
+  element: 0
   mana: 100
   infiniteMana: 0
+  inPosition: 0
   ready: 0
 --- !u!1 &1841331429 stripped
 GameObject:
@@ -8362,6 +8364,10 @@ PrefabInstance:
     - target: {fileID: 6097231234422752284, guid: 0e8cc4c813a29d34998e3b174373ac28, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6863597098767488023, guid: 0e8cc4c813a29d34998e3b174373ac28, type: 3}
+      propertyPath: m_SlopeLimit
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6905820518564175526, guid: 0e8cc4c813a29d34998e3b174373ac28, type: 3}
       propertyPath: m_LocalPosition.x
