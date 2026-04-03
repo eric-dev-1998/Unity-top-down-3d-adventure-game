@@ -810,3 +810,11 @@ Player can now cast the 5 main spells: Neutral, Fire, Water, Wind and Earth.
 
 ### Next:
 Code basic interactions
+
+# 4/3/2026 10:09am:
+Implemented basic interactions with Fire and Water spells that make the target display a fire or water drips vfx.
+
+### Next:
+Create a base class for spell reactive objects. 
+
+This adds more flexibility to create many different types of interactions by just triggering an animation on the object itself or even trigerring more complex reactions by creating sub classes.
