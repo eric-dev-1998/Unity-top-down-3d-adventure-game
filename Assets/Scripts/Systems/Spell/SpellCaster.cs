@@ -17,7 +17,7 @@ namespace Assets.Scripts.Systems.Spell
         public bool inPosition = false;
         public bool ready = false;
 
-        private bool casting = false;
+        public bool casting = false;
         private bool canCast = true;
         private float timeElapsedUntilReady = 0f;
         private float castCooldown = 0.6f;
@@ -95,12 +95,15 @@ namespace Assets.Scripts.Systems.Spell
                         }
                         else
                         {
-                            Animator anim = castObject.GetComponent<Animator>();
-                            if (anim != null)
+                            if (!ready)
                             {
-                                if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                                Animator anim = castObject.GetComponent<Animator>();
+                                if (anim != null)
                                 {
-                                    StartCoroutine(CastEarth());
+                                    if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                                    {
+                                        ready = true;
+                                    }
                                 }
                             }
                         }
@@ -108,8 +111,14 @@ namespace Assets.Scripts.Systems.Spell
                 }
                 else
                 {
-                    if (ready && spellConfig.element == SpellConfig.MagicElement.Neutral)
-                        FireOnce();
+                    if (ready)
+                    {
+                        if (spellConfig.element == SpellConfig.MagicElement.Neutral)
+                            FireOnce();
+
+                        if (spellConfig.element == SpellConfig.MagicElement.Earth)
+                            ThrowRock();
+                    }
 
                     Stop();
                 }
@@ -159,10 +168,6 @@ namespace Assets.Scripts.Systems.Spell
                 timeElapsedUntilReady = 0f;
                 ready = false;
             }
-            else if (spellConfig.element == SpellConfig.MagicElement.Earth)
-            {
-                CastEarth();
-            }
 
             Debug.Log("Fired");
 
@@ -176,7 +181,7 @@ namespace Assets.Scripts.Systems.Spell
             // Stop casting a spell.
             // This will be called when the player releases the spell cast input.
 
-            if(spellConfig.isContinuous)
+            if(castObject != null)
                 StartCoroutine(DestroyCastVFX(castObject));
 
             animator.StopSpellCastingMotion();
@@ -238,14 +243,16 @@ namespace Assets.Scripts.Systems.Spell
             else
             {
                 ParticleSystem particles = castObject.transform.Find("Particles").GetComponent<ParticleSystem>();
-                particles.Stop();
-
-                yield return new WaitUntil(() => particles.particleCount <= 0);
+                if (particles != null)
+                {
+                    particles.Stop();
+                    yield return new WaitUntil(() => particles.particleCount <= 0);
+                }
             }
 
             Destroy(castObject);
 
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.4f);
             if (playerCore)
                 playerCore.UnlockMovement();
         }
@@ -256,13 +263,26 @@ namespace Assets.Scripts.Systems.Spell
 
             yield return DestroyCastVFX(castObject);
 
-            Vector3 spawnPosition = transform.position + (transform.forward * 0.75f);
-            spawnPosition.y += 0.5f;
-            Instantiate(spellConfig.spellObjectPrefab, spawnPosition, transform.rotation);
-
             yield return new WaitForSeconds(0.75f);
             if (playerCore)
                 playerCore.UnlockMovement();
+
+            ready = true;
+        }
+
+        public void ThrowRock()
+        {
+            Debug.Log("Pium");
+
+            ready = false;
+
+            Vector3 spawnPosition = transform.position + (transform.forward * 0.75f);
+            spawnPosition.y += 0.5f;
+            GameObject rock = Instantiate(spellConfig.spellObjectPrefab, spawnPosition, transform.rotation);
+
+            Rigidbody rb = rock.GetComponent<Rigidbody>();
+            Vector3 forceDirection = transform.forward * 60 + Vector3.up;
+            rb.AddForce(forceDirection, ForceMode.Impulse);
         }
     }
 }
