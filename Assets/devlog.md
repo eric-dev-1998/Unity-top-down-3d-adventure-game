@@ -818,3 +818,24 @@ Implemented basic interactions with Fire and Water spells that make the target d
 Create a base class for spell reactive objects. 
 
 This adds more flexibility to create many different types of interactions by just triggering an animation on the object itself or even trigerring more complex reactions by creating sub classes.
+
+# 4/10/2026 11:42am:
+Rock spell was updated to throw rocks instead of spawning them to be carried around.
+Rocks created by the spell now disappear with time.
+
+### Next:
+### Make a dummy - DONE
+A dummy is the best choice to showcase spell effects inside a lab. There should only be one single dummy that can be destroyed. A lab machine will spawn a new one to keep trying.
+#### Breakeable objets for the rock spell: 
+    These could be able to accumulate damage or be destroyed immediately.
+#### Burnable objects for fire: 
+    These burn over time, it would be great it these could be turned off with water as well.
+#### Waterable objects: 
+    These objects may use water to grow or to be turned off it on fire.
+#### Blowable objects for wind: 
+    Objets like a pile of dust, big leaves or even big obstacles could be pushed when blowing directly to them.
+#### Design a test enemy: 
+    Enemies should behave like those in the mario series games or banjo kazooie.
+
+# 4/10/2026 18:40pm:
+Coded the spell interaction base script and created a spell interaction script for the dummy.
