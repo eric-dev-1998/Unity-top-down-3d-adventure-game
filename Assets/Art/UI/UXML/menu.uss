@@ -81,14 +81,26 @@
 .objective.unity-disabled {
     opacity: 1;
     font-size: 32px;
-    color: #292929;
+    color: rgb(41, 41, 41);
 }
 
-.objective.unity-disabled .unity-toggle__checkmark
-{
+.objective.unity-disabled .unity-toggle__checkmark {
     width: 32px;
     height: 32px;
     margin-right: 16px;
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.player-health-frame {
+    background-color: rgba(220, 220, 220, 1);
+}
+
+.player-health-bar {
+    background-color: rgba(255, 80, 80, 1);
+}
+
+.player-mana-bar 
+{
+    background-color: rgba(80, 196, 80, 1);
 }
