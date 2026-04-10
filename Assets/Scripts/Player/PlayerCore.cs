@@ -9,6 +9,7 @@ namespace Assets.Scripts.Player
         private PlayerAudio playerAudio;
 
         public bool canMove = true;
+        public bool onGrab = false;
         public float currentWaterHeight = 0f;
 
         private float velocity = 0;

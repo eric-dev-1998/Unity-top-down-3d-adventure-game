@@ -17,6 +17,7 @@ public class Entity : MonoBehaviour
     private PathHandler pathHandler;
 
     // General properties:
+    public int health = 10;
     public bool canMove = true;
     public bool isMoving = false;
     public bool isFollowingPath = false;

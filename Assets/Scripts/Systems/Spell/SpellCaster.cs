@@ -20,7 +20,7 @@ namespace Assets.Scripts.Systems.Spell
         private bool casting = false;
         private bool canCast = true;
         private float timeElapsedUntilReady = 0f;
-        private float castCooldown = 1.6f;
+        private float castCooldown = 0.6f;
         private float elapsedCooldownTime = 0f;
 
         // Current spell data:
