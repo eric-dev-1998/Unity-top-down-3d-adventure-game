@@ -20,7 +20,7 @@ namespace Assets.Scripts.Systems.Spell
         public bool canBeBlownAway = false;
         public bool canGetSmashed = false;
 
-        private SpellCaster caster;
+        public SpellCaster caster;
 
         private float elapsedTime = 0f;
         private float durationInSeconds = 5f;
@@ -127,8 +127,6 @@ namespace Assets.Scripts.Systems.Spell
                         OnEarthEnd();
                     break;
             }
-
-            state = State.None;
         }
 
         public void StopReactionVfx(ParticleSystem p)
@@ -167,7 +165,7 @@ namespace Assets.Scripts.Systems.Spell
                 reacting = true;
                 elapsedTime = 0f;
             }
-            else if (state == State.Wet && canGetWet)
+            else if (state == State.Wet)
             {
                 vfx.GetComponent<ParticleSystem>().Stop();
                 state = State.None;
@@ -190,7 +188,7 @@ namespace Assets.Scripts.Systems.Spell
                 reacting = true;
                 elapsedTime = 0f;
             }
-            else if (state == State.Burning && canBurn)
+            else if (state == State.Burning)
             {
                 vfx.GetComponent<ParticleSystem>().Stop();
                 state = State.None;
@@ -228,7 +226,8 @@ namespace Assets.Scripts.Systems.Spell
             shapeModule.shapeType = ParticleSystemShapeType.Mesh;
             shapeModule.meshShapeType = ParticleSystemMeshShapeType.Triangle;
             shapeModule.mesh = GetMesh();
-            shapeModule.scale = transform.localScale;
+            shapeModule.rotation = new Vector3(90, 0, 0);
+            shapeModule.scale = transform.localScale * 0.01f;
         }
         public virtual void ReactToNeutral() { if (!canBeBlasted) return; state = State.Hit; }
 
@@ -266,9 +265,17 @@ namespace Assets.Scripts.Systems.Spell
                 rock = other.gameObject;
 
             React(other.tag); 
-            caster = other.transform.parent.GetComponent<SpellCaster>(); 
+            caster = other.transform.parent.GetComponent<SpellCaster>();
         }
 
+        private void OnTriggerStay(Collider other)
+        {
+            if (!reacting)
+            {
+                //React(other.tag);
+            }
+        }
+        
         private void OnTriggerExit(Collider other) { StopReaction(other.tag); }
     }
 }

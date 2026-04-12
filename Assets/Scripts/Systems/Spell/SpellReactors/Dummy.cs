@@ -1,4 +1,5 @@
 using Assets.Scripts.Player;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 
@@ -8,14 +9,33 @@ namespace Assets.Scripts.Systems.Spell
     {
         public override void OnLowHealth()
         {
-            Destroy(gameObject);
+            StopReactionVfx();
+
+            CapsuleCollider[] colliders = GetComponents<CapsuleCollider>();
+            foreach (CapsuleCollider c in colliders)
+                c.enabled = false;
+
+            transform.Find("Mesh").transform.gameObject.SetActive(false);
+            transform.Find("DeathParticles").transform.GetComponent<ParticleSystem>().Play();
+            enabled = false;
         }
         public override void OnWind()
         {
-            PlayerCore player = FindAnyObjectByType<PlayerCore>();
-            transform.position += player.transform.forward * 0.1f * Time.deltaTime;
+            Animator animator = GetComponent<Animator>();
+
+            transform.rotation = Quaternion.LookRotation(caster.transform.forward, Vector3.up);
+
+            Animator anim = GetComponent<Animator>();
+            anim.SetBool("Blow", true);
         }
 
+        public override void OnWindEnd()
+        {
+            base.OnWindEnd();
+
+            Animator anim = GetComponent<Animator>();
+            anim.SetBool("Blow", false);
+        }
         public override void OnFire()
         {
             if (!damaged)
@@ -32,13 +52,22 @@ namespace Assets.Scripts.Systems.Spell
                 // Hit.
                 if (!damaged)
                 {
-                    PlayerCore player = FindAnyObjectByType<PlayerCore>();
-                    transform.position += player.transform.forward * 0.5f;
+                    Animator animator = GetComponent<Animator>();
+
+                    transform.rotation = Quaternion.LookRotation(-caster.transform.forward, Vector3.up);
+                    animator.SetBool("Hit", true);
+                    StartCoroutine(WaitForAnimationToEnd(animator));
 
                     health -= 3;
                     damaged = true;
                 }
             }
+        }
+
+        private IEnumerator WaitForAnimationToEnd(Animator anim)
+        {
+            yield return new WaitForSeconds(0.1f);
+            anim.SetBool("Hit", false);
         }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Systems.Spell
 {
-    internal class SpellCaster : MonoBehaviour
+    public class SpellCaster : MonoBehaviour
     {
         public SpellConfig.MagicElement element;
 
@@ -234,20 +234,18 @@ namespace Assets.Scripts.Systems.Spell
         {
             Animator animator = castObject.GetComponent<Animator>();
 
-            if (!spellConfig.isContinuous)
+            if (spellConfig.isContinuous)
             {
                 animator.SetBool("Cancel", true);
                 yield return new WaitForSeconds(0.001f);
                 yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
             }
-            else
+
+            ParticleSystem particles = castObject.transform.Find("Particles").GetComponent<ParticleSystem>();
+            if (particles != null)
             {
-                ParticleSystem particles = castObject.transform.Find("Particles").GetComponent<ParticleSystem>();
-                if (particles != null)
-                {
-                    particles.Stop();
-                    yield return new WaitUntil(() => particles.particleCount <= 0);
-                }
+                particles.Stop();
+                yield return new WaitUntil(() => particles.particleCount <= 0);
             }
 
             Destroy(castObject);
