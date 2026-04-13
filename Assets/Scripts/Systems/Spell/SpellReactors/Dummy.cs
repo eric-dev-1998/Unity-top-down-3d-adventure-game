@@ -2,6 +2,7 @@ using Assets.Scripts.Player;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Diagnostics;
+using static UnityEngine.ParticleSystem;
 
 namespace Assets.Scripts.Systems.Spell
 {
@@ -10,14 +11,7 @@ namespace Assets.Scripts.Systems.Spell
         public override void OnLowHealth()
         {
             StopReactionVfx();
-
-            CapsuleCollider[] colliders = GetComponents<CapsuleCollider>();
-            foreach (CapsuleCollider c in colliders)
-                c.enabled = false;
-
-            transform.Find("Mesh").transform.gameObject.SetActive(false);
-            transform.Find("DeathParticles").transform.GetComponent<ParticleSystem>().Play();
-            enabled = false;
+            StartCoroutine(Kill());
         }
         public override void OnWind()
         {
@@ -54,7 +48,10 @@ namespace Assets.Scripts.Systems.Spell
                 {
                     Animator animator = GetComponent<Animator>();
 
-                    transform.rotation = Quaternion.LookRotation(-rock.GetComponent<Rigidbody>().linearVelocity.normalized, Vector3.up);
+                    Vector3 direction = rock.GetComponent<Rigidbody>().linearVelocity.normalized;
+                    direction.y = 0f;
+
+                    transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
                     animator.SetBool("Hit", true);
                     StartCoroutine(WaitForAnimationToEnd(animator));
 
@@ -79,10 +76,35 @@ namespace Assets.Scripts.Systems.Spell
             damaged = true;
         }
 
+        public override Mesh GetMesh()
+        {
+            Debug.Log("Got mesh from dummy.");
+            return transform.Find("Fabric").GetComponent<SkinnedMeshRenderer>().sharedMesh;
+        }
+
+        public override void SetupMesh(ShapeModule shapeModule)
+        {
+            shapeModule.shapeType = ParticleSystemShapeType.Mesh;
+            shapeModule.meshShapeType = ParticleSystemMeshShapeType.Triangle;
+            shapeModule.mesh = GetMesh();
+            shapeModule.rotation = new Vector3(180, 0, 0);
+            shapeModule.scale = transform.localScale * 0.0001f;
+        }
         private IEnumerator WaitForAnimationToEnd(Animator anim)
         {
             yield return new WaitForSeconds(0.1f);
             anim.SetBool("Hit", false);
+        }
+
+        private IEnumerator Kill()
+        {
+            transform.Find("Fabric").transform.gameObject.SetActive(false);
+            ParticleSystem p = transform.Find("DeathParticles").transform.GetComponent<ParticleSystem>();
+            p.Play();
+
+            yield return new WaitUntil(() => p.isStopped);
+
+            transform.parent.parent.GetComponent<DummyMachine>().GetAnimator().SetBool("Show", false);
         }
     }
 }
