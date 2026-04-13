@@ -10,6 +10,7 @@ namespace Assets.Scripts.Systems.Spell
         public int power = 1;
         public float speed = 3f;
         public float timeToDisappear = 5f;
+        public GameObject explosionVfx;
         private float timeElapsed = 0f;
         private SpellCaster caster;
 
@@ -24,6 +25,7 @@ namespace Assets.Scripts.Systems.Spell
 
         public void DestroySelf()
         {
+            Instantiate(explosionVfx, transform.position, Quaternion.identity, transform.parent);
             Destroy(gameObject);
         }
 
