@@ -7,9 +7,11 @@ namespace Assets.Scripts.Systems.Spell
 {
     public class Projectile : MonoBehaviour
     {
+        public int power = 1;
         public float speed = 3f;
         public float timeToDisappear = 5f;
         private float timeElapsed = 0f;
+        private SpellCaster caster;
 
         private void Update()
         {
@@ -25,6 +27,15 @@ namespace Assets.Scripts.Systems.Spell
             Destroy(gameObject);
         }
 
+        public void SetCaster(SpellCaster caster)
+        { 
+            this.caster = caster;
+        }
+
+        public SpellCaster GetCaster()
+        { 
+            return caster;
+        }
         private void OnCollisionEnter(Collision collision)
         {
             DestroySelf();
