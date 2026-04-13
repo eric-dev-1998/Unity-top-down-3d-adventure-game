@@ -21,11 +21,12 @@ namespace Assets.Scripts.Systems.Spell
         public bool canGetSmashed = false;
 
         public SpellCaster caster;
+        public Projectile projectile;
 
         private float elapsedTime = 0f;
         private float durationInSeconds = 5f;
         private float cooldownInSeconds = 1f;
-        private enum State { None, Hit, Burning, Wet, Blowing, Smashed };
+        private enum State { None, Burning, Wet, Blowing };
         private State state = State.None;
 
         private bool reacting = false;
@@ -229,7 +230,7 @@ namespace Assets.Scripts.Systems.Spell
             shapeModule.rotation = new Vector3(90, 0, 0);
             shapeModule.scale = transform.localScale * 0.01f;
         }
-        public virtual void ReactToNeutral() { if (!canBeBlasted) return; state = State.Hit; }
+        public virtual void ReactToNeutral() { if (!canBeBlasted) return; }
 
         public virtual void ReactToFire() { if (!canBurn) return; Burn(); }
 
@@ -237,7 +238,7 @@ namespace Assets.Scripts.Systems.Spell
 
         public virtual void ReactToWind() { if (!canBeBlownAway) return; state = State.Blowing; }
 
-        public virtual void ReactToEarth() { if (!canGetSmashed) return; state = State.Smashed; }
+        public virtual void ReactToEarth() { if (!canGetSmashed) return; }
 
         public virtual void OnNeutralEnd() { }
 
@@ -264,8 +265,15 @@ namespace Assets.Scripts.Systems.Spell
             if (other.tag == "Spell_Earth")
                 rock = other.gameObject;
 
+            try
+            {
+                caster = other.transform.parent.GetComponent<SpellCaster>();
+            }
+            catch
+            {
+                projectile = other.transform.GetComponent<Projectile>();
+            }
             React(other.tag); 
-            caster = other.transform.parent.GetComponent<SpellCaster>();
         }
 
         private void OnTriggerStay(Collider other)
