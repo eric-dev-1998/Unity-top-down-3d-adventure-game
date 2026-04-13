@@ -36,9 +36,6 @@ namespace Assets.Scripts.Systems.Spell
 
         public void Update()
         {
-            if (health <= 0)
-                OnLowHealth();
-
             if (state == State.Blowing)
             {
                 OnWind();
@@ -97,6 +94,9 @@ namespace Assets.Scripts.Systems.Spell
                     ReactToEarth();
                     break;
             }
+
+            if (health <= 0)
+                OnLowHealth();
         }
 
         public void StopReaction(string tag)
@@ -198,24 +198,9 @@ namespace Assets.Scripts.Systems.Spell
             }
         }
 
-        public Mesh GetMesh()
-        { 
-            MeshFilter meshFilter = GetComponent<MeshFilter>();
-            if (meshFilter == null)
-            {
-                SkinnedMeshRenderer meshRenderer = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
-                if (meshRenderer == null)
-                {
-                    Debug.Log("No mesh filter and no skinned mesh renderer was found at root or at second child.");
-                    enabled = false;
-                    return null;
-                }
+        public virtual Mesh GetMesh() { return null; }
 
-                return meshRenderer.sharedMesh;
-            }
-            else
-                return meshFilter.mesh;
-        }
+        public virtual void SetupMesh(ShapeModule shapeModule) { }
 
         private void ShowEffectVFX()
         {
@@ -224,11 +209,7 @@ namespace Assets.Scripts.Systems.Spell
             particles.transform.localPosition = Vector3.zero;
             ShapeModule shapeModule = particles.shape;
 
-            shapeModule.shapeType = ParticleSystemShapeType.Mesh;
-            shapeModule.meshShapeType = ParticleSystemMeshShapeType.Triangle;
-            shapeModule.mesh = GetMesh();
-            shapeModule.rotation = new Vector3(90, 0, 0);
-            shapeModule.scale = transform.localScale * 0.01f;
+            SetupMesh(shapeModule);
         }
         public virtual void ReactToNeutral() { if (!canBeBlasted) return; }
 
