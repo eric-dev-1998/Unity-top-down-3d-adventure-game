@@ -163,7 +163,9 @@ namespace Assets.Scripts.Systems.Spell
                 StartCoroutine(DestroyCastVFX(castObject));
 
                 Vector3 spawnPosition = transform.position + (transform.forward * 0.5f);
-                Instantiate(spellConfig.spellObjectPrefab, spawnPosition, transform.rotation);
+                GameObject objProjectile = Instantiate(spellConfig.spellObjectPrefab, spawnPosition, transform.rotation);
+                Projectile projectile = objProjectile.GetComponent<Projectile>();
+                projectile.SetCaster(this);
 
                 timeElapsedUntilReady = 0f;
                 ready = false;
