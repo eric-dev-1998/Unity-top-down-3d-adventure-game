@@ -54,7 +54,7 @@ namespace Assets.Scripts.Systems.Spell
                 {
                     Animator animator = GetComponent<Animator>();
 
-                    transform.rotation = Quaternion.LookRotation(-caster.transform.forward, Vector3.up);
+                    transform.rotation = Quaternion.LookRotation(-rock.GetComponent<Rigidbody>().linearVelocity.normalized, Vector3.up);
                     animator.SetBool("Hit", true);
                     StartCoroutine(WaitForAnimationToEnd(animator));
 
@@ -62,6 +62,21 @@ namespace Assets.Scripts.Systems.Spell
                     damaged = true;
                 }
             }
+        }
+
+        public override void ReactToNeutral()
+        {
+            base.ReactToNeutral();
+
+            Animator animator = GetComponent<Animator>();
+
+            transform.rotation = Quaternion.LookRotation(-projectile.GetCaster().transform.forward, Vector3.up);
+            animator.SetBool("Hit", true);
+            StartCoroutine(WaitForAnimationToEnd(animator));
+
+            health -= projectile.power;
+            projectile.DestroySelf();
+            damaged = true;
         }
 
         private IEnumerator WaitForAnimationToEnd(Animator anim)
