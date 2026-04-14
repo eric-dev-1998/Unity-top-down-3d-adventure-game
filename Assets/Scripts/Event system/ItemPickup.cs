@@ -2,6 +2,8 @@
 using Assets.Scripts.Inventory_System;
 using Assets.Scripts.Event_System;
 using Assets.Scripts.Event_system.Events;
+using EventSystem;
+using Assets.Scripts.Player;
 
 namespace Assets.Scripts.Event_system
 {
@@ -14,9 +16,12 @@ namespace Assets.Scripts.Event_system
         public bool triggered = false;
 
         private EventSequence sequence;
+        private PlayerCore player;
 
         private void Start()
         {
+            triggered = false;
+
             if (item == null)
             {
                 Debug.LogError($"[Item pickup]: '{name}', item data is null.");
@@ -27,6 +32,31 @@ namespace Assets.Scripts.Event_system
             {
                 Debug.LogError($"[Item pickup]: '{name}, count value is not valid.'");
             }
+        }
+
+        private void Update()
+        {
+            if (!triggered) 
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    if (playerOnTrigger)
+                    {
+                        sequence = GeneratePickupSequence();
+                        if (sequence == null)
+                            return;
+
+                        triggered = true;
+                        Event_System.EventManager eManager = FindAnyObjectByType<Event_System.EventManager>();
+                        eManager.StartSequence(sequence, true);
+                    }
+                }
+            }
+        }
+
+        public EventSequence GeneratePickupSequence()
+        {
+            EventSequence sequence = new EventSequence();
 
             GameObjectEvent objectEvent = ScriptableObject.CreateInstance<GameObjectEvent>();
             objectEvent.type = GameObjectEvent.EventType.Disable;
@@ -48,39 +78,39 @@ namespace Assets.Scripts.Event_system
             objectEvent1.name = gameObject.name;
             objectEvent1.Load();
 
-            gestureEvent.next.Add(objectEvent);
-            objectEvent.next.Add(evt);
-            evt.next.Add(objectEvent1);
 
-            sequence = ScriptableObject.CreateInstance<EventSequence>();
-            sequence.startEvent = gestureEvent;
-
-            if (sequence == null)
+            if (transform.position.y <= player.transform.position.y + 0.25f)
             {
-                Debug.LogError($"[Item pickup]: '{name}' pickup sequence could not be created.");
-            }
-        }
+                // This pickup is on the floor.
 
-        private void Update()
-        {
-            if (!triggered) 
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    if (playerOnTrigger && sequence != null)
-                    {
-                        triggered = true;
-                        Event_System.EventManager eManager = FindAnyObjectByType<Event_System.EventManager>();
-                        eManager.StartSequence(sequence, true);
-                    }
-                }
+                gestureEvent.next.Add(objectEvent);
+                objectEvent.next.Add(evt);
+                evt.next.Add(objectEvent1);
+
+                sequence = ScriptableObject.CreateInstance<EventSequence>();
+                sequence.startEvent = gestureEvent;
             }
+            else
+            {
+                // This pickup is not on the floor.
+
+                objectEvent.next.Add(evt);
+                evt.next.Add(objectEvent1);
+
+                sequence = ScriptableObject.CreateInstance<EventSequence>();
+                sequence.startEvent = objectEvent;
+            }
+
+            return sequence;
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
+            {
+                player = other.GetComponent<PlayerCore>();
                 playerOnTrigger = true;
+            }
         }
 
         private void OnTriggerExit(Collider other)
