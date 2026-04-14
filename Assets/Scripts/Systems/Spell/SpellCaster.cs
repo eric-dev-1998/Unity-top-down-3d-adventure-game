@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Player;
+﻿using Assets.Scripts.Inventory_System;
+using Assets.Scripts.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -135,6 +136,39 @@ namespace Assets.Scripts.Systems.Spell
             {
                 Debug.LogError($"[Spell caster]: No spell was found for: {element}.");
                 return;
+            }
+
+            if (this.name == "Player")
+            {
+                InventoryManager iManager = FindAnyObjectByType<InventoryManager>();
+
+                switch (spellConfig.element)
+                { 
+                    case SpellConfig.MagicElement.Neutral:
+                        if (iManager.GetItemCount("eo_neutral") <= 0)
+                            return;
+                        break;
+
+                    case SpellConfig.MagicElement.Earth:
+                        if (iManager.GetItemCount("eo_earth") <= 0)
+                            return;
+                        break;
+
+                    case SpellConfig.MagicElement.Fire:
+                        if (iManager.GetItemCount("eo_fire") <= 0)
+                            return;
+                        break;
+
+                    case SpellConfig.MagicElement.Water:
+                        if (iManager.GetItemCount("eo_water") <= 0)
+                            return;
+                        break;
+
+                    case SpellConfig.MagicElement.Wind:
+                        if (iManager.GetItemCount("eo_wind") <= 0)
+                            return;
+                        break;
+                }
             }
 
             // 2. Set player animation to spell casting.
