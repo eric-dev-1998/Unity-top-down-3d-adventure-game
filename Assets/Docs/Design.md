@@ -24,9 +24,9 @@ The inventory should include a section to show magic power related data:
 1. No mayor changes should be needed, elemental orbs can be presented as items on the actual layout. Information such as a description and mana cost can be checked by selecting them on the list.
 
 ### What to do?
-1. Finish the orb pedestal to make it give an orb to the player.
-2. Make item data for each orb.
-3. Make the player unable to use powers before unlocking them.
+1. [Done] Finish the orb pedestal to make it give an orb to the player.
+2. [Done]  Make item data for each orb.
+3. [Done] Make the player unable to use powers before unlocking them.
 
 ## Add level specific information:
 ### Information to display:
