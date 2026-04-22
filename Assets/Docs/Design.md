@@ -14,6 +14,7 @@
 ### Where should this data be presented in the game?
 ### 1. The HUD:
 The hud should display a control that shows what magic element is selected.
+The player should be able to select a magic element by scrolling with the mouse.
 
 ### 2. The inventory:
 The inventory should include a section to show magic power related data:
@@ -27,6 +28,7 @@ The inventory should include a section to show magic power related data:
 1. [Done] Finish the orb pedestal to make it give an orb to the player.
 2. [Done]  Make item data for each orb.
 3. [Done] Make the player unable to use powers before unlocking them.
+4. [Done] Make spells consume a fixed ammount of magic.
 
 ## Add level specific information:
 ### Information to display:
@@ -39,3 +41,9 @@ Just numbers to keep de layout clean and simple.
 ### Where should this data be displayed at:
 1. On the pause menu when the player is inside a level.
 2. Before entering a level, just by standing near the entrance this information should appear on screen.
+
+### What to do?
+1. Make spells comsume a certain ammount of magic depending on each spell.
+2. Define magic stones behavior.
+3. Design magic stones.
+3. Implement magic stones.

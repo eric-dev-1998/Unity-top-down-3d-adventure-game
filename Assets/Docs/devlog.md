@@ -848,9 +848,9 @@ The dummy machine is now working.
 A pedestal model was created to obtain each elemental orb on the demo.
 
 ### Next:
-1. Define how magic element selection is presented on the HUD.
-2. Define how magic element selection & magic info should be presented on a UI menu.
+1. [Done] Define how magic element selection is presented on the HUD.
+2. [Done] Define how magic element selection & magic info should be presented on a UI menu.
 3. Design the defined UI menu for magic element selection & magic info.
-4. Design magic element selection in the HUD.
+4. [Done] Design magic element selection in the HUD.
 5. Implement the defined & designed UI menu for magic element selection & magic info.
-6. Implement the defined and designed HUD view for magic element selection.
+6. [Done] Implement the defined and designed HUD view for magic element selection.
