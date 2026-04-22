@@ -78,6 +78,29 @@ namespace Assets.Scripts.Inventory_System
                     // Tell the quest manager an item was collected.
                     questManager.ItemInventoryChanged(item, space.count);
 
+                    switch (item.item_id)
+                    {
+                        case "eo_neutral":
+                            FindAnyObjectByType<PlayerCore>().UnlockMagicPower(0);
+                            break;
+
+                        case "eo_fire":
+                            FindAnyObjectByType<PlayerCore>().UnlockMagicPower(1);
+                            break;
+
+                        case "eo_water":
+                            FindAnyObjectByType<PlayerCore>().UnlockMagicPower(2);
+                            break;
+
+                        case "eo_wind":
+                            FindAnyObjectByType<PlayerCore>().UnlockMagicPower(3);
+                            break;
+
+                        case "eo_earth":
+                            FindAnyObjectByType<PlayerCore>().UnlockMagicPower(4);
+                            break;
+                    }
+
                     return true;
                 }
                 else
