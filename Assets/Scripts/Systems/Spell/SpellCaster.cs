@@ -23,6 +23,8 @@ namespace Assets.Scripts.Systems.Spell
         private float timeElapsedUntilReady = 0f;
         private float castCooldown = 0.6f;
         private float elapsedCooldownTime = 0f;
+        public int consumedManaPerSecond = 3;
+        private float _constantCastingTimer = 0f;
 
         // Current spell data:
         private SpellConfig spellConfig;
@@ -32,6 +34,8 @@ namespace Assets.Scripts.Systems.Spell
         private PlayerInput playerInput;
         private EntityAnimator animator;
 
+        private HUDManager _hudManager;
+
         private void Start()
         {
             if (name == "Player")
@@ -39,21 +43,12 @@ namespace Assets.Scripts.Systems.Spell
 
             playerInput = GetComponent<PlayerInput>();
             animator = GetComponent<EntityAnimator>();
+
+            _hudManager = FindAnyObjectByType<HUDManager>();
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                element = SpellConfig.MagicElement.Neutral;
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-                element = SpellConfig.MagicElement.Fire;
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-                element = SpellConfig.MagicElement.Water;
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-                element = SpellConfig.MagicElement.Wind;
-            else if (Input.GetKeyDown(KeyCode.Alpha5))
-                element = SpellConfig.MagicElement.Earth;
-
             if (canCast)
             {
                 elapsedCooldownTime += Time.deltaTime;
@@ -109,21 +104,73 @@ namespace Assets.Scripts.Systems.Spell
                             }
                         }
                     }
+                    else
+                    {
+                        // Consume mana over time
+                        _constantCastingTimer += Time.deltaTime;
+                        if (_constantCastingTimer >= 1.0f)
+                        {
+                            mana -= consumedManaPerSecond;
+                            _hudManager.SetMagic(mana);
+
+                            _constantCastingTimer = 0.0f;
+                        }
+                    }
                 }
                 else
                 {
                     if (ready)
                     {
                         if (spellConfig.element == SpellConfig.MagicElement.Neutral)
+                        {
                             FireOnce();
+                            mana -= 5;
+                        }
 
                         if (spellConfig.element == SpellConfig.MagicElement.Earth)
+                        {
                             ThrowRock();
+                            mana -= 10;
+                        }
+
+                        _hudManager.SetMagic(mana);
                     }
 
                     Stop();
                 }
             }
+        }
+
+        public void SetElement(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    // Neutral
+                    element = SpellConfig.MagicElement.Neutral;
+                    break;
+
+                case 1:
+                    // Fire
+                    element = SpellConfig.MagicElement.Fire;
+                    break;
+
+                case 2:
+                    // Water
+                    element = SpellConfig.MagicElement.Water;
+                    break;
+
+                case 3:
+                    // Wind
+                    element = SpellConfig.MagicElement.Wind; 
+                    break;
+                case 4:
+                    // Earth
+                    element = SpellConfig.MagicElement.Earth;
+                    break;
+            }
+
+            Debug.Log("Changed element.");
         }
 
         public void Cast(SpellConfig.MagicElement element)
@@ -138,7 +185,7 @@ namespace Assets.Scripts.Systems.Spell
                 return;
             }
 
-            if (this.name == "Player")
+            if (name == "Player")
             {
                 InventoryManager iManager = FindAnyObjectByType<InventoryManager>();
 
@@ -169,6 +216,9 @@ namespace Assets.Scripts.Systems.Spell
                             return;
                         break;
                 }
+
+                if (mana <= 0)
+                    return;
             }
 
             // 2. Set player animation to spell casting.
