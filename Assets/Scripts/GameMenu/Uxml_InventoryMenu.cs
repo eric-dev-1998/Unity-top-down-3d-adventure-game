@@ -22,6 +22,10 @@ namespace Assets.Scripts.GameMenu
         private Button _buttonClose;
         private ListView _itemList;
 
+        private Camera _displayCamera;
+        private GameObject _displayContainer;
+        private GameObject _currentDisplay;
+
         private Inventory_System.InventoryManager _inventoryManager;
 
         private void Start()
@@ -37,6 +41,8 @@ namespace Assets.Scripts.GameMenu
 
             _itemName = _document.rootVisualElement.Q<Label>("ItemName");
             _itemDescription = _document.rootVisualElement.Q<Label>("ItemDescription");
+            _displayCamera = transform.Find("DisplayCamera").GetComponent<Camera>();
+            _displayContainer = transform.Find("DisplayContainer").gameObject;
 
             _buttonClose = _document.rootVisualElement.Q<Button>("ButtonClose");
             _buttonClose.clicked += CloseMenu;
@@ -46,6 +52,8 @@ namespace Assets.Scripts.GameMenu
 
         private void ItemSelectionChanged(IEnumerable<object> obj)
         {
+            // Display the selected item name and description.
+            
             Inventory_System.InventorySpace inventorySpace = obj.First() as Inventory_System.InventorySpace; 
 
             if (inventorySpace != null)
@@ -56,6 +64,12 @@ namespace Assets.Scripts.GameMenu
                 _itemName.text = itemText.name;
                 _itemDescription.text = itemText.description;
             }
+
+            // Pending: Display the item preview.
+            if (_currentDisplay != null)
+                Destroy(_currentDisplay);
+
+            _currentDisplay = Instantiate(inventorySpace.data.item_display, _displayContainer.transform);
         }
 
         private void LoadText()
