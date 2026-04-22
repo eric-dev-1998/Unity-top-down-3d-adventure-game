@@ -8693,6 +8693,7 @@ MonoBehaviour:
   inPosition: 0
   ready: 0
   casting: 0
+  consumedManaPerSecond: 3
 --- !u!1 &1841331429 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3259787067458926615, guid: 95f0cc2adbd83dd4c9a78a7a6195c892, type: 3}
