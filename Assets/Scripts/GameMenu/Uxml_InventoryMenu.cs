@@ -29,12 +29,19 @@ namespace Assets.Scripts.GameMenu
             document = GetComponent<UIDocument>();
             menuPanel = document.rootVisualElement.Q<VisualElement>("Root");
             itemList = document.rootVisualElement.Q<ListView>("ItemList");
+            itemList.selectionChanged += ItemSelectionChanged;
+
             title = document.rootVisualElement.Q<Label>("Title");
 
             buttonClose = document.rootVisualElement.Q<Button>("ButtonClose");
             buttonClose.clicked += CloseMenu;
 
             LoadText();
+        }
+
+        private void ItemSelectionChanged(IEnumerable<object> obj)
+        {
+            
         }
 
         private void LoadText()
@@ -70,6 +77,11 @@ namespace Assets.Scripts.GameMenu
         {
             open = false;
             menuPanel.AddToClassList("panel_full_hidden");
+        }
+
+        private void SelectItem()
+        { 
+            
         }
 
         public void RefreshInventory()
