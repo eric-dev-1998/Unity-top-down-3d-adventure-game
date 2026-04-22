@@ -61,7 +61,7 @@ namespace Assets.Scripts.GameMenu
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (inventory.open)
+                if (inventory.Open)
                 {
                     inventory.CloseMenu();
                     return;
