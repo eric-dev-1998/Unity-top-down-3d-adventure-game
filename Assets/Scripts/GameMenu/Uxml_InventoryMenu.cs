@@ -11,37 +11,51 @@ namespace Assets.Scripts.GameMenu
 {
     public class Uxml_InventoryMenu : MonoBehaviour
     {
-        public bool open = false;
+        public bool Open = false;
 
-        private UIDocument document;
+        private UIDocument _document;
 
-        private VisualElement menuPanel;
-        private Label title;
-        private Button buttonClose;
-        private ListView itemList;
+        private VisualElement _menuPanel;
+        private Label _title;
+        private Label _itemName;
+        private Label _itemDescription;
+        private Button _buttonClose;
+        private ListView _itemList;
 
-        private Inventory_System.InventoryManager manager;
+        private Inventory_System.InventoryManager _inventoryManager;
 
         private void Start()
         {
-            manager = FindAnyObjectByType<Inventory_System.InventoryManager>();
+            _inventoryManager = FindAnyObjectByType<Inventory_System.InventoryManager>();
 
-            document = GetComponent<UIDocument>();
-            menuPanel = document.rootVisualElement.Q<VisualElement>("Root");
-            itemList = document.rootVisualElement.Q<ListView>("ItemList");
-            itemList.selectionChanged += ItemSelectionChanged;
+            _document = GetComponent<UIDocument>();
+            _menuPanel = _document.rootVisualElement.Q<VisualElement>("Root");
+            _itemList = _document.rootVisualElement.Q<ListView>("ItemList");
+            _itemList.selectionChanged += ItemSelectionChanged;
 
-            title = document.rootVisualElement.Q<Label>("Title");
+            _title = _document.rootVisualElement.Q<Label>("Title");
 
-            buttonClose = document.rootVisualElement.Q<Button>("ButtonClose");
-            buttonClose.clicked += CloseMenu;
+            _itemName = _document.rootVisualElement.Q<Label>("ItemName");
+            _itemDescription = _document.rootVisualElement.Q<Label>("ItemDescription");
+
+            _buttonClose = _document.rootVisualElement.Q<Button>("ButtonClose");
+            _buttonClose.clicked += CloseMenu;
 
             LoadText();
         }
 
         private void ItemSelectionChanged(IEnumerable<object> obj)
         {
-            
+            Inventory_System.InventorySpace inventorySpace = obj.First() as Inventory_System.InventorySpace; 
+
+            if (inventorySpace != null)
+            {
+                TextManager textManager = FindAnyObjectByType<TextManager>();
+                ItemText itemText = textManager.GetItem(inventorySpace.data.item_id);
+
+                _itemName.text = itemText.name;
+                _itemDescription.text = itemText.description;
+            }
         }
 
         private void LoadText()
@@ -53,10 +67,10 @@ namespace Assets.Scripts.GameMenu
                 return;
             }
 
-            title.text = textManager.GetUIText("inventory_menu_title");
-            buttonClose.text = textManager.GetUIText("menu_back");
+            _title.text = textManager.GetUIText("inventory_menu_title");
+            _buttonClose.text = textManager.GetUIText("menu_back");
 
-            itemList.makeNoneElement = () => 
+            _itemList.makeNoneElement = () => 
             {
                 Label label = new Label();
                 label.text = textManager.GetUIText("inventory_menu_empty");
@@ -68,15 +82,15 @@ namespace Assets.Scripts.GameMenu
 
         public void OpenMenu()
         {
-            open = true;
+            Open = true;
             RefreshInventory();
-            menuPanel.RemoveFromClassList("panel_full_hidden");
+            _menuPanel.RemoveFromClassList("panel_full_hidden");
         }
 
         public void CloseMenu()
         {
-            open = false;
-            menuPanel.AddToClassList("panel_full_hidden");
+            Open = false;
+            _menuPanel.AddToClassList("panel_full_hidden");
         }
 
         private void SelectItem()
@@ -86,10 +100,10 @@ namespace Assets.Scripts.GameMenu
 
         public void RefreshInventory()
         {
-            itemList.itemsSource = manager.GetInventory();
-            itemList.fixedItemHeight = 48;
+            _itemList.itemsSource = _inventoryManager.GetInventory();
+            _itemList.fixedItemHeight = 48;
 
-            itemList.makeItem = () => 
+            _itemList.makeItem = () => 
             {
                 VisualElement root = new VisualElement();
                 root.style.flexDirection = FlexDirection.Row;
@@ -109,19 +123,19 @@ namespace Assets.Scripts.GameMenu
                 return root;
             };
 
-            itemList.bindItem = (e, index) => 
+            _itemList.bindItem = (e, index) => 
             {
                 Label itemName = e.Q<Label>("Name");
                 Label itemCount = e.Q<Label>("Count");
 
                 Inventory_System.InventorySpace space;
-                space = manager.GetInventory()[index];
+                space = _inventoryManager.GetInventory()[index];
 
                 itemName.text = space.data.name;
                 itemCount.text = "x" + space.count.ToString();
             };
 
-            itemList.Rebuild();
+            _itemList.Rebuild();
         }
     }
 }
