@@ -12,10 +12,19 @@ namespace Assets.Scripts.Event_system.Events
         public List<String> altLines = new List<String>();
         public SingleLine.Type type = SingleLine.Type.Dialogue;
 
+        private string _author;
+
         public Multiline(List<string> lines, SingleLine.Type type) 
         {
             this.lines = lines;
             this.type = type;
+        }
+
+        public Multiline(List<string> lines, string author, SingleLine.Type type)
+        {
+            this.lines = lines;
+            this.type = type;
+            _author = author;
         }
 
         public override System.Collections.IEnumerator Process(Event_System.EventManager eManager, Dialogue_System.Manager dManager)
@@ -41,6 +50,11 @@ namespace Assets.Scripts.Event_system.Events
                     else if (type == SingleLine.Type.World)
                     {
                         text = dManager.textManager.GetWorldText(line);
+                    }
+                    else
+                    {
+                        author = _author;
+                        text = line;
                     }
 
                     dManager.StartCoroutine(dManager.WriteText(author, text, false, null, null));

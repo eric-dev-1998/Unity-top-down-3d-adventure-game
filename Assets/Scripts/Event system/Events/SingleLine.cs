@@ -11,7 +11,7 @@ namespace Assets.Scripts.Event_System.Events
         public string lineId;
         public string altText;
         
-        public enum Type { Dialogue, World };
+        public enum Type { Dialogue, World, Item };
         public Type type = Type.Dialogue;
 
         public SingleLine(string text, Type type) 
