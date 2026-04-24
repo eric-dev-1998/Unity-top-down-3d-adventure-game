@@ -4,11 +4,15 @@
 ### 1. Life stones:
     These refill the health meter and serves for scoring as well, like the coins in super mario 64.
 ### 2. Magic crystals: 
-    Used to refill the magic meter.
+    Serves as a magic bar filler and are needed to unlock certain areas.
 ### 3. Lost sprits:
     Creatures to be rescued, 5 per level will be good. Collecting them will grant a power orb.
 ### 3. Power orbs:
     These are the main progress collectables, like the stars in mario 64.
+
+### How are these collectables be presented in the game nenu:
+These collectables records will be displayed on the inventory in the lower half, right where the items name and description are displayed.
+To do that, the items name and description will be displayed in a dialogue box instead.
 
 ### To do:
 1. [Done] Design life stone.
@@ -17,12 +21,13 @@
 4. [Done] Design power orbs.
 5. Define where these collectables counters will be stored.
 6. Add the counters on the defined class/script.
-7. Define where these counters are going to be displayed in the HUD.
-8. Define where these counters are going to be displayed in the pause menu.
-9. Create UI sprites for these counters.
+7. [Done] Define where these counters are going to be displayed in the HUD.
+8. [Done] Define where these counters are going to be displayed in the pause menu.
+9. [Done] Create UI sprites for these counters.
 10. Implement counters to the HUD.
-11. Implement these counters to the pause menu.
-12. Create a monobehavior class for all collectibles with a type property (Life_Stone, Magic_Crystal, Lost_Spirit and Power_Orb).
+11. [Done] Make the inventory system display the items info on a dialogue box.
+12. Implement these counters to the pause menu.
+13. Create a monobehavior class for all collectibles with a type property (Life_Stone, Magic_Crystal, Lost_Spirit and Power_Orb).
 
 
 ## [Done] Add magic spell data to game UI:
