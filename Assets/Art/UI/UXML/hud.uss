@@ -1,0 +1,10 @@
+.counter {
+    translate: 0 0;
+    transition-property: translate;
+    transition-duration: 0.45s;
+    transition-timing-function: ease_out;
+}
+
+.counter-hidden {
+    translate: 0 -256px;
+}

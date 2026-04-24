@@ -1,6 +1,7 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Art/UI/UXML/menu.uss?fileID=7433441132597879392&amp;guid=d5e82b3d0a5c59a4ba9c64d0943c8cba&amp;type=3#menu"/>
-    <Style src="project://database/Assets/Art/UI/UXML/inventory.uss?fileID=7433441132597879392&amp;guid=fa9f42b7ac7bea24a92b4822182b005b&amp;type=3#inventory"/>
+    <Style src="project://database/Assets/Art/UI/UXML/menu.uss?fileID=7433441132597879392&amp;guid=d5e82b3d0a5c59a4ba9c64d0943c8cba&amp;type=3"/>
+    <Style src="project://database/Assets/Art/UI/UXML/inventory.uss?fileID=7433441132597879392&amp;guid=fa9f42b7ac7bea24a92b4822182b005b&amp;type=3"/>
+    <Style src="project://database/Assets/Art/UI/UXML/hud.uss?fileID=7433441132597879392&amp;guid=a590e37f338016547970d116e634d975&amp;type=3#hud"/>
     <engine:VisualElement name="Top" style="flex-grow: 1; height: 25%; padding-top: 64px; padding-right: 64px; padding-bottom: 0; padding-left: 64px; flex-direction: row;">
         <engine:VisualElement style="flex-grow: 1; width: 50%; flex-direction: row-reverse; height: 100%;">
             <engine:VisualElement style="flex-grow: 1; height: 100%;">
@@ -19,7 +20,20 @@
                 </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
-        <engine:VisualElement name="VisualElement" style="flex-grow: 1; width: 50%; flex-direction: row-reverse;"/>
+        <engine:VisualElement name="Counters" style="flex-grow: 1; width: 50%; flex-direction: row-reverse;">
+            <engine:VisualElement name="Counter_MagicCrystals" class="counter counter-hidden" style="flex-grow: 0; flex-direction: row; position: absolute;">
+                <engine:VisualElement name="Icon" style="flex-grow: 0; width: 128px; height: 128px; background-image: url(&quot;project://database/Assets/Art/UI/Items/Icon_MagicCrystal.png?fileID=2800000&amp;guid=9199ae82392b04f4f959fe881032a867&amp;type=3#Icon_MagicCrystal&quot;);"/>
+                <engine:Label text="0" name="Count" style="width: auto; height: 128px; font-size: 96px; -unity-text-align: upper-center; color: rgb(236, 236, 236); -unity-font-style: bold;"/>
+            </engine:VisualElement>
+            <engine:VisualElement name="Counter_PowerOrbs" class="counter counter-hidden" style="flex-grow: 0; flex-direction: row; position: absolute; display: flex;">
+                <engine:VisualElement name="Icon" style="flex-grow: 0; width: 128px; height: 128px; background-image: url(&quot;project://database/Assets/Art/UI/Items/Icon_PowerOrb.png?fileID=2800000&amp;guid=419b438afb1ace041a134051f894a9af&amp;type=3#Icon_PowerOrb&quot;);"/>
+                <engine:Label text="0" name="Count" style="width: auto; height: 128px; font-size: 96px; -unity-text-align: upper-center; color: rgb(236, 236, 236); -unity-font-style: bold;"/>
+            </engine:VisualElement>
+            <engine:VisualElement name="Counter_LostSpirits" enabled="true" class="counter counter-hidden" style="flex-grow: 0; flex-direction: row; position: absolute; display: flex;">
+                <engine:VisualElement name="Icon" style="flex-grow: 0; width: 128px; height: 128px; background-image: url(&quot;project://database/Assets/Art/UI/Items/Icon_LostSoul.png?fileID=2800000&amp;guid=859371d9fcfbcae4b860136dcaf5229e&amp;type=3#Icon_LostSoul&quot;);"/>
+                <engine:Label text="0" name="Count" style="width: auto; height: 128px; font-size: 96px; -unity-text-align: upper-center; color: rgb(236, 236, 236); -unity-font-style: bold;"/>
+            </engine:VisualElement>
+        </engine:VisualElement>
     </engine:VisualElement>
     <engine:VisualElement name="Center" style="flex-grow: 1; height: 50%;">
         <engine:VisualElement name="QuestCard" class="quest-card quest-card-hidden" style="flex-grow: initial; background-image: url(&quot;project://database/Assets/Art/UI/ui_quest_notification.psd?fileID=-111501885233480336&amp;guid=eccc71ac2ad56e747b9640babdc472e2&amp;type=3#ui_quest_notification_0&quot;); background-color: rgba(255, 255, 255, 0); align-items: stretch; align-self: flex-end; background-size: 100% 100%; width: 480px; height: 149px;">
