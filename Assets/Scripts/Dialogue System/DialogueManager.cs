@@ -392,7 +392,7 @@ namespace Assets.Scripts.Dialogue_System
             {
                 // Return if no npc was found.
 
-                Debug.LogError($"[Dialogue manager]: Tried to play talk animation for '{author.FirstCharacterToUpper()}', but the npc object was not found on the scene.");
+                // Debug.LogError($"[Dialogue manager]: Tried to play talk animation for '{author.FirstCharacterToUpper()}', but the npc object was not found on the scene.");
                 return;
             }
 
