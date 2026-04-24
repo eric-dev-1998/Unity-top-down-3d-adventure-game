@@ -1,9 +1,10 @@
-﻿using Assets.Scripts.GameText;
-using System;
+﻿using Assets.Scripts.Event_system.Events;
+using Assets.Scripts.Event_System;
+using Assets.Scripts.GameSerialization;
+using Assets.Scripts.GameText;
+using EventSystem;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,18 +12,20 @@ namespace Assets.Scripts.GameMenu
 {
     public class Uxml_InventoryMenu : MonoBehaviour
     {
-        public bool Open = false;
+        public bool IsOpen = false;
 
         private UIDocument _document;
 
         private VisualElement _menuPanel;
         private Label _title;
-        private Label _itemName;
-        private Label _itemDescription;
+        private Label _collectibles;
+        private Label _powerOrbCounter;
+        private Label _magicCrystalCounter;
+        private Label _lostSpiritCounter;
         private Button _buttonClose;
         private ListView _itemList;
 
-        private Camera _displayCamera;
+        private UnityEngine.Camera _displayCamera;
         private GameObject _displayContainer;
         private GameObject _currentDisplay;
 
@@ -37,15 +40,18 @@ namespace Assets.Scripts.GameMenu
             _itemList = _document.rootVisualElement.Q<ListView>("ItemList");
             _itemList.selectionChanged += ItemSelectionChanged;
 
-            _title = _document.rootVisualElement.Q<Label>("Title");
+            _powerOrbCounter = _document.rootVisualElement.Q<VisualElement>("PowerOrbs").Q<Label>("Counter");
+            _magicCrystalCounter = _document.rootVisualElement.Q<VisualElement>("MagicCrystals").Q<Label>("Counter");
+            _lostSpiritCounter = _document.rootVisualElement.Q<VisualElement>("LostSpirits").Q<Label>("Counter");
 
-            _itemName = _document.rootVisualElement.Q<Label>("ItemName");
-            _itemDescription = _document.rootVisualElement.Q<Label>("ItemDescription");
-            _displayCamera = transform.Find("DisplayCamera").GetComponent<Camera>();
+            _title = _document.rootVisualElement.Q<Label>("Title");
+            _collectibles = _document.rootVisualElement.Q<Label>("Collectibles");
+
+            _displayCamera = transform.Find("DisplayCamera").GetComponent<UnityEngine.Camera>();
             _displayContainer = transform.Find("DisplayContainer").gameObject;
 
             _buttonClose = _document.rootVisualElement.Q<Button>("ButtonClose");
-            _buttonClose.clicked += CloseMenu;
+            _buttonClose.clicked += Close;
 
             LoadText();
         }
@@ -61,8 +67,24 @@ namespace Assets.Scripts.GameMenu
                 TextManager textManager = FindAnyObjectByType<TextManager>();
                 ItemText itemText = textManager.GetItem(inventorySpace.data.item_id);
 
-                _itemName.text = itemText.name;
-                _itemDescription.text = itemText.description;
+                // Disable the list to avoid selection more items while the info is beign displayed.
+                _itemList.SetEnabled(false);
+
+                string itemName = itemText.name;
+                List<string> itemDescription = itemText.description.Split("\n").ToList();
+
+                // Build the dialogue sequence:
+                EventSequence dialogueSequence = new EventSequence();
+                Multiline multilineEvent = new Multiline(itemDescription, itemName, Event_System.Events.SingleLine.Type.Item);
+                dialogueSequence.startEvent = multilineEvent;
+
+                // Trigger event:
+                EventManager eventManager = FindAnyObjectByType<EventManager>();
+                if (eventManager)
+                {
+                    eventManager.OnEventFinished += () => { _itemList.SetEnabled(true); };
+                    eventManager.StartSequence(dialogueSequence, true);
+                }
             }
 
             // Pending: Display the item preview.
@@ -82,6 +104,7 @@ namespace Assets.Scripts.GameMenu
             }
 
             _title.text = textManager.GetUIText("inventory_menu_title");
+            _collectibles.text = textManager.GetUIText("inventory_collectibles");
             _buttonClose.text = textManager.GetUIText("menu_back");
 
             _itemList.makeNoneElement = () => 
@@ -94,22 +117,25 @@ namespace Assets.Scripts.GameMenu
             };
         }
 
-        public void OpenMenu()
+        public void Open()
         {
-            Open = true;
+            IsOpen = true;
             RefreshInventory();
+            RefreshCounters();
             _menuPanel.RemoveFromClassList("panel_full_hidden");
         }
 
-        public void CloseMenu()
+        public void Close()
         {
-            Open = false;
+            IsOpen = false;
             _menuPanel.AddToClassList("panel_full_hidden");
         }
 
-        private void SelectItem()
-        { 
-            
+        public void RefreshCounters()
+        {
+            _powerOrbCounter.text = PlayerInventory.PowerOrbs.ToString();
+            _magicCrystalCounter.text = PlayerInventory.MagicCrystals.ToString();
+            _lostSpiritCounter.text = PlayerInventory.Spirits.ToString();
         }
 
         public void RefreshInventory()
