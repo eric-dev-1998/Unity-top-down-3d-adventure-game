@@ -18,6 +18,7 @@ public class Entity : MonoBehaviour
 
     // General properties:
     public int health = 10;
+    public int maxHealth = 10;
     public bool canMove = true;
     public bool isMoving = false;
     public bool isFollowingPath = false;
@@ -48,6 +49,13 @@ public class Entity : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         eventManager = FindAnyObjectByType<EventManager>();
         pathHandler = GetComponent<PathHandler>();
+    }
+
+    public void AddHealth(int count)
+    { 
+        health += count;
+        if(health >= maxHealth)
+            health = maxHealth;
     }
 
     private void Update()
