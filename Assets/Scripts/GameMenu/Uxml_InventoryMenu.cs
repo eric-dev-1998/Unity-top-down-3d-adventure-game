@@ -40,9 +40,9 @@ namespace Assets.Scripts.GameMenu
             _itemList = _document.rootVisualElement.Q<ListView>("ItemList");
             _itemList.selectionChanged += ItemSelectionChanged;
 
-            _powerOrbCounter = _document.rootVisualElement.Q<VisualElement>("PowerOrbs").Q<Label>("Counter");
-            _magicCrystalCounter = _document.rootVisualElement.Q<VisualElement>("MagicCrystals").Q<Label>("Counter");
-            _lostSpiritCounter = _document.rootVisualElement.Q<VisualElement>("LostSpirits").Q<Label>("Counter");
+            _powerOrbCounter = _document.rootVisualElement.Q<VisualElement>("PowerOrbs").Q<Label>("Count");
+            _magicCrystalCounter = _document.rootVisualElement.Q<VisualElement>("MagicCrystals").Q<Label>("Count");
+            _lostSpiritCounter = _document.rootVisualElement.Q<VisualElement>("LostSpirits").Q<Label>("Count");
 
             _title = _document.rootVisualElement.Q<Label>("Title");
             _collectibles = _document.rootVisualElement.Q<Label>("Collectibles");
