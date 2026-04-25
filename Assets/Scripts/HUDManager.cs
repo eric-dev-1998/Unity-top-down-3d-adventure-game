@@ -22,6 +22,7 @@ namespace Assets.Scripts
         private UIDocument _document;
         private PlayerCore _player;
 
+        private Collectible.CollectibleType _currentDisplayType;
         private bool _isCollectControlDisplayed = false;
         private float _collectDisplayVisibleTime = 4.0f;
         private float _collectDisplayTimer = 0f;
@@ -45,13 +46,21 @@ namespace Assets.Scripts
 
         private void Update()
         {
+            // Counter display timer.
             if (_isCollectControlDisplayed)
-            { 
+            {
+                // Update values:
+                _powerOrbs.Q<Label>("Count").text = PlayerInventory.PowerOrbs.ToString();
+                _magicCrystals.Q<Label>("Count").text = PlayerInventory.MagicCrystals.ToString();
+                _spirits.Q<Label>("Count").text = PlayerInventory.Spirits.ToString();
+
                 _collectDisplayTimer += Time.deltaTime;
                 if (_collectDisplayTimer >= _collectDisplayVisibleTime)
                 {
-                    _selectedCounter.AddToClassList("counter_hidden");
+                    _selectedCounter.AddToClassList("counter-hidden");
+
                     _isCollectControlDisplayed = false;
+                    _collectDisplayTimer = 0;
                 }
             }
 
@@ -69,49 +78,86 @@ namespace Assets.Scripts
                 return false;   
         }
 
-        public void SetHealth(int value)
-        { 
-            
+        // Magic bar is not working properly.
+
+        public void SetHealth(float value, float max)
+        {
+            _healthBar.style.width = (int)(472f * (value / max));
         }
 
-        public void SetMagic(int value) 
+        public void SetMagic(float value, float max) 
         {
-            _magicBar.style.width = (int) (472f * (value / 100f));
+            _magicBar.style.width = Mathf.CeilToInt(472f * (value / max));
         }
 
         public void DisplayCollected(Collectible.CollectibleType collectibleType)
         { 
-            if(!_isCollectControlDisplayed)
+            int count = 0;
+
+            switch (collectibleType)
             {
-                int count = 0;
-                _selectedCounter = null;
+                case Collectible.CollectibleType.Magic_Crystal:
+                    if (_isCollectControlDisplayed)
+                    {
+                        if (_currentDisplayType == Collectible.CollectibleType.Magic_Crystal)
+                        {
+                            _collectDisplayTimer = 0f;
+                            return;
+                        }
+                        else
+                        {
+                            _selectedCounter.AddToClassList("counter-hidden");
+                        }
+                    }
 
-                switch (collectibleType)
-                {
-                    case Collectible.CollectibleType.Magic_Crystal:
-                        _selectedCounter = _magicCrystals;
-                        count = PlayerInventory.MagicCrystals;
-                        break;
+                    _currentDisplayType = Collectible.CollectibleType.Magic_Crystal;
+                    _selectedCounter = _magicCrystals;
+                    count = PlayerInventory.MagicCrystals;
+                    break;
 
-                    case Collectible.CollectibleType.Spirit:
-                        _selectedCounter = _spirits;
-                        count = PlayerInventory.Spirits;
-                        break;
+                case Collectible.CollectibleType.Spirit:
+                    if (_isCollectControlDisplayed)
+                    {
+                        if (_currentDisplayType == Collectible.CollectibleType.Spirit)
+                        {
+                            _collectDisplayTimer = 0f;
+                            return;
+                        }
+                        else
+                        {
+                            _selectedCounter.AddToClassList("counter-hidden");
+                        }
+                    }
 
-                    case Collectible.CollectibleType.Power_Orb:
-                        _selectedCounter = _powerOrbs;
-                        count = PlayerInventory.PowerOrbs;
-                        break;
-                }
+                    _currentDisplayType = Collectible.CollectibleType.Spirit;
+                    _selectedCounter = _spirits;
+                    count = PlayerInventory.Spirits;
+                    break;
 
-                if (_selectedCounter != null)
-                {
-                    Label counter = _selectedCounter.Q<Label>("Count");
-                    counter.text = count.ToString();
+                case Collectible.CollectibleType.Power_Orb:
+                    if (_isCollectControlDisplayed)
+                    {
+                        if (_currentDisplayType == Collectible.CollectibleType.Power_Orb)
+                        {
+                            _collectDisplayTimer = 0f;
+                            return;
+                        }
+                        else
+                        {
+                            _selectedCounter.AddToClassList("counter-hidden");
+                        }
+                    }
 
-                    _selectedCounter.RemoveFromClassList("counter_hidden");
-                    _isCollectControlDisplayed = true;
-                }
+                    _currentDisplayType = Collectible.CollectibleType.Power_Orb;
+                    _selectedCounter = _powerOrbs;
+                    count = PlayerInventory.PowerOrbs;
+                    break;
+            }
+
+            if (_selectedCounter != null)
+            {
+                _selectedCounter.RemoveFromClassList("counter-hidden");
+                _isCollectControlDisplayed = true;
             }
         }
 
