@@ -854,3 +854,22 @@ A pedestal model was created to obtain each elemental orb on the demo.
 4. [Done] Design magic element selection in the HUD.
 5. [Done] Implement the defined & designed UI menu for magic element selection & magic info.
 6. [Done] Implement the defined and designed HUD view for magic element selection.
+
+# 04/24/2026:
+The following advancements were made:
+1. Main collectibles were created.
+2. Collectibles counters were added to both the HUD & inventory.
+3. Both health and magic bar meters are now working.
+4. Item descriptions are shown within a dialogue box when selected on the inventory.
+5. A base class to make object react to magic was created and is now working.
+
+### Next:
+The next step is to develop the base enemy AI class.
+1. Make a basic enemy AI that can recieve damage and die.
+2. Make the AI chase when the player is close enough.
+3. Make the AI behavior selectable from the unity inspector, the following should be the first options:
+    1. Neutral: Won't chase the player but can deal physical damage on collision.
+    2. Hostile: Can chase when the player is close enough, how damage is dealt will depent on the AI attack behavior.
+3. Make the AI attack behavior selectable from the unity inspector, the following should be the first options:
+    1. Melee: Deals physical damage on collision with the player body.
+    2. Ranged: Attacks from the distance.
