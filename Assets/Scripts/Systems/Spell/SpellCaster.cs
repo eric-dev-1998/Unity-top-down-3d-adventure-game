@@ -14,6 +14,7 @@ namespace Assets.Scripts.Systems.Spell
         public SpellConfig.MagicElement element;
 
         public int mana = 100;
+        public int maxMana = 100;
         public bool infiniteMana = false;       // For debug purposes only.
         public bool inPosition = false;
         public bool ready = false;
@@ -35,6 +36,13 @@ namespace Assets.Scripts.Systems.Spell
         private EntityAnimator animator;
 
         private HUDManager _hudManager;
+
+        public void AddMana(int count)
+        {
+            mana += count;
+            if(mana >= maxMana)
+                mana = maxMana;
+        }
 
         private void Start()
         {
@@ -111,7 +119,7 @@ namespace Assets.Scripts.Systems.Spell
                         if (_constantCastingTimer >= 1.0f)
                         {
                             mana -= consumedManaPerSecond;
-                            _hudManager.SetMagic(mana);
+                            _hudManager.SetMagic(mana, maxMana);
 
                             _constantCastingTimer = 0.0f;
                         }
@@ -133,7 +141,7 @@ namespace Assets.Scripts.Systems.Spell
                             mana -= 10;
                         }
 
-                        _hudManager.SetMagic(mana);
+                        _hudManager.SetMagic(mana, maxMana);
                     }
 
                     Stop();
