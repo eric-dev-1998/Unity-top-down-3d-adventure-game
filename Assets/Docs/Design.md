@@ -1,6 +1,6 @@
 # Game design notes:
 
-## 1. Game collectables:
+## 1. [Done] Game collectables:
 ### 1. Life stones:
     These refill the health meter and serves for scoring as well, like the coins in super mario 64.
 ### 2. Magic crystals: 
@@ -19,15 +19,15 @@ To do that, the items name and description will be displayed in a dialogue box i
 2. [Done] Design magic crystal.
 3. [Done] Design lost spirit.
 4. [Done] Design power orbs.
-5. Define where these collectables counters will be stored.
-6. Add the counters on the defined class/script.
+5. [Done] Define where these collectables counters will be stored.
+6. [Done] Add the counters on the defined class/script.
 7. [Done] Define where these counters are going to be displayed in the HUD.
 8. [Done] Define where these counters are going to be displayed in the pause menu.
 9. [Done] Create UI sprites for these counters.
-10. Implement counters to the HUD.
+10. [Done] Implement counters to the HUD.
 11. [Done] Make the inventory system display the items info on a dialogue box.
-12. Implement these counters to the pause menu.
-13. Create a monobehavior class for all collectibles with a type property (Life_Stone, Magic_Crystal, Lost_Spirit and Power_Orb).
+12. [Done] Implement these counters to the pause menu (Were placed on the inventory menu instead, a input to open the inventory menu directly would be great.).
+13. [Done] Create a monobehavior class for all collectibles with a type property (Life_Stone, Magic_Crystal, Lost_Spirit and Power_Orb).
 
 
 ## [Done] Add magic spell data to game UI:
