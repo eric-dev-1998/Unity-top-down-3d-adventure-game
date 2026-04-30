@@ -38,6 +38,11 @@ namespace Assets.Scripts.Systems.Spell
         { 
             return caster;
         }
+        private void OnTriggerEnter(Collider other)
+        {
+            DestroySelf();
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             DestroySelf();
