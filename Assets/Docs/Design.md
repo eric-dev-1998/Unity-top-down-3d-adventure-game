@@ -67,3 +67,23 @@ Just numbers to keep de layout clean and simple.
 2. Define magic stones behavior.
 3. Design magic stones.
 3. Implement magic stones.
+
+## Enemy AI & behavior:
+This game is now heavily inspired on games such as Super Mario 64 & Banjo Kazooie. The expected enemy AI & behavior has to be similar.
+
+### The objective:
+Create an abstract class to make many different enemies in which an AI & behavior can be set or modified beforehand inside the unity editor. Other settings such as health should also be able to be set or modified inside the unity editor.
+Each sub class can have their own settings/properties based on the desired behavior.
+
+### Expectations for the Demo:
+Develop the base enemy class & create 3 different enemy types with simple behaviors:
+1. Dummy
+2. Melee
+3. Ranged
+
+### Expectations for the final game:
+There should be more than one enemy for each level environment, right now the levels are:
+1. Witch Hut.
+2. Mountains level.
+3. Shore level.
+4. Forest level.

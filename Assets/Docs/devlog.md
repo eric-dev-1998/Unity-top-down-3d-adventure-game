@@ -865,8 +865,10 @@ The following advancements were made:
 
 ### Next:
 The next step is to develop the base enemy AI class.
-1. Make a basic enemy AI that can recieve damage and die.
-2. Make the AI chase when the player is close enough.
+1. [Done] Make a basic enemy AI that can recieve damage and die.
+2. [Done] Make the AI chase when the player is close enough.
+3. [Done] Make the AI inflick melee damage.
+3. Make the AI walk arround.
 3. Make the AI behavior selectable from the unity inspector, the following should be the first options:
     1. Neutral: Won't chase the player but can deal physical damage on collision.
     2. Hostile: Can chase when the player is close enough, how damage is dealt will depent on the AI attack behavior.
