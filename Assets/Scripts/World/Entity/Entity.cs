@@ -1,8 +1,12 @@
+using Assets.Scripts;
 using Assets.Scripts.Event_System;
 using Assets.Scripts.Player;
 using Assets.Scripts.Systems.Character_Path;
 using Assets.Scripts.World;
+using System.Collections.Specialized;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [RequireComponent(typeof(EntityAnimator))]
 [RequireComponent(typeof(Animator))]
@@ -34,6 +38,7 @@ public class Entity : MonoBehaviour
 
     private Vector3 velocity;
     public Vector3 currentVelocity = Vector3.zero;
+    private Vector3 _knockbackVelocity = Vector3.zero;
     private Vector3 moveVector = Vector3.zero;
     private PhysicsMaterial currentGroundMaterial;
 
@@ -58,8 +63,22 @@ public class Entity : MonoBehaviour
             health = maxHealth;
     }
 
+    public void RecieveDamage(Vector3 knockbackDirection, int ammount)
+    { 
+        _knockbackVelocity = knockbackDirection * 10f;
+        health -= ammount;
+        FindAnyObjectByType<HUDManager>().SetHealth(health, 10);
+    }
+
     private void Update()
     {
+        if (_knockbackVelocity.magnitude > 0.1f)
+        {
+            characterController.Move(_knockbackVelocity * Time.deltaTime);
+            _knockbackVelocity = Vector3.Lerp(_knockbackVelocity, Vector3.zero, Time.deltaTime * 5f);
+            return;
+        }
+
         if (pathHandler.follow)
             return;
 
