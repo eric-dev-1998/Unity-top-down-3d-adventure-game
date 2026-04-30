@@ -17,7 +17,7 @@ namespace Assets.Scripts.Systems.Spell
         {
             Animator animator = GetComponent<Animator>();
 
-            transform.rotation = Quaternion.LookRotation(caster.transform.forward, Vector3.up);
+            transform.rotation = Quaternion.LookRotation(Caster.transform.forward, Vector3.up);
 
             Animator anim = GetComponent<Animator>();
             anim.SetBool("Blow", true);
@@ -32,31 +32,31 @@ namespace Assets.Scripts.Systems.Spell
         }
         public override void OnFire()
         {
-            if (!damaged)
+            if (!IsDamaged)
             {
-                health -= 1;
-                damaged = true;
+                Health -= 1;
+                IsDamaged = true;
             }
         }
 
         public override void ReactToEarth()
         {
-            if (rock.GetComponent<Rigidbody>().linearVelocity.magnitude > 0.3f)
+            if (Rock.GetComponent<Rigidbody>().linearVelocity.magnitude > 0.3f)
             {
                 // Hit.
-                if (!damaged)
+                if (!IsDamaged)
                 {
                     Animator animator = GetComponent<Animator>();
 
-                    Vector3 direction = rock.GetComponent<Rigidbody>().linearVelocity.normalized;
+                    Vector3 direction = Rock.GetComponent<Rigidbody>().linearVelocity.normalized;
                     direction.y = 0f;
 
                     transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
                     animator.SetBool("Hit", true);
                     StartCoroutine(WaitForAnimationToEnd(animator));
 
-                    health -= 3;
-                    damaged = true;
+                    Health -= 3;
+                    IsDamaged = true;
                 }
             }
         }
@@ -67,13 +67,13 @@ namespace Assets.Scripts.Systems.Spell
 
             Animator animator = GetComponent<Animator>();
 
-            transform.rotation = Quaternion.LookRotation(-projectile.GetCaster().transform.forward, Vector3.up);
+            transform.rotation = Quaternion.LookRotation(-Projectile.GetCaster().transform.forward, Vector3.up);
             animator.SetBool("Hit", true);
             StartCoroutine(WaitForAnimationToEnd(animator));
 
-            health -= projectile.power;
-            projectile.DestroySelf();
-            damaged = true;
+            Health -= Projectile.power;
+            Projectile.DestroySelf();
+            IsDamaged = true;
         }
 
         public override Mesh GetMesh()
