@@ -9,65 +9,68 @@ namespace Assets.Scripts.Systems.Spell
 {
     public class SpellInteraction : MonoBehaviour
     {
-        public int health = 10;
-        public float damageCooldown = 1.5f;
-        private float damageTimer = 0f;
-        public bool damaged = false;
+        [Header("Spell interaction properties")]
+        public int Health = 10;
+        public float DamageCooldown = 1.5f;
+        private float _damageTimer = 0f;
+        public bool IsDamaged = false;
 
-        public bool canBeBlasted = false;
-        public bool canBurn = false;
-        public bool canGetWet = false;
-        public bool canBeBlownAway = false;
-        public bool canGetSmashed = false;
+        public bool CanBeBlasted = false;
+        public bool CanBurn = false;
+        public bool CanGetWet = false;
+        public bool CanBeBlownAway = false;
+        public bool CanGetSmashed = false;
 
-        public SpellCaster caster;
-        public Projectile projectile;
+        public SpellCaster Caster;
+        public Projectile Projectile;
 
-        private float elapsedTime = 0f;
-        private float durationInSeconds = 5f;
-        private float cooldownInSeconds = 1f;
+        private float _elapsedTime = 0f;
+        private float _durationInSeconds = 5f;
+        private float _cooldownInSeconds = 1f;
         private enum State { None, Burning, Wet, Blowing };
-        private State state = State.None;
+        private State _state = State.None;
 
-        private bool reacting = false;
+        private bool _reacting = false;
 
-        private GameObject vfx;
-        public GameObject rock;
+        private GameObject _vfx;
+        public GameObject Rock;
 
         public void Update()
         {
-            if (state == State.Blowing)
+            if (_state == State.Blowing)
             {
                 OnWind();
 
-                if (!caster.casting)
-                    state = State.None;
+                if (!Caster.casting)
+                    _state = State.None;
             }
 
-            if (state == State.Burning)
+            if (_state == State.Burning)
                 OnFire();
-            if (state == State.Wet)
+            if (_state == State.Wet)
                 OnWater();
 
-            if (reacting)
+            if (_reacting)
             {
-                elapsedTime += Time.deltaTime;
-                if (elapsedTime >= durationInSeconds)
+                _elapsedTime += Time.deltaTime;
+                if (_elapsedTime >= _durationInSeconds)
                 {
-                    elapsedTime = 0f;
+                    _elapsedTime = 0f;
                     StopReactionVfx();
                 }
             }
 
-            if (damaged)
+            if (IsDamaged)
             {
-                damageTimer += Time.deltaTime;
-                if (damageTimer >= damageCooldown)
+                _damageTimer += Time.deltaTime;
+                if (_damageTimer >= DamageCooldown)
                 {
-                    damaged = false;
-                    damageTimer = 0f;
+                    IsDamaged = false;
+                    _damageTimer = 0f;
                 }
             }
+
+            UpdateExternal();
         }
 
         public virtual void React(string tag)
@@ -76,26 +79,31 @@ namespace Assets.Scripts.Systems.Spell
             {
                 case "Spell_Neutral":
                     ReactToNeutral();
+                    ReactToAny();
                     break;
 
                 case "Spell_Fire":
                     ReactToFire();
+                    ReactToAny();
                     break;
 
                 case "Spell_Water":
                     ReactToWater();
+                    ReactToAny();
                     break;
 
                 case "Spell_Wind":
                     ReactToWind();
+                    ReactToAny();
                     break;
 
                 case "Spell_Earth":
                     ReactToEarth();
+                    ReactToAny();
                     break;
             }
 
-            if (health <= 0)
+            if (Health <= 0)
                 OnLowHealth();
         }
 
@@ -104,27 +112,27 @@ namespace Assets.Scripts.Systems.Spell
             switch (tag)
             {
                 case "Spell_Neutral":
-                    if (canBeBlasted)
+                    if (CanBeBlasted)
                         OnNeutralEnd();
                     break;
 
                 case "Spell_Fire":
-                    if (canBurn)
+                    if (CanBurn)
                         OnFireEnd();
                     break;
 
                 case "Spell_Water":
-                    if (canGetWet)
+                    if (CanGetWet)
                         OnWaterEnd();
                     break;
 
                 case "Spell_Wind":
-                    if (canBeBlownAway)
+                    if (CanBeBlownAway)
                         OnWindEnd();
                     break;
 
                 case "Spell_Earth":
-                    if (canGetSmashed)
+                    if (CanGetSmashed)
                         OnEarthEnd();
                     break;
             }
@@ -137,63 +145,63 @@ namespace Assets.Scripts.Systems.Spell
 
         public void StopReactionVfx()
         {
-            if (vfx != null)
+            if (_vfx != null)
             { 
-                ParticleSystem particles = vfx.GetComponent<ParticleSystem>();
+                ParticleSystem particles = _vfx.GetComponent<ParticleSystem>();
                 if (particles != null)
                 {
                     particles.Stop();
                 }
                 else
-                    Destroy(vfx);
+                    Destroy(_vfx);
 
-                reacting = false;
-                state = State.None;
+                _reacting = false;
+                _state = State.None;
             }
         }
 
         private void Burn()
         {
-            if (state == State.None)
+            if (_state == State.None)
             {
-                state = State.Burning;
+                _state = State.Burning;
 
                 GameObject vfxAsset = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Spells/BurningParticles.prefab");
-                vfx = Instantiate(vfxAsset, transform);
+                _vfx = Instantiate(vfxAsset, transform);
 
                 ShowEffectVFX();
 
-                reacting = true;
-                elapsedTime = 0f;
+                _reacting = true;
+                _elapsedTime = 0f;
             }
-            else if (state == State.Wet)
+            else if (_state == State.Wet)
             {
-                vfx.GetComponent<ParticleSystem>().Stop();
-                state = State.None;
-                elapsedTime = 0f;
+                _vfx.GetComponent<ParticleSystem>().Stop();
+                _state = State.None;
+                _elapsedTime = 0f;
                 Burn();
             }
         }
 
         private void Soak()
         {
-            if (state == State.None)
+            if (_state == State.None)
             {
-                state = State.Wet;
+                _state = State.Wet;
 
                 GameObject vfxAsset = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Spells/WetParticles.prefab");
-                vfx = Instantiate(vfxAsset, transform);
+                _vfx = Instantiate(vfxAsset, transform);
 
                 ShowEffectVFX();
 
-                reacting = true;
-                elapsedTime = 0f;
+                _reacting = true;
+                _elapsedTime = 0f;
             }
-            else if (state == State.Burning)
+            else if (_state == State.Burning)
             {
-                vfx.GetComponent<ParticleSystem>().Stop();
-                state = State.None;
-                elapsedTime = 0f;
+                _vfx.GetComponent<ParticleSystem>().Stop();
+                _state = State.None;
+                _elapsedTime = 0f;
                 Soak();
             }
         }
@@ -204,22 +212,27 @@ namespace Assets.Scripts.Systems.Spell
 
         private void ShowEffectVFX()
         {
-            ParticleSystem particles = vfx.GetComponent<ParticleSystem>();
+            ParticleSystem particles = _vfx.GetComponent<ParticleSystem>();
             particles.transform.eulerAngles = new Vector3(0, -90, 0);
             particles.transform.localPosition = Vector3.zero;
             ShapeModule shapeModule = particles.shape;
 
             SetupMesh(shapeModule);
         }
-        public virtual void ReactToNeutral() { if (!canBeBlasted) return; }
 
-        public virtual void ReactToFire() { if (!canBurn) return; Burn(); }
+        public virtual void UpdateExternal() { }
 
-        public virtual void ReactToWater() { if (!canGetWet) return; Soak(); }
+        public virtual void ReactToAny() { }
 
-        public virtual void ReactToWind() { if (!canBeBlownAway) return; state = State.Blowing; }
+        public virtual void ReactToNeutral() { if (!CanBeBlasted) return; }
 
-        public virtual void ReactToEarth() { if (!canGetSmashed) return; }
+        public virtual void ReactToFire() { if (!CanBurn) return; Burn(); }
+
+        public virtual void ReactToWater() { if (!CanGetWet) return; Soak(); }
+
+        public virtual void ReactToWind() { if (!CanBeBlownAway) return; _state = State.Blowing; }
+
+        public virtual void ReactToEarth() { if (!CanGetSmashed) return; }
 
         public virtual void OnNeutralEnd() { }
 
@@ -239,27 +252,32 @@ namespace Assets.Scripts.Systems.Spell
 
         public virtual void OnEarth() { }
 
-        public virtual void OnLowHealth() { }
+        public virtual void OnLowHealth() { Destroy(gameObject); }
+
+        public virtual void OnPlayerCollision() { }
 
         private void OnTriggerEnter(Collider other) 
         {
+            if (other.tag == "Player")
+                OnPlayerCollision();
+
             if (other.tag == "Spell_Earth")
-                rock = other.gameObject;
+                Rock = other.gameObject;
 
             try
             {
-                caster = other.transform.parent.GetComponent<SpellCaster>();
+                Caster = other.transform.parent.GetComponent<SpellCaster>();
             }
             catch
             {
-                projectile = other.transform.GetComponent<Projectile>();
+                Projectile = other.transform.GetComponent<Projectile>();
             }
             React(other.tag); 
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (!reacting)
+            if (!_reacting)
             {
                 //React(other.tag);
             }
