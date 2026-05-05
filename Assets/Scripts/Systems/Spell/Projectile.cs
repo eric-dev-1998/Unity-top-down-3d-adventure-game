@@ -7,10 +7,12 @@ namespace Assets.Scripts.Systems.Spell
 {
     public class Projectile : MonoBehaviour
     {
+        public bool IsEnemy = false;
         public int power = 1;
         public float speed = 3f;
         public float timeToDisappear = 5f;
         public GameObject explosionVfx;
+
         private float timeElapsed = 0f;
         private SpellCaster caster;
 
