@@ -2,6 +2,7 @@ using Assets.Scripts;
 using Assets.Scripts.Event_System;
 using Assets.Scripts.Player;
 using Assets.Scripts.Systems.Character_Path;
+using Assets.Scripts.Systems.Spell;
 using Assets.Scripts.World;
 using System.Collections.Specialized;
 using Unity.VisualScripting;
@@ -10,6 +11,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 [RequireComponent(typeof(EntityAnimator))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(CharacterController))]
 
 public class Entity : MonoBehaviour
 {
@@ -63,10 +65,19 @@ public class Entity : MonoBehaviour
             health = maxHealth;
     }
 
-    public void RecieveDamage(Vector3 knockbackDirection, int ammount)
-    { 
-        _knockbackVelocity = knockbackDirection * 10f;
+    public void Knockback(Vector3 direction, float force)
+    {
+        direction.y = 0;
+        _knockbackVelocity = direction * force;
+    }
+
+    public void RecieveDamage(int ammount)
+    {
         health -= ammount;
+        if (health <= 0)
+            health = 0;
+
+        // Update health in HUD.
         FindAnyObjectByType<HUDManager>().SetHealth(health, 10);
     }
 
@@ -79,7 +90,7 @@ public class Entity : MonoBehaviour
             return;
         }
 
-        if (pathHandler.follow)
+        if (pathHandler != null && pathHandler.follow)
             return;
 
         if (name == "Player")
@@ -207,8 +218,23 @@ public class Entity : MonoBehaviour
         entityAnimator.SetWalkBlendValue(0);
     }
 
+    public CharacterController GetCharacterController() { return characterController; }
+
     private void OnTriggerEnter(Collider other)
     {
+        Projectile projectile = other.GetComponent<Projectile>();
+        if (projectile != null)
+        {
+            Vector3 knockbackDirection = projectile.transform.position - transform.position;
+            knockbackDirection.Normalize();
+            knockbackDirection.y = 0;
+
+            Knockback(knockbackDirection, 1f);
+            RecieveDamage(projectile.power);
+
+            return;
+        }
+
         if (other.tag == "Water")
         {
             onWater = true;
