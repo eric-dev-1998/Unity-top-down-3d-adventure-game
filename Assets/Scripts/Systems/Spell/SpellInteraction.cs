@@ -11,8 +11,9 @@ namespace Assets.Scripts.Systems.Spell
     {
         [Header("Spell interaction properties")]
         public int Health = 10;
+        public int MaxHealth = 10;
         public float DamageCooldown = 1.5f;
-        private float _damageTimer = 0f;
+        public float DamageTimer = 0f;
         public bool IsDamaged = false;
 
         public bool CanBeBlasted = false;
@@ -32,6 +33,7 @@ namespace Assets.Scripts.Systems.Spell
 
         private bool _reacting = false;
 
+        private Vector3 _lastCollisionPoint;
         private GameObject _vfx;
         public GameObject Rock;
 
@@ -62,11 +64,11 @@ namespace Assets.Scripts.Systems.Spell
 
             if (IsDamaged)
             {
-                _damageTimer += Time.deltaTime;
-                if (_damageTimer >= DamageCooldown)
+                DamageTimer += Time.deltaTime;
+                if (DamageTimer >= DamageCooldown)
                 {
                     IsDamaged = false;
-                    _damageTimer = 0f;
+                    DamageTimer = 0f;
                 }
             }
 
@@ -256,13 +258,20 @@ namespace Assets.Scripts.Systems.Spell
 
         public virtual void OnPlayerCollision() { }
 
+        public Vector3 GetLastCollisionPoint() { return _lastCollisionPoint; }
+
         private void OnTriggerEnter(Collider other) 
         {
+            _lastCollisionPoint = other.transform.position;
+
             if (other.tag == "Player")
                 OnPlayerCollision();
 
             if (other.tag == "Spell_Earth")
                 Rock = other.gameObject;
+
+            if (other.tag == "Spell_Fire" || other.tag == "Spell_Water")
+                return;
 
             try
             {
@@ -272,17 +281,21 @@ namespace Assets.Scripts.Systems.Spell
             {
                 Projectile = other.transform.GetComponent<Projectile>();
             }
+
             React(other.tag); 
         }
 
-        private void OnTriggerStay(Collider other)
+        private void OnParticleCollision(GameObject other)
         {
-            if (!_reacting)
+            if (other.tag == "Spell_Fire" || other.tag == "Spell_Water")
             {
-                //React(other.tag);
+                Debug.Log($"Collided with {other.tag}");
+                React(other.tag);
             }
         }
-        
+
         private void OnTriggerExit(Collider other) { StopReaction(other.tag); }
+
+        public GameObject GetVfx() { return _vfx; }
     }
 }
