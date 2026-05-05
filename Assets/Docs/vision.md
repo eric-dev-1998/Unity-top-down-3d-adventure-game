@@ -17,5 +17,5 @@ accidentally enters a magic world and tries to go back to his world following th
 ### What is not in scope?
 1. Comlpex combat mechanics.
 2. Complex physics mechanics.
-3. Complex speel leveling system.
+3. Complex spell leveling system.
 4. Complex enemy ai system.

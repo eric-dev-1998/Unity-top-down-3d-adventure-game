@@ -868,10 +868,39 @@ The next step is to develop the base enemy AI class.
 1. [Done] Make a basic enemy AI that can recieve damage and die.
 2. [Done] Make the AI chase when the player is close enough.
 3. [Done] Make the AI inflick melee damage.
-3. Make the AI walk arround.
-3. Make the AI behavior selectable from the unity inspector, the following should be the first options:
+3. [Done] Make the AI walk arround.
+3. [Done] Make the AI behavior selectable from the unity inspector, the following should be the first options:
     1. Neutral: Won't chase the player but can deal physical damage on collision.
     2. Hostile: Can chase when the player is close enough, how damage is dealt will depent on the AI attack behavior.
 3. Make the AI attack behavior selectable from the unity inspector, the following should be the first options:
     1. Melee: Deals physical damage on collision with the player body.
     2. Ranged: Attacks from the distance.
+
+# 04/30/2026:
+### The enemy AI es working as expected:
+1. It can recieve damage and die.
+2. It can chase the player when gets too close.
+3. Can inflict melee damage (Only when touching the player for now.)
+4. It can wander around.
+5. It's behavior can be switched between neutral and hostile.
+
+### Next:
+[Done] Before moving forward, add knockback to the enemy when damage is taken.
+
+The only thing left to do is develop this enemy attack behavior, in order to archive this, these steps need to be followed:
+1. [Done] Create a hook method to do a melee attack.
+2. [Done] Create a hook method to do a ranged attack.
+3. [Done] Design 1 simple enemy for each attack behavior: Melee & Ranged. (UPDATED): Only one enemy will be placed in the demo: Fungy.
+4. [Skipped] Create a common animator controller for enemies to use. There is a high posibility that enemies can share an animator controller, but only onw enemy was designed for now.
+5. [Done] Create a enemy subclass for each designed enemy and implement its attack behavior methods.
+
+Keep in mind that these steps are designed to build the attack behavior, reaction to damage is not in scope right now.
+
+# 5/4/2026 17:02 pm:
+Current hitboxes for fire and water spells will be updated to a segmented trailed hitbox system.
+
+# 5/5/2026 10:07am:
+Only one enemy has been designed for the demo and the combat system has been updated so the player can no move arround while casting spells except when casting earth.
+
+### Next:
+Every important system of this game is now working. Review docs and take the time to think and decide what's missing, what needs to be changed and what needs to be removed from the demo before start polishing.

@@ -87,3 +87,12 @@ There should be more than one enemy for each level environment, right now the le
 2. Mountains level.
 3. Shore level.
 4. Forest level.
+
+### Test enemies:
+    Spike: The spiky boulder.
+        AI behavior: Neutral
+        Attack behavior: Melee
+
+    Fungy: The evil fongus.
+        AI behavior: Hostile
+        Attack behavior: Ranged
