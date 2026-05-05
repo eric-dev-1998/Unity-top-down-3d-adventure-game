@@ -600,6 +600,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cast_Wind
       objectReference: {fileID: 0}
+    - target: {fileID: 50415184987408586, guid: bbd5ce60854e7a0448c2e14c17885ac2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2147436658118279769, guid: bbd5ce60854e7a0448c2e14c17885ac2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -656,6 +660,10 @@ PrefabInstance:
     - target: {fileID: 1982138436807176036, guid: 95435b80db7cf6d48acc669ee81f0764, type: 3}
       propertyPath: m_Name
       value: Cast_Earth
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982138436807176036, guid: 95435b80db7cf6d48acc669ee81f0764, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3729382827390017616, guid: 95435b80db7cf6d48acc669ee81f0764, type: 3}
       propertyPath: m_LocalPosition.x
@@ -770,6 +778,10 @@ PrefabInstance:
     - target: {fileID: 2009137679026318116, guid: 6b525079f25ab274a8123fa7e1e910e0, type: 3}
       propertyPath: m_Name
       value: Neutral_Explode
+      objectReference: {fileID: 0}
+    - target: {fileID: 2009137679026318116, guid: 6b525079f25ab274a8123fa7e1e910e0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8965802041944993363, guid: 6b525079f25ab274a8123fa7e1e910e0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -982,6 +994,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Object_Rock
       objectReference: {fileID: 0}
+    - target: {fileID: 3442622764294265049, guid: a3d3ef443393c6c4aaaac298183f547a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1039,6 +1055,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Object_NeutralMagic
       objectReference: {fileID: 0}
+    - target: {fileID: 4473753240221730882, guid: 2a643e08e4e989348870a08ec2e332e5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1095,6 +1115,10 @@ PrefabInstance:
     - target: {fileID: 7168196529716486094, guid: 9a558bc312d382c4db08ac24a2707bfd, type: 3}
       propertyPath: m_Name
       value: Cast_Water
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168196529716486094, guid: 9a558bc312d382c4db08ac24a2707bfd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
