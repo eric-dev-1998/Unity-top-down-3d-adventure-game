@@ -232,12 +232,12 @@ namespace Assets.Scripts.Systems.Spell
             // 2. Set player animation to spell casting.
             animator.StartSpellCastingMotion(spellConfig.alternateCastAnimation);
 
-            if (element == SpellConfig.MagicElement.Earth)
-                castObject = Instantiate(spellConfig.spellCastPrefab, transform.position, transform.rotation);
+
+                castObject = Instantiate(spellConfig.spellCastPrefab, transform.position, transform.rotation, transform);
 
             casting = true;
 
-            if (playerCore)
+            if (playerCore && spellConfig.element == SpellConfig.MagicElement.Earth)
                 playerCore.LockMovement();
         }
 
