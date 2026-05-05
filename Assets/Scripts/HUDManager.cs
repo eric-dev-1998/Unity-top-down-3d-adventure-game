@@ -163,8 +163,6 @@ namespace Assets.Scripts
 
         private void SelectMagic(int i)
         {
-            Debug.Log(i);
-
             _player.SelectMagic(i);
             ChangeSelectedMagicIcon();
         }
