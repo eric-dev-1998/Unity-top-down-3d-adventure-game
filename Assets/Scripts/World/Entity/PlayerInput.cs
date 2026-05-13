@@ -1,10 +1,10 @@
 using Assets.Scripts.GameMenu;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    
+
     public bool isKeyboard = false;
 
     private Uxml_GameMenu gameMenu;
