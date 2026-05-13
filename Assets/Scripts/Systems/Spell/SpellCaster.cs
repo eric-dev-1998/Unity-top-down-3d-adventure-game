@@ -20,12 +20,16 @@ namespace Assets.Scripts.Systems.Spell
         public bool ready = false;
 
         public bool casting = false;
+        public int consumedManaPerSecond = 3;
+        public float DamageCooldown = 0.5f;
+        private bool allowCasting = true;
         private bool canCast = true;
+        private bool IsDamaged = false;
         private float timeElapsedUntilReady = 0f;
         private float castCooldown = 0.6f;
         private float elapsedCooldownTime = 0f;
-        public int consumedManaPerSecond = 3;
         private float _constantCastingTimer = 0f;
+        private float _damageCooldownTimer = 0f;
 
         // Current spell data:
         private SpellConfig spellConfig;
@@ -57,6 +61,20 @@ namespace Assets.Scripts.Systems.Spell
 
         private void Update()
         {
+            if (IsDamaged)
+            {
+                if (_damageCooldownTimer >= DamageCooldown)
+                {
+                    _damageCooldownTimer = 0f;
+                    IsDamaged = false;
+                }
+                else
+                {
+                    _damageCooldownTimer += Time.deltaTime;
+                    return;
+                }
+            }
+
             if (canCast)
             {
                 elapsedCooldownTime += Time.deltaTime;
@@ -73,6 +91,9 @@ namespace Assets.Scripts.Systems.Spell
             {
                 if (playerInput.GetSpellCastInput())
                 {
+                    if (!allowCasting)
+                        return;
+
                     // Spell cast inout is beign hold.
                     Debug.Log("Casting...");
                     Cast(element);
@@ -324,8 +345,46 @@ namespace Assets.Scripts.Systems.Spell
             }
         }
 
+        public void EnableCasting()
+        {
+            canCast = true;
+            allowCasting = true;
+        }
+
+        public void DisableCasting() 
+        { 
+            canCast = false;
+            allowCasting = false;
+        }
+
+        public void CancelCasting()
+        {
+            IsDamaged = true;
+            ready = false;
+            casting = false;
+            elapsedCooldownTime = 0f;
+            timeElapsedUntilReady = 0f;
+
+            GetComponent<EntityAnimator>().animator.SetBool("Casting/Enabled", false);
+
+            if (castObject != null)
+            {
+                castObject.transform.Find("Particles").GetComponent<ParticleSystem>().Stop();
+
+                if (castObject.tag == "Spell_Earth")
+                {
+                    playerCore.UnlockMovement();
+                    castObject.transform.parent = null;
+                    castObject.GetComponent<Animator>().SetBool("Cancel", true);
+                }
+            }
+        }
+
         private IEnumerator DestroyCastVFX(GameObject castObject)
         {
+            if (castObject == null)
+                yield break;
+
             Animator animator = castObject.GetComponent<Animator>();
 
             if (spellConfig.isContinuous)
@@ -364,9 +423,9 @@ namespace Assets.Scripts.Systems.Spell
 
         public void ThrowRock()
         {
-            Debug.Log("Pium");
-
             ready = false;
+
+            Destroy(castObject);
 
             Vector3 spawnPosition = transform.position + (transform.forward * 0.75f);
             spawnPosition.y += 0.5f;
