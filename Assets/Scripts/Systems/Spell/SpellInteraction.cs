@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.World.Enemy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEditor;
@@ -40,15 +41,11 @@ namespace Assets.Scripts.Systems.Spell
         public void Update()
         {
             if (_state == State.Blowing)
-            {
                 OnWind();
-
-                if (!Caster.casting)
-                    _state = State.None;
-            }
 
             if (_state == State.Burning)
                 OnFire();
+
             if (_state == State.Wet)
                 OnWater();
 
@@ -159,6 +156,10 @@ namespace Assets.Scripts.Systems.Spell
 
                 _reacting = false;
                 _state = State.None;
+
+                Animator anim = GetComponent<Animator>();
+                anim.SetBool("Burn", false);
+                anim.SetBool("Soak", false);
             }
         }
 
@@ -236,15 +237,15 @@ namespace Assets.Scripts.Systems.Spell
 
         public virtual void ReactToEarth() { if (!CanGetSmashed) return; }
 
-        public virtual void OnNeutralEnd() { }
+        public virtual void OnNeutralEnd() { _state = State.None; }
 
-        public virtual void OnFireEnd() { }
+        public virtual void OnFireEnd() { _state = State.None; }
 
-        public virtual void OnWaterEnd() { }
+        public virtual void OnWaterEnd() { _state = State.None; }
 
-        public virtual void OnWindEnd() { }
+        public virtual void OnWindEnd() { _state = State.None; }
 
-        public virtual void OnEarthEnd() { }
+        public virtual void OnEarthEnd() { _state = State.None; }
 
         public virtual void OnFire() { }
 
@@ -262,6 +263,9 @@ namespace Assets.Scripts.Systems.Spell
 
         private void OnTriggerEnter(Collider other) 
         {
+            if (other.GetComponent<EnemyCore>() && GetComponent<EnemyCore>())
+                return;
+
             _lastCollisionPoint = other.transform.position;
 
             if (other.tag == "Player")
