@@ -74,6 +74,19 @@ namespace Assets.Scripts.World.Npc
 
         public void TriggerDialogue()
         {
+            if (!greeted)
+            {
+                // Trigger the greetings dialogue.
+                EventSequence greetingDialogue = Resources.Load<EventSequence>($"GameText/Dialogues/{id}/greeting");
+                if (greetingDialogue != null)
+                {
+                    greeted = true;
+                    npc.onEvent = true;
+                    StartCoroutine(StartDialogue(greetingDialogue));
+                    return;
+                }
+            }
+
             questManager.InteractedWithNPC(id);
 
             // 1. Check own quest.
@@ -260,20 +273,25 @@ namespace Assets.Scripts.World.Npc
 
                 string dialogueId = "";
 
+                EventSequence dialogueSequence;
+
                 if (lastQuest.Completed())
                 {
                     // Say something about the completed quest
                     dialogueId = $"{id}_{lastQuest.id}_complete";
+
+                    dialogueSequence = Resources.Load<EventSequence>($"GameText/Dialogues/{id}/{lastQuest.id}/completed");
                 }
                 else
                 {
                     // Say something about the active quest.
                     dialogueId = $"{id}_{lastQuest.id}_active";
+
+                    dialogueSequence = Resources.Load<EventSequence>($"GameText/Dialogues/{id}/{lastQuest.id}/completed");
                 }
 
                 Debug.Log("[Dialogue npc]: A npc dalogue about the recently updated quest is about to start.");
 
-                EventSequence dialogueSequence = Resources.Load<EventSequence>(dialogueId);
                 if (dialogueSequence == null)
                 {
                     Debug.LogWarning($"[Npc dialogue manager]: No dialogue with id '{dialogueId}' was found. " +
