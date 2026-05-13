@@ -83,23 +83,21 @@ namespace Assets.Scripts.Event_system
             {
                 // This pickup is on the floor.
 
-                gestureEvent.next.Add(objectEvent);
-                objectEvent.next.Add(evt);
-                evt.next.Add(objectEvent1);
-
-                sequence = ScriptableObject.CreateInstance<EventSequence>();
-                sequence.startEvent = gestureEvent;
+                gestureEvent.gestureType = 3;
             }
             else
             {
                 // This pickup is not on the floor.
 
-                objectEvent.next.Add(evt);
-                evt.next.Add(objectEvent1);
-
-                sequence = ScriptableObject.CreateInstance<EventSequence>();
-                sequence.startEvent = objectEvent;
+                gestureEvent.gestureType = 4;
             }
+
+            gestureEvent.next.Add(objectEvent);
+            objectEvent.next.Add(evt);
+            evt.next.Add(objectEvent1);
+
+            sequence = ScriptableObject.CreateInstance<EventSequence>();
+            sequence.startEvent = gestureEvent;
 
             return sequence;
         }
