@@ -45,6 +45,9 @@ namespace Assets.Scripts.Inventory_System
 
         public bool AddItem(string id, int count)
         {
+            if (id == "life_stone" || id == "magic_crystal" || id == "power_orb" || id == "spirit")
+                return true;
+
             // Find item data in database:
             Item item = itemDatabase.GetItemById(id);
             if (item == null)
