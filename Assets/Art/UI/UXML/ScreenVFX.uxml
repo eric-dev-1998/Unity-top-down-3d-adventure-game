@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Art/UI/UXML/Main.uss?fileID=7433441132597879392&amp;guid=e83b9175cd9b64a42bcee3ff054fab4c&amp;type=3#Main"/>
+    <ui:VisualElement name="Veil" picking-mode="Ignore" class="screen-fade" style="flex-grow: 1; position: absolute; width: 100%; height: 100%;"/>
+</ui:UXML>

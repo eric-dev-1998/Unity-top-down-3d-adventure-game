@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Top" style="flex-grow: 1; align-content: center; align-items: center; justify-content: center;">
+        <ui:Label text="Game Over" name="Text" style="font-size: 128px; -unity-font-style: bold; color: rgb(229, 229, 229); text-shadow: 16px 16px 0 rgba(0, 0, 0, 0.4);"/>
+    </ui:VisualElement>
+    <ui:VisualElement name="Bottom" style="flex-grow: 1; align-content: flex-start; align-self: center; justify-content: center;">
+        <ui:Button text="Retry" name="Button_Retry" style="font-size: 48px; -unity-font-style: bold;"/>
+    </ui:VisualElement>
+</ui:UXML>

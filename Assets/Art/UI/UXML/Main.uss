@@ -1,0 +1,69 @@
+/* --- Main UI controls --- */
+
+/* Button */
+.ui-button 
+{
+	width: 512px;
+	height: 96px;
+
+	border-radius: 48px;
+}
+
+/* --- Specific UI controls --- */
+
+/* Screen for fade effects */
+.screen-fade
+{
+	transition-duration: 1.75s;
+	transition-property: background-color;
+	transition-timing-function: ease-in;
+}
+
+.screen-fade-dark
+{
+	background-color: rgba(0, 0, 0, 1)
+}
+
+.screen-fade-light
+{
+	background-color: rgba(255, 255, 255, 1)
+}
+
+/* Game over label */
+.gameover
+{
+	top: -75%;
+
+	transition-duration: 1.75s;
+	transition-property: top;
+	transition-timing-function: ease-in;
+}
+
+/* Game over buttons container */
+.gameover-buttons
+{
+	top: 75%;
+
+	transition-duration: 1.75s;
+	transition-property: top;
+	transition-timing-function: ease-in;
+}
+
+/* Game over background */
+.gameover-background 
+{
+	transition-duration: 0.76s;
+	transition-property: background-color;
+	transition-timing-function: ease-in;
+}
+
+/* --- Transitions --- */
+.t-vslide-to-center
+{
+	top: 0%;
+}
+
+.t-darken
+{
+	background-color: rgba(0, 0, 0, 0.5);
+}
