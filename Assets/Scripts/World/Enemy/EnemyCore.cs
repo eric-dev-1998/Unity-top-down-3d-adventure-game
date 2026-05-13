@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Player;
 using Assets.Scripts.Systems.Spell;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.World.Enemy
@@ -34,9 +35,11 @@ namespace Assets.Scripts.World.Enemy
         public float WanderingAreaRadius = 4f;
         public float WanderingDelay = 3f;
         private float _wanderingDelayTimer = 0f;
+        private float _elapsedTimeWithoutMoving = 0f;
         private Vector3 _startPosition;
         private Vector3 _currentWalkPoint = Vector3.zero;
         private Vector3 _currentDirection = Vector3.zero;
+        private Vector3 _lastPosition = Vector3.zero;
 
         [Header("Chase properties:")]
         public float MaxDistanceToChase = 3f;
@@ -191,13 +194,13 @@ namespace Assets.Scripts.World.Enemy
                     Vector3 origin = transform.position + transform.forward * 0.5f;
                     origin.y = 0.5f;
 
-                    if (Physics.Raycast(origin, directionVector, out hit, MinDistanceForRangedAttack))
+                    Debug.DrawRay(origin, directionVector, Color.aliceBlue, MinDistanceForRangedAttack);
+
+                    int layerMask = 1 << LayerMask.NameToLayer("Enemy target");
+                    if (Physics.Raycast(origin, directionVector, out hit, MinDistanceForRangedAttack, layerMask))
                     {
-                        if (hit.transform.gameObject.name == "Player")
-                        {
-                            AttackRanged();
-                            walk = false;
-                        }
+                        AttackRanged();
+                        walk = false;
                     }
                     break;
             }
@@ -261,8 +264,24 @@ namespace Assets.Scripts.World.Enemy
                     Quaternion targetRotation = Quaternion.LookRotation(directionVector, Vector3.up);
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _entity.rotationSpeed * Time.deltaTime);
 
+                    _lastPosition = transform.position;
+
                     // Move.
                     _entity.GetCharacterController().Move(directionVector * _entity.walkSpeed * Time.deltaTime);
+
+                    if (transform.position == _lastPosition)
+                    {
+                        if (_elapsedTimeWithoutMoving >= 0.5f)
+                        {
+                            // Change direction.
+                            _elapsedTimeWithoutMoving = 0f;
+                            DecideNextWanderingPoint();
+                        }
+                        else
+                            _elapsedTimeWithoutMoving += Time.deltaTime;
+                    }
+                    else
+                        _elapsedTimeWithoutMoving = 0f;
                 }
             }
             else
@@ -292,8 +311,8 @@ namespace Assets.Scripts.World.Enemy
             Vector3 knockbackDirection = _player.transform.position - transform.position;
             knockbackDirection.Normalize();
 
-            _player.GetEntity().Knockback(knockbackDirection, 1f);
-            _player.GetEntity().RecieveDamage(2);
+            _player.GetEntity().Knockback(knockbackDirection, 3f);
+            _player.GetEntity().RecieveDamage(1);
             _ChaseCooldownCounter = ChaseCooldownAfterHit;
         }
 
@@ -301,6 +320,10 @@ namespace Assets.Scripts.World.Enemy
         {
             _triggerCollider.enabled = false;
             _entity.GetCharacterController().enabled = false;
+
+            GameObject lifeCrystal = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Collectables/Life crystal.prefab");
+            lifeCrystal.name = $"Life crystal - {FindObjectsByType<Collectible>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length}";
+            Instantiate(lifeCrystal, transform.position + transform.forward * 0.5f, Quaternion.identity);
 
             Kill();
         }
@@ -348,6 +371,9 @@ namespace Assets.Scripts.World.Enemy
             if (Health <= 0)
                 Health = 0;
 
+            if (behavior == Behavior.Hostile)
+                transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+
             GetEntity().Knockback(direction, force);
         }
 
@@ -362,6 +388,8 @@ namespace Assets.Scripts.World.Enemy
             // Leaving the 'Attack' bool as true untill the last frame causes the animation to loop, so it is set to false here.
             _entity.entityAnimator.animator.SetBool("Attack", false);
         }
+
+        public void RestoreHit() { GetComponent<Animator>().SetBool("Hit", false); }
 
         public PlayerCore GetPlayer() { return _player; }
         public Entity GetEntity() { return _entity; }
