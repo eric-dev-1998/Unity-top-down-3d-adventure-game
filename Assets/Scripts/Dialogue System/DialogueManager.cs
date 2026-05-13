@@ -9,6 +9,7 @@ using Assets.Scripts.Event_System;
 using Assets.Scripts.World.Npc;
 using System.Linq;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Dialogue_System
 {
@@ -299,6 +300,21 @@ namespace Assets.Scripts.Dialogue_System
             }
 
             GameObject display = Instantiate(item.item_display, Camera.main.transform.Find("Item display/Container").transform);
+
+            /*
+            List<Collider> colliders = display.GetComponents<Collider>().ToList();
+            if (colliders != null && colliders.Count != 0)
+                foreach (Collider c in colliders)
+                    c.enabled = false;
+            */
+
+            Rigidbody rb = display.GetComponent<Rigidbody>();
+            if (rb)
+            {
+                rb.isKinematic = true;
+                rb.useGravity = false;
+            }
+
             display.transform.localPosition = Vector3.zero;
             itemDisplayAnimator.SetBool("Show", true);
 
