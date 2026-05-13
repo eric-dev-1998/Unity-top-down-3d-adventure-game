@@ -8,6 +8,13 @@ namespace Assets.Scripts.Systems.Spell
 {
     public class Dummy : SpellInteraction
     {
+        Animator anim;
+
+        private void Start()
+        {
+            anim = GetComponent<Animator>();
+        }
+
         public override void OnLowHealth()
         {
             StopReactionVfx();
@@ -15,20 +22,18 @@ namespace Assets.Scripts.Systems.Spell
         }
         public override void OnWind()
         {
-            Animator animator = GetComponent<Animator>();
-
-            transform.rotation = Quaternion.LookRotation(Caster.transform.forward, Vector3.up);
-
-            Animator anim = GetComponent<Animator>();
+            Vector3 direction = Caster.transform.position - transform.position;
+            transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
+            
             anim.SetBool("Blow", true);
         }
 
         public override void OnWindEnd()
         {
-            base.OnWindEnd();
-
-            Animator anim = GetComponent<Animator>();
+            Debug.Log("Miau");
             anim.SetBool("Blow", false);
+
+            base.OnWindEnd();
         }
         public override void OnFire()
         {
