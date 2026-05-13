@@ -274,35 +274,38 @@ namespace Assets.Scripts.Quest_System
 
             foreach (Quest q in currentGameQuests)
             {
-                foreach (Objective o in q.objectives)
+                if (!q.Completed())
                 {
-                    if (o.type == Objective.ObjectiveType.GetItem)
+                    foreach (Objective o in q.objectives)
                     {
-                        if (o.targetId == data.item_id)
-                            o.completed = o.maxCount >= newCount;
-                        else if (o.targetId == "any" || o.targetId == "Any")
+                        if (o.type == Objective.ObjectiveType.GetItem)
                         {
-                            if (inventoryManager.GetCurrentlyUsedStorage() > 0)
-                                o.completed = true;
-                            else
-                                o.completed = false;
+                            if (o.targetId == data.item_id)
+                                o.completed = o.maxCount >= newCount;
+                            else if (o.targetId == "any" || o.targetId == "Any")
+                            {
+                                if (inventoryManager.GetCurrentlyUsedStorage() > 0)
+                                    o.completed = true;
+                                else
+                                    o.completed = false;
+                            }
+                        }
+
+                        if (menu.trackerOpen)
+                        {
+                            if (trackedQuest != null && trackedQuest.id == q.id)
+                            {
+                                Toggle tObjective = menu.GetTrackerObjectives().Find(t => t.text == o.description);
+                                tObjective.value = o.completed;
+                            }
                         }
                     }
 
-                    if (menu.trackerOpen)
-                    {
-                        if (trackedQuest != null && trackedQuest.id == q.id)
-                        {
-                            Toggle tObjective = menu.GetTrackerObjectives().Find(t => t.text == o.description);
-                            tObjective.value = o.completed;
-                        }
-                    }
+                    if (q.Completed())
+                        menu.DisplayNotification(QuestNotification.NotificationType.Complete, q.name);
+                    else
+                        menu.DisplayNotification(QuestNotification.NotificationType.Update, q.name);
                 }
-
-                if (q.Completed())
-                    menu.DisplayNotification(QuestNotification.NotificationType.Complete, q.name);
-                else
-                    menu.DisplayNotification(QuestNotification.NotificationType.Update, q.name);
             }
 
             menu.UpdateLists(currentGameQuests);
