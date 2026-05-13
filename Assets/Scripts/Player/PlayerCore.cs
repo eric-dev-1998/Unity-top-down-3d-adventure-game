@@ -1,3 +1,4 @@
+using Assets.Scripts.GameMenu;
 using Assets.Scripts.Inventory_System;
 using Assets.Scripts.Systems.Spell;
 using NUnit.Framework;
@@ -22,6 +23,7 @@ namespace Assets.Scripts.Player
         private float velocity = 0;
         private int _selectedMagicIndex = -1;
         private int _selectedMagicKey = -1;
+        private bool _canRecieveDamage = true;
 
         private void Awake()
         {
@@ -46,6 +48,30 @@ namespace Assets.Scripts.Player
                     playerInput = gameObject.GetComponent<PlayerInput>();
                 }
             }
+        }
+
+        private void Update()
+        {
+            if (entity.health <= 0)
+                Kill();
+        }
+
+        private void Kill()
+        {
+            // 1. Play death animation and block damage.
+
+            _canRecieveDamage = false;
+
+            entity.entityAnimator.animator.SetBool("Dead", true);
+            LockMovement();
+
+            // Game over screen will be shown at the last frame of the death animation.
+        }
+
+        public void ShowGameover()
+        {
+            var gameover = FindAnyObjectByType<Uxml_GameOver>();
+            gameover.Show();
         }
 
         public Entity GetEntity()
@@ -137,5 +163,7 @@ namespace Assets.Scripts.Player
         {
             return _availableMagic[_selectedMagicKey];
         }
+
+        public bool IsDamageAllowed() { return _canRecieveDamage; }
     }
 }
