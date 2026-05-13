@@ -1,5 +1,7 @@
 ﻿using Assets.Art.UI.UXML;
 using Assets.Scripts.GameText;
+using Assets.Scripts.Player;
+using Assets.Scripts.Systems.Spell;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +63,12 @@ namespace Assets.Scripts.GameMenu
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                if (!open)
+                {
+                    OpenMenu();
+                    return;
+                }
+
                 if (inventory.IsOpen)
                 {
                     inventory.Close();
@@ -79,13 +87,8 @@ namespace Assets.Scripts.GameMenu
                     return;
                 }
 
-                open = !open;
-            }
-
-            if (open)
-                OpenMenu();
-            else
                 CloseMenu();
+            }
         }
 
         private void LoadText()
@@ -111,6 +114,11 @@ namespace Assets.Scripts.GameMenu
             open = true;
             content.AddToClassList("menu-darker");
             menuPanel.RemoveFromClassList("menu_panel_hidden");
+
+            var player = FindAnyObjectByType<PlayerCore>();
+
+            player.LockMovement();
+            player.GetComponent<SpellCaster>().DisableCasting();
         }
 
         private void CloseMenu()
@@ -118,6 +126,11 @@ namespace Assets.Scripts.GameMenu
             open = false;
             content.RemoveFromClassList("menu-darker");
             menuPanel.AddToClassList("menu_panel_hidden");
+
+            var player = FindAnyObjectByType<PlayerCore>();
+
+            player.UnlockMovement();
+            player.GetComponent<SpellCaster>().EnableCasting();
         }
 
         private void OpenInventoryMenu()
