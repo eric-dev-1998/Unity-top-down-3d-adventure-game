@@ -32,11 +32,16 @@ namespace Assets.Scripts.World.Enemy
         {
             base.ReactToNeutral();
 
+            GetComponent<Animator>().SetBool("Hit", true);
+            GetComponent<Animator>().SetBool("Attack", false);
+
+            transform.rotation = Quaternion.LookRotation(-GetPlayer().transform.forward, Vector3.up);
+
             Vector3 direction = Projectile.transform.position - transform.position;
             direction.Normalize();
             direction.y = 0;
 
-            RecieveDamage(Projectile.power, direction, 0.5f);
+            RecieveDamage(Projectile.power, -direction, 3);
         }
 
         public override void ReactToEarth()
@@ -47,7 +52,7 @@ namespace Assets.Scripts.World.Enemy
             direction.Normalize();
             direction.y = 0;
 
-            RecieveDamage(Projectile.power, direction, 0.5f);
+            RecieveDamage(Projectile.power, -direction, 3f);
         }
 
         public override void ReactToFire()
@@ -59,13 +64,13 @@ namespace Assets.Scripts.World.Enemy
             direction.Normalize();
             direction.y = 0;
 
-            RecieveDamage(1, direction, 0.5f);
+            RecieveDamage(1, -direction, 3f);
         }
 
         public override void OnFireEnd()
         {
+            GetEntity().entityAnimator.animator.SetBool("Burn", false);
             base.OnFireEnd();
-            GetEntity().entityAnimator.animator.SetBool("Burn", true);
         }
 
         public override void ReactToWind()
