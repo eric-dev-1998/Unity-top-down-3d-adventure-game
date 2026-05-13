@@ -5,6 +5,8 @@ using System;
 using Assets.Scripts.Event_system;
 using Assets.Scripts.World.Npc;
 using System.Linq;
+using Assets.Scripts.Player;
+using Assets.Scripts.Systems.Spell;
 
 namespace Assets.Scripts.Event_System
 {
@@ -24,12 +26,18 @@ namespace Assets.Scripts.Event_System
 
         public GameObject owner;
 
+        private PlayerCore _player;
+        private SpellCaster _playerCaster;
+
         private void Start()
         {
             questManager = FindAnyObjectByType<Quest_System.QuestManager>();
             inventoryManager = FindAnyObjectByType<Inventory_System.InventoryManager>();
             iconManager = new IconManager(this);
             dialogueManager = FindAnyObjectByType<Dialogue_System.Manager>();
+
+            _player = FindAnyObjectByType<PlayerCore>();
+            _playerCaster = _player.GetComponent<SpellCaster>();
         }
 
         public void StartSequence(EventSequence eventSequence, bool isSynced)
@@ -39,6 +47,9 @@ namespace Assets.Scripts.Event_System
                 Debug.LogWarning("[Event manager]: The selected event sequence is null or is corrupted. Operation aborted.");
                 return;
             }
+
+            _playerCaster.CancelCasting();
+            _playerCaster.enabled = false;
 
             if (isSynced)
             {
@@ -89,6 +100,9 @@ namespace Assets.Scripts.Event_System
         public IEnumerator FinishSequence()
         {
             OnEventFinished?.Invoke();
+
+            _playerCaster.enabled = true;
+            _playerCaster.EnableCasting();
 
             busy = false;
             yield return null;
