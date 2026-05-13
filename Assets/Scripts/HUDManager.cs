@@ -50,9 +50,9 @@ namespace Assets.Scripts
             if (_isCollectControlDisplayed)
             {
                 // Update values:
-                _powerOrbs.Q<Label>("Count").text = PlayerInventory.PowerOrbs.ToString();
-                _magicCrystals.Q<Label>("Count").text = PlayerInventory.MagicCrystals.ToString();
-                _spirits.Q<Label>("Count").text = PlayerInventory.Spirits.ToString();
+                _powerOrbs.Q<Label>("Count").text = PlayerData.PowerOrbs.ToString();
+                _magicCrystals.Q<Label>("Count").text = PlayerData.MagicCrystals.ToString();
+                _spirits.Q<Label>("Count").text = PlayerData.Spirits.ToString();
 
                 _collectDisplayTimer += Time.deltaTime;
                 if (_collectDisplayTimer >= _collectDisplayVisibleTime)
@@ -112,7 +112,7 @@ namespace Assets.Scripts
 
                     _currentDisplayType = Collectible.CollectibleType.Magic_Crystal;
                     _selectedCounter = _magicCrystals;
-                    count = PlayerInventory.MagicCrystals;
+                    count = PlayerData.MagicCrystals;
                     break;
 
                 case Collectible.CollectibleType.Spirit:
@@ -131,7 +131,7 @@ namespace Assets.Scripts
 
                     _currentDisplayType = Collectible.CollectibleType.Spirit;
                     _selectedCounter = _spirits;
-                    count = PlayerInventory.Spirits;
+                    count = PlayerData.Spirits;
                     break;
 
                 case Collectible.CollectibleType.Power_Orb:
@@ -150,7 +150,7 @@ namespace Assets.Scripts
 
                     _currentDisplayType = Collectible.CollectibleType.Power_Orb;
                     _selectedCounter = _powerOrbs;
-                    count = PlayerInventory.PowerOrbs;
+                    count = PlayerData.PowerOrbs;
                     break;
             }
 
