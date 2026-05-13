@@ -6,66 +6,66 @@ using UnityEngine;
 using Assets.Scripts.Inventory_System;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Event_System;
+using Assets.Scripts.Event_System.Events;
 
 namespace Assets.Scripts.World
 {
     public class Door : Toggable
     {
         [Header("Main properties:")]
-        public string doorId = string.Empty;
-        public bool openOnce = false;
-        public BoxCollider[] colliders;
-        public SceneAsset sceneToLoad;
+        public string Id = string.Empty;
+        public bool OpenOnce = false;
+        public BoxCollider[] Colliders;
+        public SceneAsset SceneToLoad;
 
         [Header("Lock properties:")]
-        public bool locked = false;
-        public Item neededItem;
-        public int itemCount = 1;
-        [TextArea]
-        public string lockedDescription;
+        public bool IsLocked = false;
+        public Item NeededItem;
+        public int ItemCount = 1;
 
-        private float distanceToClose = 2f;
-        private Animator animator;
-        private bool playerOnTrigger = false;
-        private bool opened = false;
+        private float _distanceToClose = 2f;
+        private Animator _animator;
+        private bool _playerOnTrigger = false;
+        private bool _IsOpen = false;
+        private bool _WasToggled = false;
 
         private NpcPathSystem path;
 
         private void Start()
         {
-            if (string.IsNullOrEmpty(doorId))
+            if (string.IsNullOrEmpty(Id))
             {
                 // Disable this door if no door id was entered.
 
-                Debug.LogError($"[Door][{name}]: Door ID is null or empty.");
-                this.enabled = false;
-                return;
+                Debug.LogWarning($"[Door][{name}]: Door ID is null or empty.");
             }
 
-            if (colliders == null || colliders.Length <= 0)
+            if (Colliders == null || Colliders.Length <= 0)
             {
-                Debug.LogError($"[Door][{name}]: This door has no colliders.");
-                return;
+                Debug.LogWarning($"[Door][{name}]: This door has no colliders.");
             }
 
-            animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
             path = GetComponent<NpcPathSystem>();
         }
 
         private void Update()
         {
-            if (!opened)
+            if (!_IsOpen)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
-                    if (playerOnTrigger)
+                    if (_playerOnTrigger)
                         Open();
             }
             else
             {
-                if (openOnce)
+                if (!OpenOnce)
                 {
                     // Close the door after player gets away if this door doesnt load another scene.
-                    if (DistanceFromPlayer() > distanceToClose)
+                    if (_WasToggled)
+                        return;
+
+                    if (DistanceFromPlayer() > _distanceToClose)
                         CloseDoor();
                 }
             }
@@ -74,31 +74,38 @@ namespace Assets.Scripts.World
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
-                playerOnTrigger = true;
+            {
+                _playerOnTrigger = true;
+                _WasToggled = false;
+            }
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (other.tag == "Player")
-                playerOnTrigger = false;
+                _playerOnTrigger = false;
         }
 
         public override IEnumerator Toggle()
         {
-            if (!opened) 
+            Debug.Log("Door toggled.");
+
+            _WasToggled = true;
+
+            if (!_IsOpen) 
                 OpenDoor();
             else 
                 CloseDoor();
 
             yield return new WaitForSeconds(0.1f);
-            yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+            yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         }
 
         public void Open()
         {
-            if (locked)
+            if (IsLocked)
             {
-                if (neededItem != null)
+                if (NeededItem != null)
                 {
                     InventoryManager iManager = FindAnyObjectByType<InventoryManager>();
                     if (iManager == null)
@@ -107,10 +114,10 @@ namespace Assets.Scripts.World
                         return;
                     }
 
-                    if (iManager.ConsumeItem(neededItem.item_id, 1))
+                    if (iManager.ConsumeItem(NeededItem.item_id, 1))
                     {
                         OpenDoor();
-                        locked = false;
+                        IsLocked = false;
                     }
                     else
                         ShowLockedDescription();
@@ -124,13 +131,16 @@ namespace Assets.Scripts.World
 
         private void OpenDoor()
         {
-            animator.SetBool("Open", true);
-            opened = true;
+            _animator.SetBool("Open", true);
+            _IsOpen = true;
+            IsLocked = false;
 
-            foreach (BoxCollider col in colliders)
+            StartCoroutine(LockPlayerMovement());
+
+            foreach (BoxCollider col in Colliders)
                 col.enabled = false;
 
-            if (sceneToLoad != null)
+            if (SceneToLoad != null)
                 StartCoroutine(LoadScene());
         }
 
@@ -139,7 +149,11 @@ namespace Assets.Scripts.World
             // Find a locked door dialogue.
             // For now, a generic dialogue will be used for every door.
 
-            EventSequence dialogue = Resources.Load<EventSequence>("GameText/Dialogues/World/Door_Locked");
+            EventSequence dialogue = new EventSequence();
+
+            SingleLine singleLine = new SingleLine("gate_locked", SingleLine.Type.World);
+            dialogue.startEvent = singleLine;
+
             if (dialogue != null)
             { 
                 EventManager eManager = FindAnyObjectByType<EventManager>();
@@ -150,8 +164,11 @@ namespace Assets.Scripts.World
 
         private void CloseDoor()
         {
-            animator.SetBool("Open", false);
-            opened = false;
+            _animator.SetBool("Open", false);
+            _IsOpen = false;
+
+            foreach (BoxCollider col in Colliders)
+                col.enabled = false;
         }
 
         private float DistanceFromPlayer()
@@ -160,6 +177,19 @@ namespace Assets.Scripts.World
             float distance = Vector3.Distance(transform.position, playerPosition);
 
             return distance;
+        }
+
+        IEnumerator LockPlayerMovement()
+        {
+            // This will make the player unable to move for a moment while the door opens.
+
+            PlayerCore player = FindAnyObjectByType<PlayerCore>();
+            player.LockMovement();
+
+            yield return new WaitForSeconds(0.1f);
+            yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
+
+            player.UnlockMovement();
         }
 
         IEnumerator MovePlayerTowardsDoor()
@@ -187,7 +217,7 @@ namespace Assets.Scripts.World
 
             // Wait for the door to be fully opened.
             yield return new WaitForSeconds(1f);
-            yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
+            yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
 
             // Make player move towards the door and wait.
             if (path)
@@ -200,7 +230,7 @@ namespace Assets.Scripts.World
             yield return StartCoroutine(vfxManager.PlayVFX(VFXManager.VFX.Dark_FadeIn));
 
             // Load scene.
-            SceneManager.LoadScene(sceneToLoad.name, LoadSceneMode.Single);
+            SceneManager.LoadScene(SceneToLoad.name, LoadSceneMode.Single);
         }
     }
 }
