@@ -89,10 +89,24 @@ There should be more than one enemy for each level environment, right now the le
 4. Forest level.
 
 ### Test enemies:
-    Spike: The spiky boulder.
+    [Not included in the demo] Spike: The spiky boulder.
         AI behavior: Neutral
         Attack behavior: Melee
 
     Fungy: The evil fongus.
         AI behavior: Hostile
         Attack behavior: Ranged
+
+## [Done] Magic stones:
+Previously called "Magic orbs" are now called magic stones.
+
+### [Done] Magic core: 
+A gloomy and shiny crystal surrounded by magic particles.
+### [Done] Fire stone: 
+Shaped as a flame, covered in fire.
+### [Done] Water stone: 
+Shaped as a water drop, covered in blue water particles that orbit around it.
+### [Done] Wind stone: 
+Transparent sphere with a rotating spiral inside covered by wind particles.
+### [Done] Earth stone: 
+Shiny stone surrounded by floating pebbles.
