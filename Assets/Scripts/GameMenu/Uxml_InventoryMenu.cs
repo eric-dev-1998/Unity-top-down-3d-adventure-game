@@ -133,9 +133,9 @@ namespace Assets.Scripts.GameMenu
 
         public void RefreshCounters()
         {
-            _powerOrbCounter.text = PlayerInventory.PowerOrbs.ToString();
-            _magicCrystalCounter.text = PlayerInventory.MagicCrystals.ToString();
-            _lostSpiritCounter.text = PlayerInventory.Spirits.ToString();
+            _powerOrbCounter.text = PlayerData.PowerOrbs.ToString();
+            _magicCrystalCounter.text = PlayerData.MagicCrystals.ToString();
+            _lostSpiritCounter.text = PlayerData.Spirits.ToString();
         }
 
         public void RefreshInventory()
