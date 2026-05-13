@@ -212,6 +212,12 @@ namespace Editor.DialogueGraph
                     else
                         return false;
 
+                case "npcg":
+                    if (command.Count() == 2)
+                        return true;
+                    else
+                        return false;
+
                 case "npcq":
                     // It's a npc quest dialogue.
                     if (command.Count() == 4)
@@ -280,6 +286,18 @@ namespace Editor.DialogueGraph
                             ce = Resources.LoadAll<EventSequence>($"GameText/Dialogues/{command[1]}").Count();
                             path = $"Assets/Resources/GameText/Dialogues/{command[1]}/Standard/standard_{ce}.asset";
                         }
+
+                        isProjectRelative = true;
+                        break;
+
+                    case "npcg":
+                        primaryDir = $"Assets/Resources/GameText/Dialogues/{command[1]}";
+
+                        if (!AssetDatabase.IsValidFolder(primaryDir))
+                            AssetDatabase.CreateFolder("Assets/Resources/GameText/Dialogues", command[1]);
+
+                        if (command.Count() == 2)
+                            path = primaryDir + "/greeting.asset";
 
                         isProjectRelative = true;
                         break;
