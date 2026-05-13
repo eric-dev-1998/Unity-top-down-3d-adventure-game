@@ -1,11 +1,8 @@
 using Assets.Scripts.Player;
-using Assets.Scripts.World.Npc;
+using Assets.Scripts.Systems.Spell;
 using System;
 using System.Collections;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 
 public class EntityAnimator : MonoBehaviour
 {
@@ -100,5 +97,12 @@ public class EntityAnimator : MonoBehaviour
         animator.SetBool("Casting/Enabled", false);
 
         GetComponent<Entity>().UnlockMovement();
+    }
+
+    public void RestoreHitStatus()
+    {
+        animator.SetBool("Hit", false); 
+        GetComponent<PlayerCore>().UnlockMovement();
+        GetComponent<SpellCaster>().EnableCasting();
     }
 }
