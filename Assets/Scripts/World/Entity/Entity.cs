@@ -67,15 +67,32 @@ public class Entity : MonoBehaviour
 
     public void Knockback(Vector3 direction, float force)
     {
+        if (!GetComponent<PlayerCore>().IsDamageAllowed())
+            return;
+
         direction.y = 0;
         _knockbackVelocity = direction * force;
     }
 
     public void RecieveDamage(int ammount)
     {
+        if (name != "Player")
+            return;
+
+        if (!GetComponent<PlayerCore>().IsDamageAllowed())
+            return;
+
         health -= ammount;
+
         if (health <= 0)
             health = 0;
+        else
+        {
+            entityAnimator.animator.SetBool("Hit", true);
+            GetComponent<PlayerCore>().LockMovement();
+            SpellCaster caster = GetComponent<SpellCaster>();
+            caster.CancelCasting();
+        }
 
         // Update health in HUD.
         FindAnyObjectByType<HUDManager>().SetHealth(health, 10);
@@ -229,7 +246,7 @@ public class Entity : MonoBehaviour
             knockbackDirection.Normalize();
             knockbackDirection.y = 0;
 
-            Knockback(knockbackDirection, 1f);
+            Knockback(-knockbackDirection, projectile.power);
             RecieveDamage(projectile.power);
 
             return;
