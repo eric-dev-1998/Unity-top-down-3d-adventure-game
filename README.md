@@ -1,4 +1,4 @@
-# Unity top down 3D adventure game (Prototype, Work in progress)
+# Unity top down 3D adventure game (Prototype)
 
 This repository contains a **personal Unity project** developed as part of my growth as a game developer and software engineer.  
 The goal of this project is to demonstrate **game systems design, clean code structure, and Unity development practices**, rather than to ship a commercial product.
@@ -23,7 +23,7 @@ The project was built to explore how different gameplay systems interact in a re
 - **C#**
 - Unity Input System
 - ScriptableObjects
-- Git & GitHub for version control
+- GitHub for version control
 
 ---
 
